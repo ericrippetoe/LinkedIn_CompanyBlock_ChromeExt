@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedInジョブ会社ブロッカー"
+    },
+    "extensionDescription": {
+        "message": "指定した会社のLinkedIn求人を非表示にします。"
+    },
+    "appName": {
+        "message": "LinkedInジョブ会社ブロッカー"
+    },
+    "appDescription": {
+        "message": "指定した会社のLinkedIn求人を非表示にします。"
+    },
+    "headerTitle": {
+        "message": "会社別にLinkedIn求人を非表示"
+    },
+    "textareaPlaceholder": {
+        "message": "会社名を1行ずつ入力してください。"
+    },
+    "saveButton": {
+        "message": "保存"
+    },
+    "statusSaved": {
+        "message": "保存しました！ {count}秒後に閉じます..."
+    },
+    "donateText": {
+        "message": "コーヒーをおごる！"
+    },
+    "footerText": {
+        "message": "LinkedInユーザーのために&#10084;を込めて作成しました。"
+    },
+    "toastBlockedJob": {
+        "message": "{company}からの求人をブロックしました"
+    },
+    "errorSaving": {
+        "message": "データ保存中にエラーが発生しました。もう一度お試しください。"
+    },
+    "placeholderLoading": {
+        "message": "保存された会社を読み込んでいます..."
+    },
+    "tooltipBlockButton": {
+        "message": "この会社をブロックするにはクリックしてください。"
+    },
+    "successAddedCompany": {
+        "message": "ブロックリストに追加された会社: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "会社を追加できませんでした。後でもう一度お試しください。"
+    },
+    "popupInstructions": {
+        "message": "以下でブロックリストを管理します。1行につき1社入力して、「保存」をクリックしてください。"
+    },
+    "clearButton": {
+        "message": "全て削除"
+    },
+    "clearConfirmation": {
+        "message": "ブロックリスト全体を削除してもよろしいですか？"
+    },
+    "successClearAll": {
+        "message": "ブロックリストを削除しました。"
+    }
+}

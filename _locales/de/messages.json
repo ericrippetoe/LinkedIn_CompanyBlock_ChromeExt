@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedIn Jobs Firmenblocker"
+    },
+    "extensionDescription": {
+        "message": "Blenden Sie Stellenanzeigen auf LinkedIn von bestimmten Unternehmen aus."
+    },
+    "appName": {
+        "message": "LinkedIn Jobs Firmenblocker"
+    },
+    "appDescription": {
+        "message": "Blenden Sie Stellenanzeigen auf LinkedIn von ausgewählten Unternehmen aus."
+    },
+    "headerTitle": {
+        "message": "LinkedIn Jobs nach Unternehmen ausblenden"
+    },
+    "textareaPlaceholder": {
+        "message": "Geben Sie die Firmennamen ein, jeweils eine pro Zeile."
+    },
+    "saveButton": {
+        "message": "Speichern"
+    },
+    "statusSaved": {
+        "message": "Gespeichert! Schließen in {count}..."
+    },
+    "donateText": {
+        "message": "Kauf mir einen Kaffee!"
+    },
+    "footerText": {
+        "message": "Mit &#10084; für LinkedIn-Nutzer gemacht."
+    },
+    "toastBlockedJob": {
+        "message": "Job blockiert von: {company}"
+    },
+    "errorSaving": {
+        "message": "Fehler beim Speichern der Daten. Bitte versuchen Sie es erneut."
+    },
+    "placeholderLoading": {
+        "message": "Gespeicherte Unternehmen werden geladen..."
+    },
+    "tooltipBlockButton": {
+        "message": "Klicken, um dieses Unternehmen zu blockieren."
+    },
+    "successAddedCompany": {
+        "message": "Unternehmen zur Blockierliste hinzugefügt: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Unternehmen konnte nicht hinzugefügt werden. Versuchen Sie es später erneut."
+    },
+    "popupInstructions": {
+        "message": "Verwalten Sie Ihre Blockierliste unten. Geben Sie pro Zeile ein Unternehmen ein und klicken Sie auf Speichern."
+    },
+    "clearButton": {
+        "message": "Alles Löschen"
+    },
+    "clearConfirmation": {
+        "message": "Möchten Sie wirklich die gesamte Blockierliste löschen?"
+    },
+    "successClearAll": {
+        "message": "Blockierliste gelöscht."
+    }
+}

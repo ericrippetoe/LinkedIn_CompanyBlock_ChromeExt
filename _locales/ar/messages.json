@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "حاجب شركات وظائف لينكد إن"
+    },
+    "extensionDescription": {
+        "message": "إخفاء إعلانات الوظائف على لينكد إن من الشركات التي تحددها."
+    },
+    "appName": {
+        "message": "حاجب شركات وظائف لينكد إن"
+    },
+    "appDescription": {
+        "message": "إخفاء إعلانات الوظائف على لينكد إن من الشركات التي تحددها."
+    },
+    "headerTitle": {
+        "message": "إخفاء وظائف لينكد إن حسب الشركة"
+    },
+    "textareaPlaceholder": {
+        "message": "أدخل أسماء الشركات، واحدة في كل سطر."
+    },
+    "saveButton": {
+        "message": "حفظ"
+    },
+    "statusSaved": {
+        "message": "تم الحفظ! سيتم الإغلاق في {count}..."
+    },
+    "donateText": {
+        "message": "اشترِ لي قهوة!"
+    },
+    "footerText": {
+        "message": "مصنوع بحب &#10084; لمستخدمي لينكد إن."
+    },
+    "toastBlockedJob": {
+        "message": "تم حجب وظيفة من: {company}"
+    },
+    "errorSaving": {
+        "message": "حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى."
+    },
+    "placeholderLoading": {
+        "message": "جارٍ تحميل الشركات المحفوظة..."
+    },
+    "tooltipBlockButton": {
+        "message": "انقر لحجب هذه الشركة."
+    },
+    "successAddedCompany": {
+        "message": "تمت إضافة الشركة إلى قائمة الحجب: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "تعذر إضافة الشركة. حاول مرة أخرى لاحقًا."
+    },
+    "popupInstructions": {
+        "message": "قم بإدارة قائمة الحجب أدناه. أدخل اسم شركة في كل سطر وانقر على حفظ."
+    },
+    "clearButton": {
+        "message": "مسح الكل"
+    },
+    "clearConfirmation": {
+        "message": "هل أنت متأكد أنك تريد مسح قائمة الحجب بالكامل؟"
+    },
+    "successClearAll": {
+        "message": "تم مسح قائمة الحجب."
+    }
+}

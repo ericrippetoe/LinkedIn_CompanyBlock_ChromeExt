@@ -1,3 +1,8 @@
+// Function to fetch localized messages
+function getLocalizedMessage(key) {
+  return chrome.i18n.getMessage(key) || key; // Fallback to the key if no message found
+}
+
 // Function to show toast notifications
 function showToast(message) {
   const toast = document.createElement('div');
@@ -32,18 +37,9 @@ style.textContent = `
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-size: 14px;
     z-index: 10000;
-    display: flex; /* Use flexbox to align icon and text */
-    align-items: center;
-    gap: 10px; /* Space between icon and text */
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .toast-notification img {
-    width: 24px; /* Set the size of your icon */
-    height: 24px;
-    border-radius: 50%; /* Optional, for circular icons */
   }
 
   .toast-notification.show {
@@ -53,10 +49,9 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-
 // Function to hide job listings based on the company names stored
 function hideListedCompanies() {
-  chrome.storage.local.get("companies", function (data) {
+  chrome.storage.local.get('companies', function (data) {
     if (data.companies && data.companies.length) {
       const companiesToBlock = data.companies; // Already an array
 
@@ -69,7 +64,10 @@ function hideListedCompanies() {
           if (companiesToBlock.includes(companyName)) {
             listing.style.display = 'none';
             listing.classList.add('hidden-job'); // Mark as processed
-            showToast(`Blocked job from: ${companyName}`); // Show toast notification
+
+            // Localize the toast message
+            const localizedMessage = getLocalizedMessage('toastBlockedJob').replace('{company}', companyName);
+            showToast(localizedMessage); // Show localized toast notification
           }
         }
       });

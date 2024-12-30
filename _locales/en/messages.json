@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedIn Jobs Company Blocker"
+    },
+    "extensionDescription": {
+        "message": "Hide job listings on LinkedIn from companies you specify."
+    },
+    "appName": {
+        "message": "LinkedIn Jobs Company Blocker"
+    },
+    "appDescription": {
+        "message": "Hide job listings on LinkedIn from specified companies."
+    },
+    "headerTitle": {
+        "message": "Hide LinkedIn Jobs By Company"
+    },
+    "textareaPlaceholder": {
+        "message": "Enter company names, one per line."
+    },
+    "saveButton": {
+        "message": "Save"
+    },
+    "statusSaved": {
+        "message": "Saved! Closing in {count}..."
+    },
+    "donateText": {
+        "message": "Buy Me a Coffee!"
+    },
+    "footerText": {
+        "message": "Made with &#10084; for LinkedIn users."
+    },
+    "toastBlockedJob": {
+        "message": "Blocked job from: {company}"
+    },
+    "errorSaving": {
+        "message": "Error saving data. Please try again."
+    },
+    "placeholderLoading": {
+        "message": "Loading saved companies..."
+    },
+    "tooltipBlockButton": {
+        "message": "Click to block this company."
+    },
+    "successAddedCompany": {
+        "message": "Company added to block list: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Could not add company. Try again later."
+    },
+    "popupInstructions": {
+        "message": "Manage your block list below. Enter one company per line and click Save."
+    },
+    "clearButton": {
+        "message": "Clear All"
+    },
+    "clearConfirmation": {
+        "message": "Are you sure you want to clear the entire block list?"
+    },
+    "successClearAll": {
+        "message": "Block list cleared."
+    }
+}

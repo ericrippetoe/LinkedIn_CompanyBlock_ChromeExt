@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "Bloqueur d'Entreprises pour LinkedIn Jobs"
+    },
+    "extensionDescription": {
+        "message": "Masquez les offres d'emploi sur LinkedIn des entreprises que vous spécifiez."
+    },
+    "appName": {
+        "message": "Bloqueur d'Entreprises pour LinkedIn Jobs"
+    },
+    "appDescription": {
+        "message": "Masquez les offres d'emploi sur LinkedIn des entreprises sélectionnées."
+    },
+    "headerTitle": {
+        "message": "Masquer les Offres LinkedIn par Entreprise"
+    },
+    "textareaPlaceholder": {
+        "message": "Entrez les noms des entreprises, une par ligne."
+    },
+    "saveButton": {
+        "message": "Enregistrer"
+    },
+    "statusSaved": {
+        "message": "Enregistré ! Fermeture dans {count}..."
+    },
+    "donateText": {
+        "message": "Offrez-moi un café !"
+    },
+    "footerText": {
+        "message": "Fait avec &#10084; pour les utilisateurs de LinkedIn."
+    },
+    "toastBlockedJob": {
+        "message": "Offre bloquée de : {company}"
+    },
+    "errorSaving": {
+        "message": "Erreur lors de l'enregistrement des données. Veuillez réessayer."
+    },
+    "placeholderLoading": {
+        "message": "Chargement des entreprises enregistrées..."
+    },
+    "tooltipBlockButton": {
+        "message": "Cliquez pour bloquer cette entreprise."
+    },
+    "successAddedCompany": {
+        "message": "Entreprise ajoutée à la liste de blocage : {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Impossible d'ajouter l'entreprise. Réessayez plus tard."
+    },
+    "popupInstructions": {
+        "message": "Gérez votre liste de blocage ci-dessous. Entrez une entreprise par ligne et cliquez sur Enregistrer."
+    },
+    "clearButton": {
+        "message": "Tout Effacer"
+    },
+    "clearConfirmation": {
+        "message": "Êtes-vous sûr de vouloir effacer toute la liste de blocage ?"
+    },
+    "successClearAll": {
+        "message": "Liste de blocage effacée."
+    }
+}

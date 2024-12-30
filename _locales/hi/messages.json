@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "लिंक्डइन नौकरियां कंपनी ब्लॉकर"
+    },
+    "extensionDescription": {
+        "message": "लिंक्डइन पर निर्दिष्ट कंपनियों की नौकरियों को छिपाएं।"
+    },
+    "appName": {
+        "message": "लिंक्डइन नौकरियां कंपनी ब्लॉकर"
+    },
+    "appDescription": {
+        "message": "लिंक्डइन पर निर्दिष्ट कंपनियों की नौकरियों को छिपाएं।"
+    },
+    "headerTitle": {
+        "message": "कंपनी के अनुसार लिंक्डइन नौकरियां छिपाएं"
+    },
+    "textareaPlaceholder": {
+        "message": "कंपनी के नाम दर्ज करें, हर पंक्ति में एक।"
+    },
+    "saveButton": {
+        "message": "सहेजें"
+    },
+    "statusSaved": {
+        "message": "सहेजा गया! {count} सेकंड में बंद हो रहा है..."
+    },
+    "donateText": {
+        "message": "मुझे कॉफी खरीदें!"
+    },
+    "footerText": {
+        "message": "लिंक्डइन उपयोगकर्ताओं के लिए &#10084; के साथ बनाया गया।"
+    },
+    "toastBlockedJob": {
+        "message": "{company} से नौकरी को ब्लॉक कर दिया।"
+    },
+    "errorSaving": {
+        "message": "डेटा सहेजने में त्रुटि। कृपया पुनः प्रयास करें।"
+    },
+    "placeholderLoading": {
+        "message": "सहेजी गई कंपनियां लोड हो रही हैं..."
+    },
+    "tooltipBlockButton": {
+        "message": "इस कंपनी को ब्लॉक करने के लिए क्लिक करें।"
+    },
+    "successAddedCompany": {
+        "message": "कंपनी ब्लॉक सूची में जोड़ी गई: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "कंपनी जोड़ने में असमर्थ। बाद में पुनः प्रयास करें।"
+    },
+    "popupInstructions": {
+        "message": "अपनी ब्लॉक सूची नीचे प्रबंधित करें। प्रत्येक पंक्ति में एक कंपनी दर्ज करें और सहेजें पर क्लिक करें।"
+    },
+    "clearButton": {
+        "message": "सभी साफ़ करें"
+    },
+    "clearConfirmation": {
+        "message": "क्या आप वास्तव में पूरी ब्लॉक सूची को साफ़ करना चाहते हैं?"
+    },
+    "successClearAll": {
+        "message": "ब्लॉक सूची साफ़ कर दी गई।"
+    }
+}

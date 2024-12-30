@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedIn 채용 공고 차단기"
+    },
+    "extensionDescription": {
+        "message": "특정 회사의 LinkedIn 채용 공고를 숨깁니다."
+    },
+    "appName": {
+        "message": "LinkedIn 채용 공고 차단기"
+    },
+    "appDescription": {
+        "message": "특정 회사의 LinkedIn 채용 공고를 숨깁니다."
+    },
+    "headerTitle": {
+        "message": "회사별 LinkedIn 채용 공고 숨기기"
+    },
+    "textareaPlaceholder": {
+        "message": "회사의 이름을 한 줄씩 입력하세요."
+    },
+    "saveButton": {
+        "message": "저장"
+    },
+    "statusSaved": {
+        "message": "저장되었습니다! {count}초 후에 닫힙니다..."
+    },
+    "donateText": {
+        "message": "커피 한 잔 사주세요!"
+    },
+    "footerText": {
+        "message": "LinkedIn 사용자들을 위해 &#10084;으로 만들었습니다."
+    },
+    "toastBlockedJob": {
+        "message": "{company}의 채용 공고가 차단되었습니다."
+    },
+    "errorSaving": {
+        "message": "저장 중 오류가 발생했습니다. 다시 시도하세요."
+    },
+    "placeholderLoading": {
+        "message": "저장된 회사 로드 중..."
+    },
+    "tooltipBlockButton": {
+        "message": "이 회사를 차단하려면 클릭하세요."
+    },
+    "successAddedCompany": {
+        "message": "차단 목록에 추가된 회사: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "회사를 추가할 수 없습니다. 나중에 다시 시도하세요."
+    },
+    "popupInstructions": {
+        "message": "아래에서 차단 목록을 관리하세요. 한 줄에 한 회사씩 입력한 후 저장을 클릭하세요."
+    },
+    "clearButton": {
+        "message": "모두 지우기"
+    },
+    "clearConfirmation": {
+        "message": "차단 목록을 모두 지우시겠습니까?"
+    },
+    "successClearAll": {
+        "message": "차단 목록이 지워졌습니다."
+    }
+}

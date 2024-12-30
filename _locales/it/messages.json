@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "Blocco Aziende per Offerte di Lavoro LinkedIn"
+    },
+    "extensionDescription": {
+        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
+    },
+    "appName": {
+        "message": "Blocco Aziende per Offerte di Lavoro LinkedIn"
+    },
+    "appDescription": {
+        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
+    },
+    "headerTitle": {
+        "message": "Nascondi Offerte di Lavoro LinkedIn per Azienda"
+    },
+    "textareaPlaceholder": {
+        "message": "Inserisci i nomi delle aziende, una per riga."
+    },
+    "saveButton": {
+        "message": "Salva"
+    },
+    "statusSaved": {
+        "message": "Salvato! Chiusura in {count}..."
+    },
+    "donateText": {
+        "message": "Offrimi un caffè!"
+    },
+    "footerText": {
+        "message": "Creato con &#10084; per gli utenti di LinkedIn."
+    },
+    "toastBlockedJob": {
+        "message": "Offerta bloccata da: {company}"
+    },
+    "errorSaving": {
+        "message": "Errore durante il salvataggio. Riprova."
+    },
+    "placeholderLoading": {
+        "message": "Caricamento aziende salvate..."
+    },
+    "tooltipBlockButton": {
+        "message": "Clicca per bloccare questa azienda."
+    },
+    "successAddedCompany": {
+        "message": "Azienda aggiunta alla lista di blocco: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Impossibile aggiungere l'azienda. Riprova più tardi."
+    },
+    "popupInstructions": {
+        "message": "Gestisci la tua lista di blocco qui sotto. Inserisci un'azienda per riga e clicca su Salva."
+    },
+    "clearButton": {
+        "message": "Cancella Tutto"
+    },
+    "clearConfirmation": {
+        "message": "Sei sicuro di voler cancellare l'intera lista di blocco?"
+    },
+    "successClearAll": {
+        "message": "Lista di blocco cancellata."
+    }
+}

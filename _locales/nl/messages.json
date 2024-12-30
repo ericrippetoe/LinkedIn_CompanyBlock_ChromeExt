@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedIn Vacatures Bedrijfsblokkering"
+    },
+    "extensionDescription": {
+        "message": "Verberg vacatures op LinkedIn van specifieke bedrijven."
+    },
+    "appName": {
+        "message": "LinkedIn Vacatures Bedrijfsblokkering"
+    },
+    "appDescription": {
+        "message": "Verberg vacatures op LinkedIn van specifieke bedrijven."
+    },
+    "headerTitle": {
+        "message": "Verberg LinkedIn Vacatures Per Bedrijf"
+    },
+    "textareaPlaceholder": {
+        "message": "Voer bedrijfsnamen in, één per regel."
+    },
+    "saveButton": {
+        "message": "Opslaan"
+    },
+    "statusSaved": {
+        "message": "Opgeslagen! Sluiten over {count}..."
+    },
+    "donateText": {
+        "message": "Koop een kopje koffie voor me!"
+    },
+    "footerText": {
+        "message": "Gemaakt met &#10084; voor LinkedIn-gebruikers."
+    },
+    "toastBlockedJob": {
+        "message": "Vacature geblokkeerd van: {company}"
+    },
+    "errorSaving": {
+        "message": "Fout bij het opslaan. Probeer het opnieuw."
+    },
+    "placeholderLoading": {
+        "message": "Opgeslagen bedrijven laden..."
+    },
+    "tooltipBlockButton": {
+        "message": "Klik om dit bedrijf te blokkeren."
+    },
+    "successAddedCompany": {
+        "message": "Bedrijf toegevoegd aan blokkeerlijst: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Kan bedrijf niet toevoegen. Probeer het later opnieuw."
+    },
+    "popupInstructions": {
+        "message": "Beheer hieronder uw blokkeerlijst. Voer één bedrijf per regel in en klik op Opslaan."
+    },
+    "clearButton": {
+        "message": "Alles Wissen"
+    },
+    "clearConfirmation": {
+        "message": "Weet u zeker dat u de hele blokkeerlijst wilt wissen?"
+    },
+    "successClearAll": {
+        "message": "Blokkeerlijst gewist."
+    }
+}

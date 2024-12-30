@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "Bloqueador de Empresas en LinkedIn Jobs"
+    },
+    "extensionDescription": {
+        "message": "Oculta ofertas de trabajo en LinkedIn de empresas que especifiques."
+    },
+    "appName": {
+        "message": "Bloqueador de Empresas en LinkedIn Jobs"
+    },
+    "appDescription": {
+        "message": "Oculta ofertas de trabajo en LinkedIn de empresas seleccionadas."
+    },
+    "headerTitle": {
+        "message": "Oculta Trabajos de LinkedIn por Empresa"
+    },
+    "textareaPlaceholder": {
+        "message": "Introduce los nombres de las empresas, una por línea."
+    },
+    "saveButton": {
+        "message": "Guardar"
+    },
+    "statusSaved": {
+        "message": "¡Guardado! Cerrando en {count}..."
+    },
+    "donateText": {
+        "message": "¡Invítame un café!"
+    },
+    "footerText": {
+        "message": "Hecho con &#10084; para usuarios de LinkedIn."
+    },
+    "toastBlockedJob": {
+        "message": "Trabajo bloqueado de: {company}"
+    },
+    "errorSaving": {
+        "message": "Error al guardar los datos. Por favor, inténtalo de nuevo."
+    },
+    "placeholderLoading": {
+        "message": "Cargando empresas guardadas..."
+    },
+    "tooltipBlockButton": {
+        "message": "Haz clic para bloquear esta empresa."
+    },
+    "successAddedCompany": {
+        "message": "Empresa añadida a la lista de bloqueo: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "No se pudo añadir la empresa. Inténtalo de nuevo más tarde."
+    },
+    "popupInstructions": {
+        "message": "Administra tu lista de bloqueo a continuación. Introduce una empresa por línea y haz clic en Guardar."
+    },
+    "clearButton": {
+        "message": "Borrar Todo"
+    },
+    "clearConfirmation": {
+        "message": "¿Estás seguro de que deseas borrar toda la lista de bloqueo?"
+    },
+    "successClearAll": {
+        "message": "Lista de bloqueo borrada."
+    }
+}

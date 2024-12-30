@@ -1,0 +1,62 @@
+{
+    "extensionName": {
+        "message": "LinkedIn职位公司屏蔽器"
+    },
+    "extensionDescription": {
+        "message": "隐藏LinkedIn中您指定公司的职位列表。"
+    },
+    "appName": {
+        "message": "LinkedIn职位公司屏蔽器"
+    },
+    "appDescription": {
+        "message": "隐藏来自指定公司的LinkedIn职位列表。"
+    },
+    "headerTitle": {
+        "message": "按公司隐藏LinkedIn职位"
+    },
+    "textareaPlaceholder": {
+        "message": "输入公司名称，每行一个。"
+    },
+    "saveButton": {
+        "message": "保存"
+    },
+    "statusSaved": {
+        "message": "已保存！将在 {count} 秒内关闭..."
+    },
+    "donateText": {
+        "message": "请我喝咖啡！"
+    },
+    "footerText": {
+        "message": "为LinkedIn用户&#10084;制作。"
+    },
+    "toastBlockedJob": {
+        "message": "已屏蔽来自：{company} 的职位"
+    },
+    "errorSaving": {
+        "message": "保存数据时出错。请重试。"
+    },
+    "placeholderLoading": {
+        "message": "正在加载已保存的公司..."
+    },
+    "tooltipBlockButton": {
+        "message": "点击屏蔽此公司。"
+    },
+    "successAddedCompany": {
+        "message": "公司已添加到屏蔽列表：{company}"
+    },
+    "errorAddingCompany": {
+        "message": "无法添加公司。请稍后重试。"
+    },
+    "popupInstructions": {
+        "message": "在下方管理您的屏蔽列表。每行输入一个公司名称，然后点击保存。"
+    },
+    "clearButton": {
+        "message": "清除所有"
+    },
+    "clearConfirmation": {
+        "message": "您确定要清除整个屏蔽列表吗？"
+    },
+    "successClearAll": {
+        "message": "屏蔽列表已清除。"
+    }
+}
