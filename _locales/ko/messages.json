@@ -1,62 +1,113 @@
 {
     "extensionName": {
-        "message": "LinkedIn 채용 공고 차단기"
+        "message": "Blocco Aziende LinkedIn Jobs"
     },
     "extensionDescription": {
-        "message": "특정 회사의 LinkedIn 채용 공고를 숨깁니다."
+        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
     },
     "appName": {
-        "message": "LinkedIn 채용 공고 차단기"
+        "message": "Blocco Aziende LinkedIn Jobs"
     },
     "appDescription": {
-        "message": "특정 회사의 LinkedIn 채용 공고를 숨깁니다."
+        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
     },
     "headerTitle": {
-        "message": "회사별 LinkedIn 채용 공고 숨기기"
+        "message": "Nascondi Lavori LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "회사의 이름을 한 줄씩 입력하세요."
+        "message": "Inserisci i nomi delle aziende, uno per riga."
     },
     "saveButton": {
-        "message": "저장"
+        "message": "Salva"
     },
     "statusSaved": {
-        "message": "저장되었습니다! {count}초 후에 닫힙니다..."
+        "message": "Salvato! Chiusura in {count}..."
     },
     "donateText": {
-        "message": "커피 한 잔 사주세요!"
+        "message": "Supporta il mio lavoro - Comprami un caffè!"
     },
     "footerText": {
-        "message": "LinkedIn 사용자들을 위해 &#10084;으로 만들었습니다."
+        "message": "Creato con ❤️ per gli utenti LinkedIn."
     },
     "toastBlockedJob": {
-        "message": "{company}의 채용 공고가 차단되었습니다."
+        "message": "Lavoro bloccato da: {company}"
     },
     "errorSaving": {
-        "message": "저장 중 오류가 발생했습니다. 다시 시도하세요."
+        "message": "Errore nel salvataggio dei dati. Riprova."
     },
     "placeholderLoading": {
-        "message": "저장된 회사 로드 중..."
+        "message": "Caricamento delle aziende salvate..."
     },
     "tooltipBlockButton": {
-        "message": "이 회사를 차단하려면 클릭하세요."
+        "message": "Clicca per bloccare questa azienda."
     },
     "successAddedCompany": {
-        "message": "차단 목록에 추가된 회사: {company}"
+        "message": "Azienda aggiunta alla lista di blocco: {company}"
     },
     "errorAddingCompany": {
-        "message": "회사를 추가할 수 없습니다. 나중에 다시 시도하세요."
+        "message": "Impossibile aggiungere l'azienda. Riprova più tardi."
     },
     "popupInstructions": {
-        "message": "아래에서 차단 목록을 관리하세요. 한 줄에 한 회사씩 입력한 후 저장을 클릭하세요."
+        "message": "Gestisci la tua lista di blocco qui sotto. Inserisci un'azienda per riga e clicca su Salva."
     },
-    "clearButton": {
-        "message": "모두 지우기"
+    "clearAllButton": {
+        "message": "Cancella tutto"
     },
     "clearConfirmation": {
-        "message": "차단 목록을 모두 지우시겠습니까?"
+        "message": "Sei sicuro di voler cancellare tutte le aziende bloccate?"
     },
     "successClearAll": {
-        "message": "차단 목록이 지워졌습니다."
+        "message": "Lista di blocco cancellata."
+    },
+    "addButton": {
+        "message": "Aggiungi"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Aggiungi nuova azienda"
+    },
+    "showButtonsToggle": {
+        "message": "Mostra icona"
+    },
+    "removeCompany": {
+        "message": "Rimuovi questa azienda"
+    },
+    "helpText": {
+        "message": "Aiuto"
+    },
+    "versionNumber": {
+        "message": "Versione: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Filtri rapidi"
+    },
+    "quickFilterApplied": {
+        "message": "Candidata"
+    },
+    "quickFilterPromoted": {
+        "message": "Promossa"
+    },
+    "quickFilterDismissed": {
+        "message": "Rifiutata"
+    },
+    "quickFilterViewed": {
+        "message": "Visualizzata"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Nascondi i lavori a cui hai già candidato."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Nascondi offerte di lavoro promosse. Nota che potrebbe risultare in risultati vuoti."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Nascondi i lavori che hai rifiutato."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Nascondi i lavori che hai già visualizzato."
+    },
+    "showButtonTooltip": {
+        "message": "Mostra/Nascondi un'icona sulle offerte di lavoro di LinkedIn per bloccare facilmente un'azienda."
+    },
+    "companies": {
+        "message": "Aziende"
     }
 }

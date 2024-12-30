@@ -1,18 +1,18 @@
 {
     "extensionName": {
-        "message": "Bloqueador de Empresas no LinkedIn Jobs"
+        "message": "Bloqueador de Empresas do LinkedIn"
     },
     "extensionDescription": {
-        "message": "Oculte vagas de emprego no LinkedIn de empresas que você especificar."
+        "message": "Oculte anúncios de emprego no LinkedIn de empresas especificadas."
     },
     "appName": {
-        "message": "Bloqueador de Empresas no LinkedIn Jobs"
+        "message": "Bloqueador de Empresas do LinkedIn"
     },
     "appDescription": {
-        "message": "Oculte vagas de emprego no LinkedIn de empresas selecionadas."
+        "message": "Oculte anúncios de emprego no LinkedIn de empresas especificadas."
     },
     "headerTitle": {
-        "message": "Oculte Vagas do LinkedIn por Empresa"
+        "message": "Ocultar Empregos no LinkedIn"
     },
     "textareaPlaceholder": {
         "message": "Digite os nomes das empresas, uma por linha."
@@ -24,16 +24,16 @@
         "message": "Salvo! Fechando em {count}..."
     },
     "donateText": {
-        "message": "Me compre um café!"
+        "message": "Apoie meu trabalho - Compre-me um café!"
     },
     "footerText": {
-        "message": "Feito com &#10084; para usuários do LinkedIn."
+        "message": "Feito com ❤️ para os usuários do LinkedIn."
     },
     "toastBlockedJob": {
-        "message": "Vaga bloqueada de: {company}"
+        "message": "Emprego bloqueado de: {company}"
     },
     "errorSaving": {
-        "message": "Erro ao salvar os dados. Por favor, tente novamente."
+        "message": "Erro ao salvar os dados. Tente novamente."
     },
     "placeholderLoading": {
         "message": "Carregando empresas salvas..."
@@ -48,15 +48,66 @@
         "message": "Não foi possível adicionar a empresa. Tente novamente mais tarde."
     },
     "popupInstructions": {
-        "message": "Gerencie sua lista de bloqueio abaixo. Insira uma empresa por linha e clique em Salvar."
+        "message": "Gerencie sua lista de bloqueio abaixo. Insira um nome de empresa por linha e clique em Salvar."
     },
-    "clearButton": {
+    "clearAllButton": {
         "message": "Limpar Tudo"
     },
     "clearConfirmation": {
-        "message": "Tem certeza de que deseja limpar toda a lista de bloqueio?"
+        "message": "Tem certeza de que deseja limpar todas as empresas bloqueadas?"
     },
     "successClearAll": {
         "message": "Lista de bloqueio limpa."
+    },
+    "addButton": {
+        "message": "Adicionar"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Adicionar nova empresa"
+    },
+    "showButtonsToggle": {
+        "message": "Mostrar Ícone"
+    },
+    "removeCompany": {
+        "message": "Remover esta empresa"
+    },
+    "helpText": {
+        "message": "Ajuda"
+    },
+    "versionNumber": {
+        "message": "Versão: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Filtros Rápidos"
+    },
+    "quickFilterApplied": {
+        "message": "Candidaturas"
+    },
+    "quickFilterPromoted": {
+        "message": "Promovido"
+    },
+    "quickFilterDismissed": {
+        "message": "Descartado"
+    },
+    "quickFilterViewed": {
+        "message": "Visualizado"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Oculte empregos para os quais você já se candidatou."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Oculte anúncios de empregos promovidos. Isso pode resultar em resultados vazios."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Oculte empregos que você descartou."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Oculte empregos que você já visualizou."
+    },
+    "showButtonTooltip": {
+        "message": "Mostrar/ocultar um ícone em anúncios de emprego no LinkedIn para bloquear empresas facilmente."
+    },
+    "companies": {
+        "message": "Empresas"
     }
 }

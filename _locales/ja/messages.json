@@ -1,62 +1,113 @@
 {
     "extensionName": {
-        "message": "LinkedInジョブ会社ブロッカー"
+        "message": "LinkedIn ジョブ企業ブロッカー"
     },
     "extensionDescription": {
-        "message": "指定した会社のLinkedIn求人を非表示にします。"
+        "message": "指定した企業の LinkedIn 求人情報を非表示にします。"
     },
     "appName": {
-        "message": "LinkedInジョブ会社ブロッカー"
+        "message": "LinkedIn ジョブ企業ブロッカー"
     },
     "appDescription": {
-        "message": "指定した会社のLinkedIn求人を非表示にします。"
+        "message": "指定した企業の LinkedIn 求人情報を非表示にします。"
     },
     "headerTitle": {
-        "message": "会社別にLinkedIn求人を非表示"
+        "message": "LinkedIn ジョブを非表示"
     },
     "textareaPlaceholder": {
-        "message": "会社名を1行ずつ入力してください。"
+        "message": "企業名を入力してください。1 行に 1 つずつ入力してください。"
     },
     "saveButton": {
         "message": "保存"
     },
     "statusSaved": {
-        "message": "保存しました！ {count}秒後に閉じます..."
+        "message": "保存されました！ {count} 秒後に閉じます..."
     },
     "donateText": {
-        "message": "コーヒーをおごる！"
+        "message": "サポートをお願いします - コーヒーを買ってください！"
     },
     "footerText": {
-        "message": "LinkedInユーザーのために&#10084;を込めて作成しました。"
+        "message": "LinkedIn ユーザーのために ❤️ を込めて作成されました。"
     },
     "toastBlockedJob": {
-        "message": "{company}からの求人をブロックしました"
+        "message": "{company} からの求人をブロックしました。"
     },
     "errorSaving": {
-        "message": "データ保存中にエラーが発生しました。もう一度お試しください。"
+        "message": "データの保存中にエラーが発生しました。もう一度お試しください。"
     },
     "placeholderLoading": {
-        "message": "保存された会社を読み込んでいます..."
+        "message": "保存された企業を読み込んでいます..."
     },
     "tooltipBlockButton": {
-        "message": "この会社をブロックするにはクリックしてください。"
+        "message": "この企業をブロックするにはクリックしてください。"
     },
     "successAddedCompany": {
-        "message": "ブロックリストに追加された会社: {company}"
+        "message": "ブロックリストに追加された企業: {company}"
     },
     "errorAddingCompany": {
-        "message": "会社を追加できませんでした。後でもう一度お試しください。"
+        "message": "企業を追加できませんでした。後でもう一度試してください。"
     },
     "popupInstructions": {
-        "message": "以下でブロックリストを管理します。1行につき1社入力して、「保存」をクリックしてください。"
+        "message": "以下にブロックリストを管理してください。1 行につき 1 つの企業名を入力し、「保存」をクリックしてください。"
     },
-    "clearButton": {
-        "message": "全て削除"
+    "clearAllButton": {
+        "message": "すべてクリア"
     },
     "clearConfirmation": {
-        "message": "ブロックリスト全体を削除してもよろしいですか？"
+        "message": "ブロックしたすべての企業をクリアしてもよろしいですか？"
     },
     "successClearAll": {
-        "message": "ブロックリストを削除しました。"
+        "message": "ブロックリストがクリアされました。"
+    },
+    "addButton": {
+        "message": "追加"
+    },
+    "addCompanyPlaceholder": {
+        "message": "新しい企業を追加"
+    },
+    "showButtonsToggle": {
+        "message": "アイコンを表示"
+    },
+    "removeCompany": {
+        "message": "この企業を削除"
+    },
+    "helpText": {
+        "message": "ヘルプ"
+    },
+    "versionNumber": {
+        "message": "バージョン: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "クイックフィルター"
+    },
+    "quickFilterApplied": {
+        "message": "応募済み"
+    },
+    "quickFilterPromoted": {
+        "message": "プロモート"
+    },
+    "quickFilterDismissed": {
+        "message": "却下済み"
+    },
+    "quickFilterViewed": {
+        "message": "閲覧済み"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "すでに応募した求人を非表示にします。"
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "プロモートされた求人情報を非表示にします。結果が空になる場合があります。"
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "却下した求人を非表示にします。"
+    },
+    "quickFilterViewedTooltip": {
+        "message": "すでに閲覧した求人を非表示にします。"
+    },
+    "showButtonTooltip": {
+        "message": "LinkedIn の求人投稿にアイコンを表示/非表示にして、企業を簡単にブロックします。"
+    },
+    "companies": {
+        "message": "企業"
     }
 }

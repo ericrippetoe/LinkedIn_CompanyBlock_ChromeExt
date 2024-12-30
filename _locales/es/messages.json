@@ -1,21 +1,21 @@
 {
     "extensionName": {
-        "message": "Bloqueador de Empresas en LinkedIn Jobs"
+        "message": "Bloqueador de Empresas de LinkedIn Jobs"
     },
     "extensionDescription": {
-        "message": "Oculta ofertas de trabajo en LinkedIn de empresas que especifiques."
+        "message": "Oculta ofertas de empleo en LinkedIn de empresas que especifiques."
     },
     "appName": {
-        "message": "Bloqueador de Empresas en LinkedIn Jobs"
+        "message": "Bloqueador de Empresas de LinkedIn Jobs"
     },
     "appDescription": {
-        "message": "Oculta ofertas de trabajo en LinkedIn de empresas seleccionadas."
+        "message": "Oculta ofertas de empleo en LinkedIn de empresas específicas."
     },
     "headerTitle": {
-        "message": "Oculta Trabajos de LinkedIn por Empresa"
+        "message": "Ocultar empleos de LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "Introduce los nombres de las empresas, una por línea."
+        "message": "Introduce nombres de empresas, una por línea."
     },
     "saveButton": {
         "message": "Guardar"
@@ -24,13 +24,13 @@
         "message": "¡Guardado! Cerrando en {count}..."
     },
     "donateText": {
-        "message": "¡Invítame un café!"
+        "message": "Apoya mi trabajo - ¡Cómprame un café!"
     },
     "footerText": {
-        "message": "Hecho con &#10084; para usuarios de LinkedIn."
+        "message": "Hecho con ❤️ para los usuarios de LinkedIn."
     },
     "toastBlockedJob": {
-        "message": "Trabajo bloqueado de: {company}"
+        "message": "Empleo bloqueado de: {company}"
     },
     "errorSaving": {
         "message": "Error al guardar los datos. Por favor, inténtalo de nuevo."
@@ -45,18 +45,69 @@
         "message": "Empresa añadida a la lista de bloqueo: {company}"
     },
     "errorAddingCompany": {
-        "message": "No se pudo añadir la empresa. Inténtalo de nuevo más tarde."
+        "message": "No se pudo añadir la empresa. Inténtalo más tarde."
     },
     "popupInstructions": {
-        "message": "Administra tu lista de bloqueo a continuación. Introduce una empresa por línea y haz clic en Guardar."
+        "message": "Administra tu lista de bloqueo abajo. Introduce una empresa por línea y haz clic en Guardar."
     },
-    "clearButton": {
-        "message": "Borrar Todo"
+    "clearAllButton": {
+        "message": "Borrar todo"
     },
     "clearConfirmation": {
-        "message": "¿Estás seguro de que deseas borrar toda la lista de bloqueo?"
+        "message": "¿Estás seguro de que deseas borrar todas las empresas bloqueadas?"
     },
     "successClearAll": {
         "message": "Lista de bloqueo borrada."
+    },
+    "addButton": {
+        "message": "Añadir"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Añadir nueva empresa"
+    },
+    "showButtonsToggle": {
+        "message": "Mostrar icono"
+    },
+    "removeCompany": {
+        "message": "Eliminar esta empresa"
+    },
+    "helpText": {
+        "message": "Ayuda"
+    },
+    "versionNumber": {
+        "message": "Versión: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Filtros rápidos"
+    },
+    "quickFilterApplied": {
+        "message": "Aplicado"
+    },
+    "quickFilterPromoted": {
+        "message": "Promocionado"
+    },
+    "quickFilterDismissed": {
+        "message": "Descartado"
+    },
+    "quickFilterViewed": {
+        "message": "Visto"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Ocultar empleos a los que ya has aplicado."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Ocultar ofertas de empleo promocionadas. Esto podría resultar en resultados vacíos."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Ocultar empleos que has descartado."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Ocultar empleos que ya has visto."
+    },
+    "showButtonTooltip": {
+        "message": "Mostrar/Ocultar un icono en las ofertas de empleo de LinkedIn para bloquear fácilmente una empresa."
+    },
+    "companies": {
+        "message": "Empresas"
     }
 }

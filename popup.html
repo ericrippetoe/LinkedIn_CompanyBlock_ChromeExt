@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,74 +11,190 @@
             width: 350px;
             background-color: #f4f4f4;
             color: #333;
+            position: relative;
         }
 
         #header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            justify-content: center;
+            margin-bottom: 10px;
             background-color: #f9f9f9;
             border: 2px solid #255898;
             color: #255898;
             padding: 10px;
             border-radius: 8px;
+            text-align: center;
         }
 
         #header img {
-            width: 40px;
-            height: 40px;
-            margin-right: 12px;
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
         }
 
         #header h2 {
             font-size: 16px;
             margin: 0;
-            line-height: 1.2;
+            line-height: 1.0;
         }
 
-        textarea {
-            width: calc(100% - 20px);
-            height: 120px;
-            margin-bottom: 15px;
-            padding: 10px;
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #255898;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
-            resize: none;
             font-size: 14px;
-            font-family: 'Lato', sans-serif;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        button {
-            width: 48%;
-            padding: 12px;
-            background-color: #0073b1;
-            color: white;
-            border: none;
+        .toggle input[type="checkbox"] {
+            appearance: none;
+            width: 30px;
+            height: 16px;
+            background-color: #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            position: relative;
+            outline: none;
             cursor: pointer;
-            font-weight: bold;
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
-            background-color: #005582;
+        .toggle input[type="checkbox"]:checked {
+            background-color: #4CAF50;
         }
 
-        #clear {
+        .toggle input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle input[type="checkbox"]:checked::before {
+            transform: translateX(14px);
+        }
+
+        .section-break {
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .company-section {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .company-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .company-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .company-item button {
             background-color: #c0392b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 3px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        #clear:hover {
+        .company-item button:hover {
             background-color: #a93226;
         }
 
-        .status {
-            margin-top: 10px;
+        .add-company {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .add-company input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             font-size: 14px;
-            color: green;
-            text-align: center;
+        }
+
+        .add-company button {
+            background-color: #0073b1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-company button:hover {
+            background-color: #005582;
+        }
+
+        .clear-all-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #c0392b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .clear-all-btn:hover {
+            background-color: #a93226;
         }
 
         #bmc-container {
@@ -87,11 +204,11 @@
 
         #bmc-container a {
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 0px;
             padding: 10px 15px;
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Muted green */
             color: #fff;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
@@ -99,14 +216,20 @@
         }
 
         #bmc-container a:hover {
-            background-color: #45A049;
+            background-color: #45A049; /* Slightly darker green on hover */
         }
 
         footer {
-            text-align: center;
-            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
             font-size: 12px;
             color: #666;
+        }
+
+        footer span {
+            font-size: 12px;
         }
     </style>
 </head>
@@ -116,20 +239,64 @@
         <h2 id="header-title">Loading...</h2>
     </div>
 
-    <textarea id="companyNames" placeholder="Loading..."></textarea>
-    <div style="display: flex; justify-content: space-between;">
-        <button id="clear">Clear All</button>
-        <button id="save">Save</button>
+    <div class="section">
+        <div class="section-title" id="quick-filters-title">Quick Filters</div>
+        <div class="toggle-group">
+            <div class="toggle">
+                <span id="toggle-applied-label">Applied</span>
+                <input type="checkbox" id="toggle-applied">
+            </div>
+            <div class="toggle">
+                <span id="toggle-promoted-label">Promoted</span>
+                <input type="checkbox" id="toggle-promoted">
+            </div>
+            <div class="toggle">
+                <span id="toggle-dismissed-label">Dismissed</span>
+                <input type="checkbox" id="toggle-dismissed">
+            </div>
+            <div class="toggle">
+                <span id="toggle-viewed-label">Viewed</span>
+                <input type="checkbox" id="toggle-viewed">
+            </div>
+        </div>
     </div>
-    <div id="status" class="status"></div>
+
+    <div class="section-break"></div>
+
+    <div class="section">
+        <div class="section-title">
+            <span id="companies-label">Companies</span> - <span id="company-count">0</span>
+            <div class="toggle" style="display: flex; align-items: center; gap: 8px;">
+                <span id="show-icon-label">Show Icon</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0a66c2" class="bi bi-eye-slash-fill">
+                    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
+                    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
+                </svg>
+                <input type="checkbox" id="toggle-show-buttons">
+            </div>
+            
+        </div>
+        <div class="company-section">
+            <div class="company-list" id="company-list"></div>
+            <div class="add-company">
+                <input type="text" id="new-company" placeholder="Add new company">
+                <button id="add-company-btn">Add</button>
+            </div>
+            <button id="clear-all-btn" class="clear-all-btn">Clear All</button>
+        </div>
+    </div>
 
     <div id="bmc-container">
-        <a href="https://www.buymeacoffee.com/ericrippetoe" target="_blank" id="donate-button">
-            Loading...
+        <a href="https://www.buymeacoffee.com/ericrippetoe" target="_blank">
+            Buy Me a Coffee!
         </a>
     </div>
 
-    <footer id="footer-text">Loading...</footer>
+    <footer>
+        <span id="version-number"></span>
+        <span id="footer-text">Made with &#10084; for LinkedIn users.</span>
+        <a href="#" id="support-link" style="display: none;">Help</a>
+    </footer>
 
     <script src="popup.js"></script>
 </body>

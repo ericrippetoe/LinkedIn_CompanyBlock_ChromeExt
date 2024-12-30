@@ -1,36 +1,36 @@
 {
     "extensionName": {
-        "message": "LinkedIn Jobs Firmenblocker"
+        "message": "LinkedIn Jobs Unternehmensblocker"
     },
     "extensionDescription": {
-        "message": "Blenden Sie Stellenanzeigen auf LinkedIn von bestimmten Unternehmen aus."
+        "message": "Verbergen Sie Stellenangebote auf LinkedIn von bestimmten Unternehmen."
     },
     "appName": {
-        "message": "LinkedIn Jobs Firmenblocker"
+        "message": "LinkedIn Jobs Unternehmensblocker"
     },
     "appDescription": {
-        "message": "Blenden Sie Stellenanzeigen auf LinkedIn von ausgewählten Unternehmen aus."
+        "message": "Verbergen Sie Stellenangebote auf LinkedIn von bestimmten Unternehmen."
     },
     "headerTitle": {
-        "message": "LinkedIn Jobs nach Unternehmen ausblenden"
+        "message": "LinkedIn-Jobs ausblenden"
     },
     "textareaPlaceholder": {
-        "message": "Geben Sie die Firmennamen ein, jeweils eine pro Zeile."
+        "message": "Geben Sie Firmennamen ein, einen pro Zeile."
     },
     "saveButton": {
         "message": "Speichern"
     },
     "statusSaved": {
-        "message": "Gespeichert! Schließen in {count}..."
+        "message": "Gespeichert! Schließt in {count}..."
     },
     "donateText": {
-        "message": "Kauf mir einen Kaffee!"
+        "message": "Unterstützen Sie meine Arbeit - Kaufen Sie mir einen Kaffee!"
     },
     "footerText": {
-        "message": "Mit &#10084; für LinkedIn-Nutzer gemacht."
+        "message": "Mit ❤️ für LinkedIn-Nutzer erstellt."
     },
     "toastBlockedJob": {
-        "message": "Job blockiert von: {company}"
+        "message": "Job von {company} blockiert"
     },
     "errorSaving": {
         "message": "Fehler beim Speichern der Daten. Bitte versuchen Sie es erneut."
@@ -42,21 +42,72 @@
         "message": "Klicken, um dieses Unternehmen zu blockieren."
     },
     "successAddedCompany": {
-        "message": "Unternehmen zur Blockierliste hinzugefügt: {company}"
+        "message": "Unternehmen zur Blockliste hinzugefügt: {company}"
     },
     "errorAddingCompany": {
-        "message": "Unternehmen konnte nicht hinzugefügt werden. Versuchen Sie es später erneut."
+        "message": "Das Unternehmen konnte nicht hinzugefügt werden. Versuchen Sie es später noch einmal."
     },
     "popupInstructions": {
-        "message": "Verwalten Sie Ihre Blockierliste unten. Geben Sie pro Zeile ein Unternehmen ein und klicken Sie auf Speichern."
+        "message": "Verwalten Sie Ihre Blockliste unten. Geben Sie einen Firmennamen pro Zeile ein und klicken Sie auf Speichern."
     },
-    "clearButton": {
-        "message": "Alles Löschen"
+    "clearAllButton": {
+        "message": "Alles löschen"
     },
     "clearConfirmation": {
-        "message": "Möchten Sie wirklich die gesamte Blockierliste löschen?"
+        "message": "Möchten Sie wirklich alle blockierten Unternehmen löschen?"
     },
     "successClearAll": {
-        "message": "Blockierliste gelöscht."
+        "message": "Blockliste gelöscht."
+    },
+    "addButton": {
+        "message": "Hinzufügen"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Neues Unternehmen hinzufügen"
+    },
+    "showButtonsToggle": {
+        "message": "Symbol anzeigen"
+    },
+    "removeCompany": {
+        "message": "Dieses Unternehmen entfernen"
+    },
+    "helpText": {
+        "message": "Hilfe"
+    },
+    "versionNumber": {
+        "message": "Version: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Schnellfilter"
+    },
+    "quickFilterApplied": {
+        "message": "Beworben"
+    },
+    "quickFilterPromoted": {
+        "message": "Gesponsert"
+    },
+    "quickFilterDismissed": {
+        "message": "Abgelehnt"
+    },
+    "quickFilterViewed": {
+        "message": "Angesehen"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Verbergen Sie Jobs, auf die Sie sich bereits beworben haben."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Verbergen Sie gesponserte Jobangebote. Dies könnte zu keinen Ergebnissen führen."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Verbergen Sie Jobs, die Sie abgelehnt haben."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Verbergen Sie Jobs, die Sie bereits angesehen haben."
+    },
+    "showButtonTooltip": {
+        "message": "Zeigen/Verbergen Sie ein Symbol bei LinkedIn-Jobanzeigen, um ein Unternehmen einfach zu blockieren."
+    },
+    "companies": {
+        "message": "Unternehmen"
     }
 }

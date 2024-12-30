@@ -1,82 +1,158 @@
-console.log("Current locale:", chrome.i18n.getUILanguage());
-console.log("Localized text for headerTitle:", chrome.i18n.getMessage("headerTitle"));
-
-
-// Function to load locale messages
-function getMessage(key) {
-    return chrome.i18n.getMessage(key) || key; // Fallback to key if message not found
-}
-
-// Function to save the company names when the "Save" button is clicked
-function saveOptions() {
-    const companyNames = document.getElementById('companyNames').value
-        .split('\n') // Split by lines
-        .map(name => name.trim()) // Trim each line to remove extra spaces
-        .filter(name => name) // Filter out empty lines or lines with just spaces
-        .reduce((unique, item) => {
-            // Ensure only unique names are added
-            if (!unique.includes(item)) unique.push(item);
-            return unique;
-        }, []); // Start with an empty array for unique names
-
-    chrome.storage.local.set({ companies: companyNames }, function () {
+// Helper function to save state
+function saveState(key, value) {
+    chrome.storage.local.set({ [key]: value }, () => {
         if (chrome.runtime.lastError) {
-            console.error(getMessage('errorSaving'), chrome.runtime.lastError);
-        } else {
-            console.log(getMessage('successAddedCompany'), companyNames);
-            // Show a brief message to the user with countdown
-            const status = document.getElementById('status');
-            let countdown = 3;
-            status.textContent = getMessage('statusSaved').replace('{count}', countdown);
-
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    status.textContent = getMessage('statusSaved').replace('{count}', countdown);
-                } else {
-                    clearInterval(countdownInterval);
-                    window.close(); // Close the popup
-                }
-            }, 1000); // Update every second
+            console.error('Error saving state:', chrome.runtime.lastError);
         }
     });
 }
 
-// Function to load saved company names when the popup is loaded
-function restoreOptions() {
-    chrome.storage.local.get('companies', function (data) {
-        if (data.companies && Array.isArray(data.companies)) {
-            document.getElementById('companyNames').value = data.companies.join('\n');
-        }
-    });
+// Helper function to fetch localized messages
+function getLocalizedMessage(key) {
+    return chrome.i18n.getMessage(key) || key;
 }
 
-// Function to clear all saved companies
-function clearOptions() {
-    if (confirm(getMessage('clearConfirmation'))) {
-        chrome.storage.local.set({ companies: [] }, function () {
-            const status = document.getElementById('status');
-            status.textContent = getMessage('successClearAll');
-            document.getElementById('companyNames').value = ''; // Clear the textarea
+// Restore the company list and count
+function restoreCompanyList() {
+    chrome.storage.local.get('companies', (data) => {
+        const companies = data.companies || [];
+        const companyList = document.getElementById('company-list');
+        const companyCount = document.getElementById('company-count');
+        companyCount.textContent = `${companies.length}`;
+        companyList.innerHTML = ''; // Clear the list
+        companies.forEach((company) => {
+            const item = createCompanyItem(company);
+            companyList.appendChild(item);
         });
+    });
+}
+
+// Add new company
+function addCompany(companyName) {
+    chrome.storage.local.get('companies', (data) => {
+        const companies = data.companies || [];
+        if (!companies.includes(companyName)) {
+            companies.push(companyName);
+            chrome.storage.local.set({ companies }, restoreCompanyList);
+        }
+    });
+}
+
+// Remove a company
+function removeCompany(companyName) {
+    chrome.storage.local.get('companies', (data) => {
+        const companies = data.companies || [];
+        const index = companies.indexOf(companyName);
+        if (index !== -1) {
+            companies.splice(index, 1);
+            chrome.storage.local.set({ companies }, restoreCompanyList);
+        }
+    });
+}
+
+// Create a company list item
+function createCompanyItem(companyName) {
+    const div = document.createElement('div');
+    div.className = 'company-item';
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = companyName;
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'X';
+    removeBtn.setAttribute('aria-label', getLocalizedMessage('removeCompany'));
+    removeBtn.addEventListener('click', () => removeCompany(companyName));
+    div.appendChild(nameSpan);
+    div.appendChild(removeBtn);
+    return div;
+}
+
+// Confirm and clear all companies
+function clearAllCompanies() {
+    if (confirm(getLocalizedMessage('clearConfirmation'))) {
+        chrome.storage.local.set({ companies: [] }, restoreCompanyList);
     }
 }
 
-// Event listener for the save button
-document.getElementById('save').addEventListener('click', saveOptions);
+// Restore toggle states
+function restoreToggleStates() {
+    const toggleKeys = ['applied', 'promoted', 'dismissed', 'viewed', 'show-buttons'];
+    chrome.storage.local.get(toggleKeys, (data) => {
+        if (data['show-buttons'] === undefined) {
+            chrome.storage.local.set({ 'show-buttons': true });
+        }
+        toggleKeys.forEach((toggleKey) => {
+            const toggle = document.getElementById(`toggle-${toggleKey}`);
+            if (toggle) {
+                toggle.checked = data[toggleKey] ?? toggleKey === 'show-buttons';
+                toggle.title = getLocalizedMessage(`quickFilter${toggleKey[0].toUpperCase()}${toggleKey.slice(1)}Tooltip`);
+                toggle.addEventListener('change', () => saveState(toggleKey, toggle.checked));
+            }
+        });
+    });
+}
 
-// Event listener for the clear button
-document.getElementById('clear').addEventListener('click', clearOptions);
+// Set localized UI text
+function setLocalizedText() {
+    document.getElementById('header-title').textContent = getLocalizedMessage('headerTitle');
+    document.getElementById('add-company-btn').textContent = getLocalizedMessage('addButton');
+    document.getElementById('clear-all-btn').textContent = getLocalizedMessage('clearAllButton');
+    document.getElementById('new-company').placeholder = getLocalizedMessage('addCompanyPlaceholder');
+    document.getElementById('footer-text').textContent = getLocalizedMessage('footerText');
+    document.getElementById('support-link').textContent = getLocalizedMessage('helpText');
+    document.querySelector('#bmc-container a').textContent = getLocalizedMessage('donateText');
 
-// Load existing settings and localized text on document load
-document.addEventListener('DOMContentLoaded', restoreOptions);
+    // Update Quick Filters Section
+    document.querySelector('.section-title').textContent = getLocalizedMessage('quickFiltersTitle');
+    document.querySelector('#toggle-applied-label').textContent = getLocalizedMessage('quickFilterApplied');
+    document.querySelector('#toggle-promoted-label').textContent = getLocalizedMessage('quickFilterPromoted');
+    document.querySelector('#toggle-dismissed-label').textContent = getLocalizedMessage('quickFilterDismissed');
+    document.querySelector('#toggle-viewed-label').textContent = getLocalizedMessage('quickFilterViewed');
+    document.querySelector('#show-icon-label').textContent = getLocalizedMessage('showButtonsToggle');
 
+    // Update Companies Section
+    document.getElementById('companies-label').textContent = getLocalizedMessage('companies');
+}
+
+function addTooltips() {
+    document.getElementById('toggle-applied-label').title = getLocalizedMessage('quickFilterAppliedTooltip');
+    document.getElementById('toggle-promoted-label').title = getLocalizedMessage('quickFilterPromotedTooltip');
+    document.getElementById('toggle-dismissed-label').title = getLocalizedMessage('quickFilterDismissedTooltip');
+    document.getElementById('toggle-viewed-label').title = getLocalizedMessage('quickFilterViewedTooltip');
+    document.getElementById('show-icon-label').title = getLocalizedMessage('showButtonTooltip');
+}
+
+
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Set localized text for UI elements
-    document.getElementById('header-title').textContent = chrome.i18n.getMessage('headerTitle');
-    document.getElementById('companyNames').placeholder = chrome.i18n.getMessage('textareaPlaceholder');
-    document.getElementById('save').textContent = chrome.i18n.getMessage('saveButton');
-    document.getElementById('clear').textContent = chrome.i18n.getMessage('clearButton');
-    document.getElementById('donate-button').textContent = chrome.i18n.getMessage('donateText');
-    document.getElementById('footer-text').innerHTML = chrome.i18n.getMessage('footerText');
+    restoreCompanyList();
+    restoreToggleStates();
+    setLocalizedText();
+    addTooltips();
+
+    document.getElementById('clear-all-btn').addEventListener('click', clearAllCompanies);
+
+        // Attach event listener for Add Company button
+        document.getElementById('add-company-btn').addEventListener('click', () => {
+            const input = document.getElementById('new-company');
+            const companyName = input.value.trim();
+            if (companyName) {
+                addCompany(companyName);
+                input.value = ''; // Clear the input field after adding the company
+            }
+        });
+
+    const versionNumber = chrome.runtime.getManifest().version;
+    if (versionNumber) document.getElementById('version-number').textContent = `v${versionNumber}`;
+});
+
+// Add event listener for Enter key in the company input box
+document.getElementById('new-company').addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const input = document.getElementById('new-company');
+        const companyName = input.value.trim();
+        if (companyName) {
+            addCompany(companyName);
+            input.value = '';
+        }
+    }
 });

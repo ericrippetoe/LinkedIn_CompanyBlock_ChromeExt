@@ -1,62 +1,113 @@
 {
     "extensionName": {
-        "message": "حاجب شركات وظائف لينكد إن"
+        "message": "حاجب شركات وظائف LinkedIn"
     },
     "extensionDescription": {
-        "message": "إخفاء إعلانات الوظائف على لينكد إن من الشركات التي تحددها."
+        "message": "إخفاء قوائم الوظائف على LinkedIn من الشركات التي تحددها."
     },
     "appName": {
-        "message": "حاجب شركات وظائف لينكد إن"
+        "message": "حاجب شركات وظائف LinkedIn"
     },
     "appDescription": {
-        "message": "إخفاء إعلانات الوظائف على لينكد إن من الشركات التي تحددها."
+        "message": "إخفاء قوائم الوظائف على LinkedIn من الشركات المحددة."
     },
     "headerTitle": {
-        "message": "إخفاء وظائف لينكد إن حسب الشركة"
+        "message": "إخفاء وظائف LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "أدخل أسماء الشركات، واحدة في كل سطر."
+        "message": "أدخل أسماء الشركات، واحدة لكل سطر."
     },
     "saveButton": {
         "message": "حفظ"
     },
     "statusSaved": {
-        "message": "تم الحفظ! سيتم الإغلاق في {count}..."
+        "message": "تم الحفظ! سيتم الإغلاق خلال {count}..."
     },
     "donateText": {
-        "message": "اشترِ لي قهوة!"
+        "message": "ادعم عملي - اشترِ لي قهوة!"
     },
     "footerText": {
-        "message": "مصنوع بحب &#10084; لمستخدمي لينكد إن."
+        "message": "صنع بحب ❤️ لمستخدمي LinkedIn."
     },
     "toastBlockedJob": {
-        "message": "تم حجب وظيفة من: {company}"
+        "message": "تم حظر الوظيفة من: {company}"
     },
     "errorSaving": {
-        "message": "حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى."
+        "message": "حدث خطأ أثناء الحفظ. حاول مرة أخرى."
     },
     "placeholderLoading": {
-        "message": "جارٍ تحميل الشركات المحفوظة..."
+        "message": "جاري تحميل الشركات المحفوظة..."
     },
     "tooltipBlockButton": {
-        "message": "انقر لحجب هذه الشركة."
+        "message": "انقر لحظر هذه الشركة."
     },
     "successAddedCompany": {
-        "message": "تمت إضافة الشركة إلى قائمة الحجب: {company}"
+        "message": "تمت إضافة الشركة إلى قائمة الحظر: {company}"
     },
     "errorAddingCompany": {
-        "message": "تعذر إضافة الشركة. حاول مرة أخرى لاحقًا."
+        "message": "تعذر إضافة الشركة. حاول لاحقًا."
     },
     "popupInstructions": {
-        "message": "قم بإدارة قائمة الحجب أدناه. أدخل اسم شركة في كل سطر وانقر على حفظ."
+        "message": "قم بإدارة قائمة الحظر أدناه. أدخل شركة واحدة لكل سطر واضغط على حفظ."
     },
-    "clearButton": {
+    "clearAllButton": {
         "message": "مسح الكل"
     },
     "clearConfirmation": {
-        "message": "هل أنت متأكد أنك تريد مسح قائمة الحجب بالكامل؟"
+        "message": "هل أنت متأكد أنك تريد مسح جميع الشركات المحظورة؟"
     },
     "successClearAll": {
-        "message": "تم مسح قائمة الحجب."
+        "message": "تم مسح قائمة الحظر."
+    },
+    "addButton": {
+        "message": "إضافة"
+    },
+    "addCompanyPlaceholder": {
+        "message": "أضف شركة جديدة"
+    },
+    "showButtonsToggle": {
+        "message": "إظهار الرمز"
+    },
+    "removeCompany": {
+        "message": "إزالة هذه الشركة"
+    },
+    "helpText": {
+        "message": "مساعدة"
+    },
+    "versionNumber": {
+        "message": "الإصدار: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "فلاتر سريعة"
+    },
+    "quickFilterApplied": {
+        "message": "تم التقديم"
+    },
+    "quickFilterPromoted": {
+        "message": "إعلان"
+    },
+    "quickFilterDismissed": {
+        "message": "مرفوض"
+    },
+    "quickFilterViewed": {
+        "message": "تمت المشاهدة"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "إخفاء الوظائف التي تقدمت إليها بالفعل."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "إخفاء قوائم الوظائف المروّجة. لاحظ أن هذا قد يؤدي إلى نتائج فارغة."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "إخفاء الوظائف التي رفضتها."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "إخفاء الوظائف التي شاهدتها بالفعل."
+    },
+    "showButtonTooltip": {
+        "message": "إظهار/إخفاء رمز على قوائم وظائف LinkedIn لإخفاء شركة بسهولة."
+    },
+    "companies": {
+        "message": "الشركات"
     }
 }

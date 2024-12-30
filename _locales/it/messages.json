@@ -1,21 +1,21 @@
 {
     "extensionName": {
-        "message": "Blocco Aziende per Offerte di Lavoro LinkedIn"
+        "message": "Blocco Aziende LinkedIn Jobs"
     },
     "extensionDescription": {
         "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
     },
     "appName": {
-        "message": "Blocco Aziende per Offerte di Lavoro LinkedIn"
+        "message": "Blocco Aziende LinkedIn Jobs"
     },
     "appDescription": {
         "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
     },
     "headerTitle": {
-        "message": "Nascondi Offerte di Lavoro LinkedIn per Azienda"
+        "message": "Nascondi Lavori LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "Inserisci i nomi delle aziende, una per riga."
+        "message": "Inserisci i nomi delle aziende, uno per riga."
     },
     "saveButton": {
         "message": "Salva"
@@ -24,19 +24,19 @@
         "message": "Salvato! Chiusura in {count}..."
     },
     "donateText": {
-        "message": "Offrimi un caffè!"
+        "message": "Supporta il mio lavoro - Comprami un caffè!"
     },
     "footerText": {
-        "message": "Creato con &#10084; per gli utenti di LinkedIn."
+        "message": "Creato con ❤️ per gli utenti LinkedIn."
     },
     "toastBlockedJob": {
-        "message": "Offerta bloccata da: {company}"
+        "message": "Lavoro bloccato da: {company}"
     },
     "errorSaving": {
-        "message": "Errore durante il salvataggio. Riprova."
+        "message": "Errore nel salvataggio dei dati. Riprova."
     },
     "placeholderLoading": {
-        "message": "Caricamento aziende salvate..."
+        "message": "Caricamento delle aziende salvate..."
     },
     "tooltipBlockButton": {
         "message": "Clicca per bloccare questa azienda."
@@ -50,13 +50,64 @@
     "popupInstructions": {
         "message": "Gestisci la tua lista di blocco qui sotto. Inserisci un'azienda per riga e clicca su Salva."
     },
-    "clearButton": {
-        "message": "Cancella Tutto"
+    "clearAllButton": {
+        "message": "Cancella tutto"
     },
     "clearConfirmation": {
-        "message": "Sei sicuro di voler cancellare l'intera lista di blocco?"
+        "message": "Sei sicuro di voler cancellare tutte le aziende bloccate?"
     },
     "successClearAll": {
         "message": "Lista di blocco cancellata."
+    },
+    "addButton": {
+        "message": "Aggiungi"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Aggiungi nuova azienda"
+    },
+    "showButtonsToggle": {
+        "message": "Mostra icona"
+    },
+    "removeCompany": {
+        "message": "Rimuovi questa azienda"
+    },
+    "helpText": {
+        "message": "Aiuto"
+    },
+    "versionNumber": {
+        "message": "Versione: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Filtri rapidi"
+    },
+    "quickFilterApplied": {
+        "message": "Candidata"
+    },
+    "quickFilterPromoted": {
+        "message": "Promossa"
+    },
+    "quickFilterDismissed": {
+        "message": "Rifiutata"
+    },
+    "quickFilterViewed": {
+        "message": "Visualizzata"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Nascondi i lavori a cui hai già candidato."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Nascondi offerte di lavoro promosse. Nota che potrebbe risultare in risultati vuoti."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Nascondi i lavori che hai rifiutato."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Nascondi i lavori che hai già visualizzato."
+    },
+    "showButtonTooltip": {
+        "message": "Mostra/Nascondi un'icona sulle offerte di lavoro di LinkedIn per bloccare facilmente un'azienda."
+    },
+    "companies": {
+        "message": "Aziende"
     }
 }

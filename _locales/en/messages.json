@@ -12,7 +12,7 @@
         "message": "Hide job listings on LinkedIn from specified companies."
     },
     "headerTitle": {
-        "message": "Hide LinkedIn Jobs By Company"
+        "message": "Hide LinkedIn Jobs"
     },
     "textareaPlaceholder": {
         "message": "Enter company names, one per line."
@@ -24,10 +24,10 @@
         "message": "Saved! Closing in {count}..."
     },
     "donateText": {
-        "message": "Buy Me a Coffee!"
+        "message": "Support My Work - Buy Me a Coffee!"
     },
     "footerText": {
-        "message": "Made with &#10084; for LinkedIn users."
+        "message": "Made with ❤️ for LinkedIn users."
     },
     "toastBlockedJob": {
         "message": "Blocked job from: {company}"
@@ -50,13 +50,64 @@
     "popupInstructions": {
         "message": "Manage your block list below. Enter one company per line and click Save."
     },
-    "clearButton": {
+    "clearAllButton": {
         "message": "Clear All"
     },
     "clearConfirmation": {
-        "message": "Are you sure you want to clear the entire block list?"
+        "message": "Are you sure you want to clear all blocked companies?"
     },
     "successClearAll": {
         "message": "Block list cleared."
+    },
+    "addButton": {
+        "message": "Add"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Add new company"
+    },
+    "showButtonsToggle": {
+        "message": "Show Icon"
+    },
+    "removeCompany": {
+        "message": "Remove this company"
+    },
+    "helpText": {
+        "message": "Help"
+    },
+    "versionNumber": {
+        "message": "Version: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Quick Filters"
+    },
+    "quickFilterApplied": {
+        "message": "Applied"
+    },
+    "quickFilterPromoted": {
+        "message": "Promoted"
+    },
+    "quickFilterDismissed": {
+        "message": "Dismissed"
+    },
+    "quickFilterViewed": {
+        "message": "Viewed"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Hide jobs that you’ve already applied to."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Hide promoted job listings. Please note this might result in empty results."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Hide jobs that you have dismissed."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Hide jobs that you’ve already viewed."
+    },
+    "showButtonTooltip": {
+        "message": "Show/Hide an icon on LinkedIn jobs posting to easily hide a company."
+    },
+    "companies": {
+        "message": "Companies"
     }
 }
