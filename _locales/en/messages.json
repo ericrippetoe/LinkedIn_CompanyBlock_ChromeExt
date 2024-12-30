@@ -1,15 +1,15 @@
 {
     "extensionName": {
-        "message": "LinkedIn Jobs Company Blocker"
+        "message": "LinkedIn Jobs Blocker"
     },
     "extensionDescription": {
-        "message": "Hide job listings on LinkedIn from companies you specify."
+        "message": "Easily hide job listings on LinkedIn based on companies or status."
     },
     "appName": {
-        "message": "LinkedIn Jobs Company Blocker"
+        "message": "LinkedIn Jobs Blocker"
     },
     "appDescription": {
-        "message": "Hide job listings on LinkedIn from specified companies."
+        "message": "Easily hide job listings on LinkedIn based on companies or status."
     },
     "headerTitle": {
         "message": "Hide LinkedIn Jobs"
