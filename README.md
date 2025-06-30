@@ -49,12 +49,12 @@ https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegc
 
 \`\`\`
 linkedin-job-blocker/
-├── manifest.json         # Chrome Extension manifest file
-├── content.js            # Scans and hides job listings based on keywords
-├── options.html          # Settings page UI
-├── options.js            # Logic for managing and saving user preferences
-├── styles.css            # Basic styling for the options page
-└── README.md             # This file
+-├── manifest.json         # Chrome Extension manifest file
+-├── content.js            # Scans and hides job listings based on keywords
+-├── options.html          # Settings page UI
+-├── options.js            # Logic for managing and saving user preferences
+-├── styles.css            # Basic styling for the options page
+-└── README.md             # This file
 \`\`\`
 
 ---
