@@ -1,11 +1,12 @@
 # 🔒 LinkedIn Job Blocker Chrome Extension
 
 Tired of seeing the same companies or irrelevant job postings on LinkedIn?  
-**LinkedIn Job Blocker** is a free, open-source Chrome extension that helps you **hide job listings based on company names, job titles, or keywords** — so you can focus on the opportunities that actually matter to you.
+**LinkedIn Job Blocker** is a free, open-source Chrome extension that helps you **hide job listings based on company names, or status (such as Applied, Dismissed, etc.)** — so you can focus on the opportunities that actually matter to you.
+
 Download the released version on the Chrome Web Store:
 https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegcieolpnnkjnnblmm
 
-![screenshot]((https://lh3.googleusercontent.com/LcGQqD851qUmRNdLEEunfxP1dD9pHmiRnjvMuGfElwGIxzBHlTJbSTuIPCqr7q80JI3G7HSXxiy2lDMybUdojWEIdw=s1280-w1280-h800))
+![screenshot](https://lh3.googleusercontent.com/LcGQqD851qUmRNdLEEunfxP1dD9pHmiRnjvMuGfElwGIxzBHlTJbSTuIPCqr7q80JI3G7HSXxiy2lDMybUdojWEIdw=s1280-w1280-h800)
 
 ---
 
