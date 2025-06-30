@@ -5,7 +5,7 @@ Tired of seeing the same companies or irrelevant job postings on LinkedIn?
 Download the released version on the Chrome Web Store:
 https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegcieolpnnkjnnblmm
 
-![screenshot]([https://github.com/yourusername/linkedin-job-blocker/assets/screenshot.png](https://lh3.googleusercontent.com/LcGQqD851qUmRNdLEEunfxP1dD9pHmiRnjvMuGfElwGIxzBHlTJbSTuIPCqr7q80JI3G7HSXxiy2lDMybUdojWEIdw=s1280-w1280-h800))
+![screenshot]((https://lh3.googleusercontent.com/LcGQqD851qUmRNdLEEunfxP1dD9pHmiRnjvMuGfElwGIxzBHlTJbSTuIPCqr7q80JI3G7HSXxiy2lDMybUdojWEIdw=s1280-w1280-h800))
 
 ---
 
