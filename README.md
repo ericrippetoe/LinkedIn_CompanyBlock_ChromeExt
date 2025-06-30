@@ -12,10 +12,10 @@ https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegc
 
 ## ✨ Features
 
-- ✅ Block jobs by **company name**, **job title**, or **custom keywords**
-- ✅ Automatically hides or grays out unwanted listings on LinkedIn Jobs
+- ✅ Block jobs by **company name** or **status**
+- ✅ Automatically hides unwanted listings on LinkedIn Jobs
 - ✅ Simple, intuitive **settings page**
-- ✅ Stores data using **Chrome sync storage** (encrypted, synced across devices)
+- ✅ Stores all data locally using **Chrome's local storage**
 - ✅ Lightweight, fast, and **privacy-focused**
 
 ---
@@ -41,8 +41,8 @@ https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegc
 ## ⚙️ How It Works
 
 - The extension scans all job cards on LinkedIn Jobs pages.
-- If a job’s title or company matches any of your blocked keywords, it is hidden or visually muted.
-- You manage your own block list via the settings page.
+- If the company has been blocked or if you've set to hide a particular status (such as jobs that you've already Applied to), that job card is hidden.
+- You manage your own block list via the drop down or settings page.
 
 ---
 
@@ -50,28 +50,20 @@ https://chromewebstore.google.com/detail/linkedin-jobs-blocker/dgmclfgajjhlghegc
 
 ├── manifest.json         # Chrome Extension manifest file
 ├── content.js            # Scans and hides job listings based on keywords
-├── options.html          # Settings page UI
-├── options.js            # Logic for managing and saving user preferences
+├── popup.html            # Popup  UI
+├── popup.js              # Logic for managing and saving user preferences
 ├── styles.css            # Basic styling for the options page
 └── README.md             # This file
 
 
 ---
 
-## 🖥️ Settings Page Features
-
-- Add and remove keywords easily
-- Save button is **disabled** until you make a change
-- Saves to `chrome.storage.sync`
-- Updates job listings when saved
-
----
 
 ## 🛡️ Privacy
 
 This extension runs **entirely in your browser**.  
 No data is collected or sent to external servers.  
-Your preferences are stored using Chrome's `sync` storage, which is **encrypted** and synced across devices that use your Google account.
+Your preferences are stored using Chrome's `local` storage, which is **encrypted** and stays on the local browser.
 
 ---
 
