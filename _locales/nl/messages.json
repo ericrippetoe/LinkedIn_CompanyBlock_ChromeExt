@@ -1,15 +1,15 @@
 {
     "extensionName": {
-        "message": "LinkedIn Bedrijvenblokker"
+        "message": "LinkedIn Vacatures Blocker"
     },
     "extensionDescription": {
-        "message": "Verberg vacatures op LinkedIn van specifieke bedrijven."
+        "message": "Verberg gemakkelijk vacatures op LinkedIn op basis van bedrijven of status."
     },
     "appName": {
-        "message": "LinkedIn Bedrijvenblokker"
+        "message": "LinkedIn Vacatures Blocker"
     },
     "appDescription": {
-        "message": "Verberg vacatures op LinkedIn van specifieke bedrijven."
+        "message": "Verberg gemakkelijk vacatures op LinkedIn op basis van bedrijven of status."
     },
     "headerTitle": {
         "message": "LinkedIn Vacatures Verbergen"
@@ -21,70 +21,67 @@
         "message": "Opslaan"
     },
     "statusSaved": {
-        "message": "Opgeslagen! Sluiten over {count}..."
+        "message": "Opgeslagen! Sluit over {count}..."
     },
     "donateText": {
-        "message": "Steun mijn werk - Trakteer me op een koffie!"
-    },
-    "footerText": {
-        "message": "Met ❤️ gemaakt voor LinkedIn-gebruikers."
+        "message": "Ondersteun mijn werk - Koop me een koffie!"
     },
     "toastBlockedJob": {
-        "message": "Vacature geblokkeerd van: {company}"
+        "message": "Vacature van {company} geblokkeerd"
     },
     "errorSaving": {
-        "message": "Fout bij het opslaan van gegevens. Probeer het opnieuw."
+        "message": "Fout bij opslaan. Probeer opnieuw."
     },
     "placeholderLoading": {
-        "message": "Bedrijven laden..."
+        "message": "Opgeslagen bedrijven laden..."
     },
     "tooltipBlockButton": {
         "message": "Klik om dit bedrijf te blokkeren."
     },
     "successAddedCompany": {
-        "message": "Bedrijf toegevoegd aan blokkeerlijst: {company}"
+        "message": "Bedrijf toegevoegd aan blokklijst: {company}"
     },
     "errorAddingCompany": {
-        "message": "Kon bedrijf niet toevoegen. Probeer het later opnieuw."
+        "message": "Kan bedrijf niet toevoegen. Probeer later opnieuw."
     },
     "popupInstructions": {
-        "message": "Beheer hieronder uw blokkeerlijst. Voer één bedrijfsnaam per regel in en klik op Opslaan."
+        "message": "Beheer je bloklijst hieronder. Voer één bedrijf per regel in en klik Opslaan."
     },
     "clearAllButton": {
-        "message": "Alles Wissen"
+        "message": "Alle Bedrijven Verwijderen"
     },
     "clearConfirmation": {
-        "message": "Weet u zeker dat u alle geblokkeerde bedrijven wilt wissen?"
+        "message": "Weet je zeker dat je alle geblokkeerde bedrijven wilt verwijderen?"
     },
     "successClearAll": {
-        "message": "Blokkeerlijst gewist."
+        "message": "Bloklijst geleegd."
     },
     "addButton": {
         "message": "Toevoegen"
     },
     "addCompanyPlaceholder": {
-        "message": "Nieuw bedrijf toevoegen"
+        "message": "Bedrijf aan bloklijst toevoegen"
     },
     "showButtonsToggle": {
-        "message": "Pictogram Tonen"
+        "message": "Blokkeerpictogram Weergeven"
     },
     "removeCompany": {
-        "message": "Verwijder dit bedrijf"
+        "message": "Dit bedrijf verwijderen"
     },
     "helpText": {
-        "message": "Hulp"
+        "message": "Help"
     },
     "versionNumber": {
         "message": "Versie: {version}"
     },
     "quickFiltersTitle": {
-        "message": "Snelfilters"
+        "message": "Snelle Filters"
     },
     "quickFilterApplied": {
-        "message": "Gesolliciteerd"
+        "message": "Aangevraagd"
     },
     "quickFilterPromoted": {
-        "message": "Promotie"
+        "message": "Gesponsord"
     },
     "quickFilterDismissed": {
         "message": "Afgewezen"
@@ -93,21 +90,42 @@
         "message": "Bekeken"
     },
     "quickFilterAppliedTooltip": {
-        "message": "Verberg vacatures waarop u al heeft gesolliciteerd."
+        "message": "Verberg vacatures waarop je al hebt gesolliciteerd."
     },
     "quickFilterPromotedTooltip": {
-        "message": "Verberg promotievacatures. Dit kan resulteren in lege resultaten."
+        "message": "Verberg gesponsorde vacatures. Let op: dit kan tot lege resultaten leiden."
     },
     "quickFilterDismissedTooltip": {
-        "message": "Verberg vacatures die u heeft afgewezen."
+        "message": "Verberg vacatures die je hebt afgewezen."
     },
     "quickFilterViewedTooltip": {
-        "message": "Verberg vacatures die u al heeft bekeken."
+        "message": "Verberg vacatures die je al hebt bekeken."
     },
     "showButtonTooltip": {
-        "message": "Toon/verberg een pictogram op LinkedIn-vacatures om eenvoudig een bedrijf te blokkeren."
+        "message": "Toon/verberg een pictogram op LinkedIn-vacatureplaatsingen om bedrijven gemakkelijk te blokkeren."
     },
     "companies": {
-        "message": "Bedrijven"
+        "message": "Geblokkeerde Bedrijven"
+    },
+    "companies_tooltip": {
+        "message": "Klik om bloklijst uit te vouwen/in te klappen."
+    },
+    "delete_message": {
+        "message": "Verwijderen"
+    },
+    "footerText": {
+        "message": "Gemaakt met <span style='color:#e74c3c;'>❤️</span> door <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" succesvol toegevoegd!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" is verwijderd"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" is al geblokkeerd"
+    },
+    "toastAllCleared": {
+        "message": "Alle bedrijven verwijderd"
     }
 }

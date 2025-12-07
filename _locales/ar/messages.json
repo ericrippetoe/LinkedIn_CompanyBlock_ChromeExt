@@ -1,15 +1,15 @@
 {
     "extensionName": {
-        "message": "حاجب شركات وظائف LinkedIn"
+        "message": "مانع وظائف LinkedIn"
     },
     "extensionDescription": {
-        "message": "إخفاء قوائم الوظائف على LinkedIn من الشركات التي تحددها."
+        "message": "إخفاء إعلانات الوظائف على LinkedIn بناءً على الشركات أو الحالة بسهولة."
     },
     "appName": {
-        "message": "حاجب شركات وظائف LinkedIn"
+        "message": "مانع وظائف LinkedIn"
     },
     "appDescription": {
-        "message": "إخفاء قوائم الوظائف على LinkedIn من الشركات المحددة."
+        "message": "إخفاء إعلانات الوظائف على LinkedIn بناءً على الشركات أو الحالة بسهولة."
     },
     "headerTitle": {
         "message": "إخفاء وظائف LinkedIn"
@@ -21,22 +21,19 @@
         "message": "حفظ"
     },
     "statusSaved": {
-        "message": "تم الحفظ! سيتم الإغلاق خلال {count}..."
+        "message": "تم الحفظ! الإغلاق خلال {count}..."
     },
     "donateText": {
         "message": "ادعم عملي - اشترِ لي قهوة!"
     },
-    "footerText": {
-        "message": "صنع بحب ❤️ لمستخدمي LinkedIn."
-    },
     "toastBlockedJob": {
-        "message": "تم حظر الوظيفة من: {company}"
+        "message": "تم حظر وظيفة من: {company}"
     },
     "errorSaving": {
-        "message": "حدث خطأ أثناء الحفظ. حاول مرة أخرى."
+        "message": "خطأ في الحفظ. حاول مرة أخرى."
     },
     "placeholderLoading": {
-        "message": "جاري تحميل الشركات المحفوظة..."
+        "message": "جارٍ تحميل الشركات المحفوظة..."
     },
     "tooltipBlockButton": {
         "message": "انقر لحظر هذه الشركة."
@@ -48,13 +45,13 @@
         "message": "تعذر إضافة الشركة. حاول لاحقًا."
     },
     "popupInstructions": {
-        "message": "قم بإدارة قائمة الحظر أدناه. أدخل شركة واحدة لكل سطر واضغط على حفظ."
+        "message": "إدارة قائمة الحظر أدناه. أدخل شركة واحدة لكل سطر وانقر حفظ."
     },
     "clearAllButton": {
-        "message": "مسح الكل"
+        "message": "مسح جميع الشركات"
     },
     "clearConfirmation": {
-        "message": "هل أنت متأكد أنك تريد مسح جميع الشركات المحظورة؟"
+        "message": "هل أنت متأكد من رغبتك في مسح جميع الشركات المحظورة؟"
     },
     "successClearAll": {
         "message": "تم مسح قائمة الحظر."
@@ -63,10 +60,10 @@
         "message": "إضافة"
     },
     "addCompanyPlaceholder": {
-        "message": "أضف شركة جديدة"
+        "message": "إضافة شركة إلى قائمة الحظر"
     },
     "showButtonsToggle": {
-        "message": "إظهار الرمز"
+        "message": "عرض أيقونة الحظر"
     },
     "removeCompany": {
         "message": "إزالة هذه الشركة"
@@ -84,19 +81,19 @@
         "message": "تم التقديم"
     },
     "quickFilterPromoted": {
-        "message": "إعلان"
+        "message": "معروضة"
     },
     "quickFilterDismissed": {
-        "message": "مرفوض"
+        "message": "مرفوضة"
     },
     "quickFilterViewed": {
         "message": "تمت المشاهدة"
     },
     "quickFilterAppliedTooltip": {
-        "message": "إخفاء الوظائف التي تقدمت إليها بالفعل."
+        "message": "إخفاء الوظائف التي تقدمت لها بالفعل."
     },
     "quickFilterPromotedTooltip": {
-        "message": "إخفاء قوائم الوظائف المروّجة. لاحظ أن هذا قد يؤدي إلى نتائج فارغة."
+        "message": "إخفاء إعلانات الوظائف المروجة. لاحظ أن هذا قد يؤدي إلى نتائج فارغة."
     },
     "quickFilterDismissedTooltip": {
         "message": "إخفاء الوظائف التي رفضتها."
@@ -105,9 +102,30 @@
         "message": "إخفاء الوظائف التي شاهدتها بالفعل."
     },
     "showButtonTooltip": {
-        "message": "إظهار/إخفاء رمز على قوائم وظائف LinkedIn لإخفاء شركة بسهولة."
+        "message": "إظهار/إخفاء أيقونة على إعلانات وظائف LinkedIn لحظر الشركة بسهولة."
     },
     "companies": {
-        "message": "الشركات"
+        "message": "الشركات المحظورة"
+    },
+    "companies_tooltip": {
+        "message": "انقر لتوسيع/طي قائمة الشركات المحظورة."
+    },
+    "delete_message": {
+        "message": "حذف"
+    },
+    "footerText": {
+        "message": "صُنع ب<span style='color:#e74c3c;'>❤️</span> بواسطة <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "تمت إضافة \"{company}\" بنجاح!"
+    },
+    "toastCompanyRemoved": {
+        "message": "تمت إزالة \"{company}\""
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" محظورة بالفعل"
+    },
+    "toastAllCleared": {
+        "message": "تم مسح جميع الشركات"
     }
 }

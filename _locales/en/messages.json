@@ -26,9 +26,6 @@
     "donateText": {
         "message": "Support My Work - Buy Me a Coffee!"
     },
-    "footerText": {
-        "message": "Made with ❤️ for LinkedIn users."
-    },
     "toastBlockedJob": {
         "message": "Blocked job from: {company}"
     },
@@ -51,7 +48,7 @@
         "message": "Manage your block list below. Enter one company per line and click Save."
     },
     "clearAllButton": {
-        "message": "Clear All"
+        "message": "Clear All Companies"
     },
     "clearConfirmation": {
         "message": "Are you sure you want to clear all blocked companies?"
@@ -63,10 +60,10 @@
         "message": "Add"
     },
     "addCompanyPlaceholder": {
-        "message": "Add new company"
+        "message": "Add company to blocklist"
     },
     "showButtonsToggle": {
-        "message": "Show Icon"
+        "message": "Display Block Icon"
     },
     "removeCompany": {
         "message": "Remove this company"
@@ -108,6 +105,27 @@
         "message": "Show/Hide an icon on LinkedIn jobs posting to easily hide a company."
     },
     "companies": {
-        "message": "Companies"
+        "message": "Companies Blocked"
+    },
+    "companies_tooltip": {
+        "message": "Click to expand/collapse blocked list."
+    },
+    "delete_message": {
+        "message": "Delete"
+    },
+    "footerText": {
+        "message": "Made with <span style='color:#e74c3c;'>❤️</span> by <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" added successfully!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" has been removed"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" is already blocked"
+    },
+    "toastAllCleared": {
+        "message": "All companies cleared"
     }
 }

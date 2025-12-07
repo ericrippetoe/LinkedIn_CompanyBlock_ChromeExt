@@ -1,21 +1,21 @@
 {
     "extensionName": {
-        "message": "लिंक्डइन जॉब्स कंपनी ब्लॉकर"
+        "message": "लिंक्डइन जॉब ब्लॉकर"
     },
     "extensionDescription": {
-        "message": "लिंक्डइन पर उन कंपनियों से जॉब लिस्टिंग छिपाएँ जिन्हें आप निर्दिष्ट करते हैं।"
+        "message": "कंपनियों या स्थिति के आधार पर लिंक्डइन पर जॉब लिस्टिंग आसानी से छुपाएँ।"
     },
     "appName": {
-        "message": "लिंक्डइन जॉब्स कंपनी ब्लॉकर"
+        "message": "लिंक्डइन जॉब ब्लॉकर"
     },
     "appDescription": {
-        "message": "लिंक्डइन पर निर्दिष्ट कंपनियों से जॉब लिस्टिंग छिपाएँ।"
+        "message": "कंपनियों या स्थिति के आधार पर लिंक्डइन पर जॉब लिस्टिंग आसानी से छुपाएँ।"
     },
     "headerTitle": {
-        "message": "लिंक्डइन जॉब्स छिपाएँ"
+        "message": "लिंक्डइन जॉब्स छुपाएँ"
     },
     "textareaPlaceholder": {
-        "message": "कंपनी के नाम लिखें, हर पंक्ति में एक।"
+        "message": "कंपनी के नाम दर्ज करें, एक प्रति पंक्ति।"
     },
     "saveButton": {
         "message": "सहेजें"
@@ -24,55 +24,52 @@
         "message": "सहेजा गया! {count} में बंद हो रहा है..."
     },
     "donateText": {
-        "message": "मेरा काम सपोर्ट करें - मुझे कॉफी खरीदें!"
-    },
-    "footerText": {
-        "message": "लिंक्डइन उपयोगकर्ताओं के लिए ❤️ के साथ बनाया गया।"
+        "message": "मेरे काम का समर्थन करें - मुझे कॉफ़ी खरीदें!"
     },
     "toastBlockedJob": {
-        "message": "{company} से नौकरी ब्लॉक कर दी गई।"
+        "message": "{company} से नौकरी ब्लॉक की गई"
     },
     "errorSaving": {
         "message": "डेटा सहेजने में त्रुटि। कृपया पुनः प्रयास करें।"
     },
     "placeholderLoading": {
-        "message": "सहेजी गई कंपनियों को लोड किया जा रहा है..."
+        "message": "सहेजी गई कंपनियाँ लोड हो रही हैं..."
     },
     "tooltipBlockButton": {
         "message": "इस कंपनी को ब्लॉक करने के लिए क्लिक करें।"
     },
     "successAddedCompany": {
-        "message": "कंपनी को ब्लॉक सूची में जोड़ा गया: {company}"
+        "message": "ब्लॉक सूची में कंपनी जोड़ी गई: {company}"
     },
     "errorAddingCompany": {
-        "message": "कंपनी को जोड़ा नहीं जा सका। बाद में पुनः प्रयास करें।"
+        "message": "कंपनी जोड़ने में विफल। बाद में पुनः प्रयास करें।"
     },
     "popupInstructions": {
-        "message": "नीचे अपनी ब्लॉक सूची प्रबंधित करें। प्रत्येक पंक्ति में एक कंपनी का नाम डालें और सहेजें पर क्लिक करें।"
+        "message": "नीचे अपनी ब्लॉक सूची प्रबंधित करें। प्रति पंक्ति एक कंपनी दर्ज करें और सहेजें पर क्लिक करें।"
     },
     "clearAllButton": {
-        "message": "सभी साफ करें"
+        "message": "सभी कंपनियाँ हटाएँ"
     },
     "clearConfirmation": {
-        "message": "क्या आप सुनिश्चित हैं कि आप सभी ब्लॉक की गई कंपनियों को साफ करना चाहते हैं?"
+        "message": "क्या आप सुनिश्चित हैं कि आप सभी ब्लॉक की गई कंपनियों को हटाना चाहते हैं?"
     },
     "successClearAll": {
-        "message": "ब्लॉक सूची साफ कर दी गई।"
+        "message": "ब्लॉक सूची साफ़ की गई।"
     },
     "addButton": {
         "message": "जोड़ें"
     },
     "addCompanyPlaceholder": {
-        "message": "नई कंपनी जोड़ें"
+        "message": "ब्लॉकलिस्ट में कंपनी जोड़ें"
     },
     "showButtonsToggle": {
-        "message": "आइकन दिखाएं"
+        "message": "ब्लॉक आइकन प्रदर्शित करें"
     },
     "removeCompany": {
-        "message": "इस कंपनी को हटाएं"
+        "message": "इस कंपनी को हटाएँ"
     },
     "helpText": {
-        "message": "मदद"
+        "message": "सहायता"
     },
     "versionNumber": {
         "message": "संस्करण: {version}"
@@ -87,27 +84,48 @@
         "message": "प्रचारित"
     },
     "quickFilterDismissed": {
-        "message": "खारिज किया गया"
+        "message": "अस्वीकार किया गया"
     },
     "quickFilterViewed": {
         "message": "देखा गया"
     },
     "quickFilterAppliedTooltip": {
-        "message": "उन नौकरियों को छिपाएं जिन पर आपने पहले ही आवेदन किया है।"
+        "message": "उन नौकरियों को छुपाएँ जिन पर आपने पहले ही आवेदन किया है।"
     },
     "quickFilterPromotedTooltip": {
-        "message": "प्रचारित नौकरियों को छिपाएं। ध्यान दें, यह खाली परिणाम दे सकता है।"
+        "message": "प्रचारित नौकरी लिस्टिंग छुपाएँ। कृपया ध्यान दें कि इससे खाली परिणाम मिल सकते हैं।"
     },
     "quickFilterDismissedTooltip": {
-        "message": "उन नौकरियों को छिपाएं जिन्हें आपने खारिज कर दिया है।"
+        "message": "उन नौकरियों को छुपाएँ जिन्हें आपने अस्वीकार किया है।"
     },
     "quickFilterViewedTooltip": {
-        "message": "उन नौकरियों को छिपाएं जिन्हें आपने पहले ही देख लिया है।"
+        "message": "उन नौकरियों को छुपाएँ जिन्हें आपने पहले ही देख लिया है।"
     },
     "showButtonTooltip": {
-        "message": "लिंक्डइन जॉब्स पोस्टिंग पर आइकन दिखाएं/छिपाएं ताकि कंपनी को आसानी से ब्लॉक किया जा सके।"
+        "message": "लिंक्डइन जॉब पोस्टिंग पर आइकन दिखाएँ/छुपाएँ ताकि कंपनी को आसानी से ब्लॉक किया जा सके।"
     },
     "companies": {
-        "message": "कंपनियाँ"
+        "message": "ब्लॉक की गई कंपनियाँ"
+    },
+    "companies_tooltip": {
+        "message": "ब्लॉक सूची विस्तार/संकुचित करने के लिए क्लिक करें।"
+    },
+    "delete_message": {
+        "message": "हटाएँ"
+    },
+    "footerText": {
+        "message": "<span style='color:#e74c3c;'>❤️</span> के साथ बनाया गया <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a> द्वारा"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" सफलतापूर्वक जोड़ी गई!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" को हटा दिया गया"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" पहले से ही ब्लॉक है"
+    },
+    "toastAllCleared": {
+        "message": "सभी कंपनियाँ साफ़ की गई"
     }
 }

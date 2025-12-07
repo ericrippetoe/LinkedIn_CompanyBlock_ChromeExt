@@ -1,72 +1,69 @@
 {
     "extensionName": {
-        "message": "LinkedIn ジョブ企業ブロッカー"
+        "message": "LinkedIn ジョブブロッカー"
     },
     "extensionDescription": {
-        "message": "指定した企業の LinkedIn 求人情報を非表示にします。"
+        "message": "企業またはステータスに基づいて LinkedIn のジョブリストを簡単に非表示にします。"
     },
     "appName": {
-        "message": "LinkedIn ジョブ企業ブロッカー"
+        "message": "LinkedIn ジョブブロッカー"
     },
     "appDescription": {
-        "message": "指定した企業の LinkedIn 求人情報を非表示にします。"
+        "message": "企業またはステータスに基づいて LinkedIn のジョブリストを簡単に非表示にします。"
     },
     "headerTitle": {
-        "message": "LinkedIn ジョブを非表示"
+        "message": "LinkedIn ジョブを非表示にする"
     },
     "textareaPlaceholder": {
-        "message": "企業名を入力してください。1 行に 1 つずつ入力してください。"
+        "message": "企業名を入力してください。1行に1つ。"
     },
     "saveButton": {
         "message": "保存"
     },
     "statusSaved": {
-        "message": "保存されました！ {count} 秒後に閉じます..."
+        "message": "保存しました。{count} で閉じます..."
     },
     "donateText": {
-        "message": "サポートをお願いします - コーヒーを買ってください！"
-    },
-    "footerText": {
-        "message": "LinkedIn ユーザーのために ❤️ を込めて作成されました。"
+        "message": "私の仕事を支援してください - コーヒーを買ってください!"
     },
     "toastBlockedJob": {
-        "message": "{company} からの求人をブロックしました。"
+        "message": "{company} からのジョブがブロックされました"
     },
     "errorSaving": {
-        "message": "データの保存中にエラーが発生しました。もう一度お試しください。"
+        "message": "データの保存エラー。もう一度試してください。"
     },
     "placeholderLoading": {
-        "message": "保存された企業を読み込んでいます..."
+        "message": "保存された企業を読み込み中..."
     },
     "tooltipBlockButton": {
         "message": "この企業をブロックするにはクリックしてください。"
     },
     "successAddedCompany": {
-        "message": "ブロックリストに追加された企業: {company}"
+        "message": "ブロックリストに企業を追加しました: {company}"
     },
     "errorAddingCompany": {
         "message": "企業を追加できませんでした。後でもう一度試してください。"
     },
     "popupInstructions": {
-        "message": "以下にブロックリストを管理してください。1 行につき 1 つの企業名を入力し、「保存」をクリックしてください。"
+        "message": "下のブロックリストを管理します。1行に1つの企業を入力して、保存をクリックしてください。"
     },
     "clearAllButton": {
-        "message": "すべてクリア"
+        "message": "すべての企業をクリア"
     },
     "clearConfirmation": {
-        "message": "ブロックしたすべての企業をクリアしてもよろしいですか？"
+        "message": "ブロックされたすべての企業をクリアしてもよろしいですか?"
     },
     "successClearAll": {
-        "message": "ブロックリストがクリアされました。"
+        "message": "ブロックリストをクリアしました。"
     },
     "addButton": {
         "message": "追加"
     },
     "addCompanyPlaceholder": {
-        "message": "新しい企業を追加"
+        "message": "ブロックリストに企業を追加"
     },
     "showButtonsToggle": {
-        "message": "アイコンを表示"
+        "message": "ブロックアイコンを表示"
     },
     "removeCompany": {
         "message": "この企業を削除"
@@ -84,30 +81,51 @@
         "message": "応募済み"
     },
     "quickFilterPromoted": {
-        "message": "プロモート"
+        "message": "プロモーション"
     },
     "quickFilterDismissed": {
-        "message": "却下済み"
+        "message": "却下"
     },
     "quickFilterViewed": {
-        "message": "閲覧済み"
+        "message": "表示済み"
     },
     "quickFilterAppliedTooltip": {
-        "message": "すでに応募した求人を非表示にします。"
+        "message": "すでに応募したジョブを非表示にします。"
     },
     "quickFilterPromotedTooltip": {
-        "message": "プロモートされた求人情報を非表示にします。結果が空になる場合があります。"
+        "message": "プロモーションされたジョブリストを非表示にします。注意: 空の結果が返される場合があります。"
     },
     "quickFilterDismissedTooltip": {
-        "message": "却下した求人を非表示にします。"
+        "message": "却下したジョブを非表示にします。"
     },
     "quickFilterViewedTooltip": {
-        "message": "すでに閲覧した求人を非表示にします。"
+        "message": "すでに表示したジョブを非表示にします。"
     },
     "showButtonTooltip": {
-        "message": "LinkedIn の求人投稿にアイコンを表示/非表示にして、企業を簡単にブロックします。"
+        "message": "LinkedIn ジョブ投稿のアイコンを表示/非表示にして、企業を簡単にブロックできます。"
     },
     "companies": {
-        "message": "企業"
+        "message": "ブロック済み企業"
+    },
+    "companies_tooltip": {
+        "message": "クリックしてブロックリストを展開/折りたたみます。"
+    },
+    "delete_message": {
+        "message": "削除"
+    },
+    "footerText": {
+        "message": "<span style='color:#e74c3c;'>❤️</span> で作成 <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" が正常に追加されました!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" が削除されました"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" はすでにブロックされています"
+    },
+    "toastAllCleared": {
+        "message": "すべての企業がクリアされました"
     }
 }

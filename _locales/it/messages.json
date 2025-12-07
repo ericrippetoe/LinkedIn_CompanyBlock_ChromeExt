@@ -1,21 +1,21 @@
 {
     "extensionName": {
-        "message": "Blocco Aziende LinkedIn Jobs"
+        "message": "Blocco Offerte LinkedIn"
     },
     "extensionDescription": {
-        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
+        "message": "Nascondi facilmente le offerte di lavoro su LinkedIn in base alle aziende o allo stato."
     },
     "appName": {
-        "message": "Blocco Aziende LinkedIn Jobs"
+        "message": "Blocco Offerte LinkedIn"
     },
     "appDescription": {
-        "message": "Nascondi offerte di lavoro su LinkedIn da aziende specifiche."
+        "message": "Nascondi facilmente le offerte di lavoro su LinkedIn in base alle aziende o allo stato."
     },
     "headerTitle": {
-        "message": "Nascondi Lavori LinkedIn"
+        "message": "Nascondi Offerte LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "Inserisci i nomi delle aziende, uno per riga."
+        "message": "Inserisci nomi aziende, uno per riga."
     },
     "saveButton": {
         "message": "Salva"
@@ -24,49 +24,46 @@
         "message": "Salvato! Chiusura in {count}..."
     },
     "donateText": {
-        "message": "Supporta il mio lavoro - Comprami un caffè!"
-    },
-    "footerText": {
-        "message": "Creato con ❤️ per gli utenti LinkedIn."
+        "message": "Supporta il mio lavoro - Offrimi un caffè!"
     },
     "toastBlockedJob": {
-        "message": "Lavoro bloccato da: {company}"
+        "message": "Offerta bloccata da: {company}"
     },
     "errorSaving": {
-        "message": "Errore nel salvataggio dei dati. Riprova."
+        "message": "Errore nel salvataggio. Riprova."
     },
     "placeholderLoading": {
-        "message": "Caricamento delle aziende salvate..."
+        "message": "Caricamento aziende salvate..."
     },
     "tooltipBlockButton": {
-        "message": "Clicca per bloccare questa azienda."
+        "message": "Fai clic per bloccare questa azienda."
     },
     "successAddedCompany": {
         "message": "Azienda aggiunta alla lista di blocco: {company}"
     },
     "errorAddingCompany": {
-        "message": "Impossibile aggiungere l'azienda. Riprova più tardi."
+        "message": "Impossibile aggiungere azienda. Riprova più tardi."
     },
     "popupInstructions": {
-        "message": "Gestisci la tua lista di blocco qui sotto. Inserisci un'azienda per riga e clicca su Salva."
+        "message": "Gestisci la tua lista di blocco sotto. Inserisci un'azienda per riga e fai clic su Salva."
     },
     "clearAllButton": {
-        "message": "Cancella tutto"
+        "message": "Elimina Tutte le Aziende"
     },
     "clearConfirmation": {
-        "message": "Sei sicuro di voler cancellare tutte le aziende bloccate?"
+        "message": "Sei sicuro di voler eliminare tutte le aziende bloccate?"
     },
     "successClearAll": {
-        "message": "Lista di blocco cancellata."
+        "message": "Lista di blocco svuotata."
     },
     "addButton": {
         "message": "Aggiungi"
     },
     "addCompanyPlaceholder": {
-        "message": "Aggiungi nuova azienda"
+        "message": "Aggiungi azienda alla lista di blocco"
     },
     "showButtonsToggle": {
-        "message": "Mostra icona"
+        "message": "Mostra Icona di Blocco"
     },
     "removeCompany": {
         "message": "Rimuovi questa azienda"
@@ -78,36 +75,57 @@
         "message": "Versione: {version}"
     },
     "quickFiltersTitle": {
-        "message": "Filtri rapidi"
+        "message": "Filtri Rapidi"
     },
     "quickFilterApplied": {
-        "message": "Candidata"
+        "message": "Candidature inviate"
     },
     "quickFilterPromoted": {
-        "message": "Promossa"
+        "message": "Sponsorizzate"
     },
     "quickFilterDismissed": {
-        "message": "Rifiutata"
+        "message": "Scartate"
     },
     "quickFilterViewed": {
-        "message": "Visualizzata"
+        "message": "Visualizzate"
     },
     "quickFilterAppliedTooltip": {
-        "message": "Nascondi i lavori a cui hai già candidato."
+        "message": "Nascondi le offerte a cui ti sei già candidato."
     },
     "quickFilterPromotedTooltip": {
-        "message": "Nascondi offerte di lavoro promosse. Nota che potrebbe risultare in risultati vuoti."
+        "message": "Nascondi offerte sponsorizzate. Nota: questo potrebbe risultare in risultati vuoti."
     },
     "quickFilterDismissedTooltip": {
-        "message": "Nascondi i lavori che hai rifiutato."
+        "message": "Nascondi le offerte che hai scartato."
     },
     "quickFilterViewedTooltip": {
-        "message": "Nascondi i lavori che hai già visualizzato."
+        "message": "Nascondi le offerte che hai già visualizzato."
     },
     "showButtonTooltip": {
-        "message": "Mostra/Nascondi un'icona sulle offerte di lavoro di LinkedIn per bloccare facilmente un'azienda."
+        "message": "Mostra/nascondi un'icona sugli annunci di lavoro LinkedIn per bloccare facilmente un'azienda."
     },
     "companies": {
-        "message": "Aziende"
+        "message": "Aziende Bloccate"
+    },
+    "companies_tooltip": {
+        "message": "Fai clic per espandere/comprimere la lista bloccata."
+    },
+    "delete_message": {
+        "message": "Elimina"
+    },
+    "footerText": {
+        "message": "Realizzato con <span style='color:#e74c3c;'>❤️</span> da <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" aggiunto con successo!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" è stato rimosso"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" è già bloccato"
+    },
+    "toastAllCleared": {
+        "message": "Tutte le aziende eliminate"
     }
 }

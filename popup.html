@@ -3,235 +3,7 @@
 <html>
 <head>
     <title>Job Filter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 15px;
-            margin: 0;
-            width: 350px;
-            background-color: #f4f4f4;
-            color: #333;
-            position: relative;
-        }
-
-        #header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-            border: 2px solid #255898;
-            color: #255898;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        #header img {
-            width: 30px;
-            height: 30px;
-            margin-right: 8px;
-        }
-
-        #header h2 {
-            font-size: 16px;
-            margin: 0;
-            line-height: 1.0;
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #255898;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .toggle-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .toggle input[type="checkbox"] {
-            appearance: none;
-            width: 30px;
-            height: 16px;
-            background-color: #ddd;
-            border-radius: 8px;
-            position: relative;
-            outline: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .toggle input[type="checkbox"]:checked {
-            background-color: #4CAF50;
-        }
-
-        .toggle input[type="checkbox"]::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 12px;
-            height: 12px;
-            background-color: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .toggle input[type="checkbox"]:checked::before {
-            transform: translateX(14px);
-        }
-
-        .section-break {
-            border-top: 1px solid #ddd;
-            margin: 15px 0;
-        }
-
-        .company-section {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
-        .company-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 10px;
-        }
-
-        .company-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 8px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .company-item button {
-            background-color: #c0392b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 3px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .company-item button:hover {
-            background-color: #a93226;
-        }
-
-        .add-company {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-
-        .add-company input {
-            flex-grow: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .add-company button {
-            background-color: #0073b1;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .add-company button:hover {
-            background-color: #005582;
-        }
-
-        .clear-all-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #c0392b;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-bottom: 10px;
-        }
-
-        .clear-all-btn:hover {
-            background-color: #a93226;
-        }
-
-        #bmc-container {
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        #bmc-container a {
-            display: inline-block;
-            margin-top: 0px;
-            padding: 10px 15px;
-            background-color: #4CAF50; /* Muted green */
-            color: #fff;
-            font-size: 12px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-
-        #bmc-container a:hover {
-            background-color: #45A049; /* Slightly darker green on hover */
-        }
-
-        footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        footer span {
-            font-size: 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <div id="header">
@@ -239,63 +11,70 @@
         <h2 id="header-title">Loading...</h2>
     </div>
 
-    <div class="section">
-        <div class="section-title" id="quick-filters-title">Quick Filters</div>
-        <div class="toggle-group">
-            <div class="toggle">
-                <span id="toggle-applied-label">Applied</span>
-                <input type="checkbox" id="toggle-applied">
+    <div class="content-wrapper">
+        <div class="main-content">
+            <!-- QUICK FILTERS SECTION -->
+            <div class="section">
+                <div class="section-title" id="quick-filters-title">Quick Filters</div>
+                <div class="toggle-group">
+                    <div class="quick-toggle" title="Hide jobs you've applied to">
+                        <span class="quick-toggle-label" id="toggle-applied-label">Applied</span>
+                        <input type="checkbox" id="toggle-applied">
+                    </div>
+                    <div class="quick-toggle" title="Hide promoted job listings">
+                        <span class="quick-toggle-label" id="toggle-promoted-label">Promoted</span>
+                        <input type="checkbox" id="toggle-promoted">
+                    </div>
+                    <div class="quick-toggle" title="Hide dismissed jobs">
+                        <span class="quick-toggle-label" id="toggle-dismissed-label">Dismissed</span>
+                        <input type="checkbox" id="toggle-dismissed">
+                    </div>
+                    <div class="quick-toggle" title="Hide viewed jobs">
+                        <span class="quick-toggle-label" id="toggle-viewed-label">Viewed</span>
+                        <input type="checkbox" id="toggle-viewed">
+                    </div>
+                </div>  
             </div>
-            <div class="toggle">
-                <span id="toggle-promoted-label">Promoted</span>
-                <input type="checkbox" id="toggle-promoted">
+
+            <!-- SHOW ICON TOGGLE SECTION -->
+            <div class="section">
+                <div class="show-icon-toggle full-width-toggle" title="Show/hide block buttons on job cards">
+                    <div class="toggle-left">
+                        <span id="show-icon-label">Display Block Icon</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#0a66c2" class="bi bi-eye-slash-fill">
+                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
+                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
+                        </svg>
+                    </div>
+                    <input type="checkbox" id="toggle-show-buttons">
+                </div>
             </div>
-            <div class="toggle">
-                <span id="toggle-dismissed-label">Dismissed</span>
-                <input type="checkbox" id="toggle-dismissed">
-            </div>
-            <div class="toggle">
-                <span id="toggle-viewed-label">Viewed</span>
-                <input type="checkbox" id="toggle-viewed">
+
+            <div class="section-break"></div>
+
+            <!-- COMPANIES SECTION -->
+            <div class="section">
+                <div class="company-section">
+                    <div class="company-badge" id="company-badge" title="Click to expand/collapse">
+                        <span id="companies-label">Companies</span>
+                        <span class="count" id="company-count-badge">0</span>
+                    </div>
+                    <div class="company-list" id="company-list" style="display: none;">
+                        <!-- Company items populate here -->
+                    </div>
+                    <div class="add-company">
+                        <input type="text" id="new-company" placeholder="Add new company">
+                        <button id="add-company-btn">Add</button>
+                    </div>
+                    <button id="clear-all-btn" class="clear-all-btn">Clear All</button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="section-break"></div>
-
-    <div class="section">
-        <div class="section-title">
-            <span id="companies-label">Companies</span> - <span id="company-count">0</span>
-            <div class="toggle" style="display: flex; align-items: center; gap: 8px;">
-                <span id="show-icon-label">Show Icon</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0a66c2" class="bi bi-eye-slash-fill">
-                    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
-                    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
-                </svg>
-                <input type="checkbox" id="toggle-show-buttons">
-            </div>
-            
-        </div>
-        <div class="company-section">
-            <div class="company-list" id="company-list"></div>
-            <div class="add-company">
-                <input type="text" id="new-company" placeholder="Add new company">
-                <button id="add-company-btn">Add</button>
-            </div>
-            <button id="clear-all-btn" class="clear-all-btn">Clear All</button>
-        </div>
-    </div>
-
-    <div id="bmc-container">
-        <a href="https://www.buymeacoffee.com/ericrippetoe" target="_blank">
-            Buy Me a Coffee!
-        </a>
     </div>
 
     <footer>
         <span id="version-number"></span>
-        <span id="footer-text">Made with &#10084; for LinkedIn users.</span>
-        <a href="#" id="support-link" style="display: none;">Help</a>
+        <span id="footer-text"></span>
     </footer>
 
     <script src="popup.js"></script>

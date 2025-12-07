@@ -1,113 +1,131 @@
 {
     "extensionName": {
-        "message": "Bloqueador de Empresas de LinkedIn Jobs"
+        "message": "Bloqueur d'emplois LinkedIn"
     },
     "extensionDescription": {
-        "message": "Oculta ofertas de empleo en LinkedIn de empresas que especifiques."
+        "message": "Masquez facilement les offres d'emploi sur LinkedIn selon les entreprises ou le statut."
     },
     "appName": {
-        "message": "Bloqueador de Empresas de LinkedIn Jobs"
+        "message": "Bloqueur d'emplois LinkedIn"
     },
     "appDescription": {
-        "message": "Oculta ofertas de empleo en LinkedIn de empresas específicas."
+        "message": "Masquez facilement les offres d'emploi sur LinkedIn selon les entreprises ou le statut."
     },
     "headerTitle": {
-        "message": "Ocultar empleos de LinkedIn"
+        "message": "Masquer les emplois LinkedIn"
     },
     "textareaPlaceholder": {
-        "message": "Introduce nombres de empresas, una por línea."
+        "message": "Entrez les noms d'entreprises, un par ligne."
     },
     "saveButton": {
-        "message": "Guardar"
+        "message": "Enregistrer"
     },
     "statusSaved": {
-        "message": "¡Guardado! Cerrando en {count}..."
+        "message": "Enregistré ! Fermeture dans {count}..."
     },
     "donateText": {
-        "message": "Apoya mi trabajo - ¡Cómprame un café!"
-    },
-    "footerText": {
-        "message": "Hecho con ❤️ para los usuarios de LinkedIn."
+        "message": "Soutenez mon travail - Offrez-moi un café !"
     },
     "toastBlockedJob": {
-        "message": "Empleo bloqueado de: {company}"
+        "message": "Offre bloquée de : {company}"
     },
     "errorSaving": {
-        "message": "Error al guardar los datos. Por favor, inténtalo de nuevo."
+        "message": "Erreur d'enregistrement. Veuillez réessayer."
     },
     "placeholderLoading": {
-        "message": "Cargando empresas guardadas..."
+        "message": "Chargement des entreprises enregistrées..."
     },
     "tooltipBlockButton": {
-        "message": "Haz clic para bloquear esta empresa."
+        "message": "Cliquez pour bloquer cette entreprise."
     },
     "successAddedCompany": {
-        "message": "Empresa añadida a la lista de bloqueo: {company}"
+        "message": "Entreprise ajoutée à la liste de blocage : {company}"
     },
     "errorAddingCompany": {
-        "message": "No se pudo añadir la empresa. Inténtalo más tarde."
+        "message": "Impossible d'ajouter l'entreprise. Réessayez plus tard."
     },
     "popupInstructions": {
-        "message": "Administra tu lista de bloqueo abajo. Introduce una empresa por línea y haz clic en Guardar."
+        "message": "Gérez votre liste de blocage ci-dessous. Entrez une entreprise par ligne et cliquez sur Enregistrer."
     },
     "clearAllButton": {
-        "message": "Borrar todo"
+        "message": "Effacer toutes les entreprises"
     },
     "clearConfirmation": {
-        "message": "¿Estás seguro de que deseas borrar todas las empresas bloqueadas?"
+        "message": "Êtes-vous sûr de vouloir effacer toutes les entreprises bloquées ?"
     },
     "successClearAll": {
-        "message": "Lista de bloqueo borrada."
+        "message": "Liste de blocage vidée."
     },
     "addButton": {
-        "message": "Añadir"
+        "message": "Ajouter"
     },
     "addCompanyPlaceholder": {
-        "message": "Añadir nueva empresa"
+        "message": "Ajouter une entreprise à la liste de blocage"
     },
     "showButtonsToggle": {
-        "message": "Mostrar icono"
+        "message": "Afficher l'icône de blocage"
     },
     "removeCompany": {
-        "message": "Eliminar esta empresa"
+        "message": "Supprimer cette entreprise"
     },
     "helpText": {
-        "message": "Ayuda"
+        "message": "Aide"
     },
     "versionNumber": {
-        "message": "Versión: {version}"
+        "message": "Version : {version}"
     },
     "quickFiltersTitle": {
-        "message": "Filtros rápidos"
+        "message": "Filtres rapides"
     },
     "quickFilterApplied": {
-        "message": "Aplicado"
+        "message": "Postulées"
     },
     "quickFilterPromoted": {
-        "message": "Promocionado"
+        "message": "Sponsorisées"
     },
     "quickFilterDismissed": {
-        "message": "Descartado"
+        "message": "Rejetées"
     },
     "quickFilterViewed": {
-        "message": "Visto"
+        "message": "Consultées"
     },
     "quickFilterAppliedTooltip": {
-        "message": "Ocultar empleos a los que ya has aplicado."
+        "message": "Masquer les offres auxquelles vous avez déjà postulé."
     },
     "quickFilterPromotedTooltip": {
-        "message": "Ocultar ofertas de empleo promocionadas. Esto podría resultar en resultados vacíos."
+        "message": "Masquer les offres sponsorisées. Note : cela peut entraîner des résultats vides."
     },
     "quickFilterDismissedTooltip": {
-        "message": "Ocultar empleos que has descartado."
+        "message": "Masquer les offres que vous avez rejetées."
     },
     "quickFilterViewedTooltip": {
-        "message": "Ocultar empleos que ya has visto."
+        "message": "Masquer les offres que vous avez déjà consultées."
     },
     "showButtonTooltip": {
-        "message": "Mostrar/Ocultar un icono en las ofertas de empleo de LinkedIn para bloquear fácilmente una empresa."
+        "message": "Afficher/masquer une icône sur les offres LinkedIn pour bloquer facilement une entreprise."
     },
     "companies": {
-        "message": "Empresas"
+        "message": "Entreprises bloquées"
+    },
+    "companies_tooltip": {
+        "message": "Cliquez pour développer/replier la liste bloquée."
+    },
+    "delete_message": {
+        "message": "Supprimer"
+    },
+    "footerText": {
+        "message": "Fait avec <span style='color:#e74c3c;'>❤️</span> par <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "« {company} » ajoutée avec succès !"
+    },
+    "toastCompanyRemoved": {
+        "message": "« {company} » supprimée"
+    },
+    "toastCompanyExists": {
+        "message": "« {company} » déjà bloquée"
+    },
+    "toastAllCleared": {
+        "message": "Toutes les entreprises supprimées"
     }
 }
