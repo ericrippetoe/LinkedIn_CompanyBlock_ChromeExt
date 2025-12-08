@@ -21,10 +21,9 @@ body {
     justify-content: center;
     margin: 8px 0 10px 0;
     background-color: #f9f9f9;
-    border: 1px solid #255898;
     color: #255898;
     padding: 8px 15px;
-    margin: 10px;
+    margin: 5px;
     border-radius: 8px;
     text-align: center;
     flex-shrink: 0;
@@ -43,7 +42,7 @@ body {
 }
 
 .content-wrapper {
-    padding: 0 15px 15px 15px;
+    padding: 0 15px 0px 15px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -63,7 +62,7 @@ body {
 .section-title {
     font-weight: bold;
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: #255898;
     display: flex;
     justify-content: space-between;
@@ -290,7 +289,7 @@ body {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 /* Add Button - Teal gradient */
@@ -300,7 +299,7 @@ body {
     border: none;
     border-radius: 12px;
     padding: 10px 16px;
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -320,12 +319,12 @@ body {
 /* Clear All Button - Red gradient */
 .clear-all-btn {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     background: linear-gradient(135deg, #ff6b6b 0%, #c0392b 100%);
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -464,4 +463,46 @@ footer span {
     justify-content: center;
     width: 20px;
     height: 20px;
+}
+
+.li-jobs-bar {
+  margin: 0 15px 4px 15px;     /* align with content padding */
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #00c9ff 0%, #0A66C2 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 102, 194, 0.35);
+  cursor: pointer;
+  flex-shrink: 0;              /* keep height stable */
+}
+
+.li-jobs-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 102, 194, 0.45);
+}
+
+.li-jobs-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #0A66C2;              /* LinkedIn blue */
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.li-jobs-text {
+  letter-spacing: 0.02em;
 }
