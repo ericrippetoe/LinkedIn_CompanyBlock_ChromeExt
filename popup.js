@@ -185,8 +185,19 @@ function restoreToggleStates() {
         toggleKeys.forEach((toggleKey) => {
             const toggle = document.getElementById(`toggle-${toggleKey}`);
             if (toggle) {
-                toggle.checked = data[toggleKey] ?? toggleKey === 'show-buttons';
+                const isChecked = data[toggleKey] ?? toggleKey === 'show-buttons';
+                toggle.checked = isChecked;
                 toggle.addEventListener('change', () => saveState(toggleKey, toggle.checked));
+
+                // Update visual state for filter pills
+                const filterPill = toggle.closest('.filter-pill');
+                if (filterPill) {
+                    if (isChecked) {
+                        filterPill.classList.add('active');
+                    } else {
+                        filterPill.classList.remove('active');
+                    }
+                }
             }
         });
     });
@@ -280,6 +291,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Filter pill click handlers - make entire pill clickable
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+        const checkbox = pill.querySelector('input[type="checkbox"]');
+
+        // Click on entire pill toggles the checkbox
+        pill.addEventListener('click', (e) => {
+            // Don't toggle if clicking on the checkbox itself
+            if (e.target !== checkbox) {
+                checkbox.checked = !checkbox.checked;
+                // Trigger change event to save state
+                checkbox.dispatchEvent(new Event('change'));
+            }
+            // Update visual state
+            updateFilterPillVisualState(pill, checkbox.checked);
+        });
+
+        // Update visual state when checkbox changes
+        checkbox.addEventListener('change', () => {
+            updateFilterPillVisualState(pill, checkbox.checked);
+        });
+    });
+
+    // Function to update filter pill visual state
+    function updateFilterPillVisualState(pill, isActive) {
+        if (isActive) {
+            pill.classList.add('active');
+        } else {
+            pill.classList.remove('active');
+        }
+    }
 
     // Version number
     const versionNumber = chrome.runtime.getManifest().version;

@@ -50,7 +50,6 @@ function restoreOptions() {
     document.getElementById('companyNames').placeholder = getMessage('textareaPlaceholder');
     document.getElementById('save').textContent = getMessage('saveButton');
     document.getElementById('clear').textContent = getMessage('clearButton');
-    document.querySelector('footer').textContent = getMessage('footerText');
 }
 
 // Event listeners

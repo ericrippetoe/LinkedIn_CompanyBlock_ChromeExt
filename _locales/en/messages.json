@@ -47,6 +47,9 @@
     "popupInstructions": {
         "message": "Manage your block list below. Enter one company per line and click Save."
     },
+    "clearButton": {
+        "message": "Clear All"
+    },
     "clearAllButton": {
         "message": "Clear All Companies"
     },
