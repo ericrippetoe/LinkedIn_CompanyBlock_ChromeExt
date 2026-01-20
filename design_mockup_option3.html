@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Design Option 3 - List Style</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            width: 350px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .header img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* List-style section */
+        .filter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-header {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* List item with switch */
+        .filter-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .filter-item:hover {
+            background: #f8f9fa;
+        }
+        .filter-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .filter-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f0f7ff 100%);
+        }
+        .filter-item.active .filter-icon {
+            background: linear-gradient(135deg, #0073b1 0%, #005582 100%);
+            color: white;
+        }
+        .filter-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .filter-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        .filter-desc {
+            font-size: 11px;
+            color: #999;
+        }
+
+        /* Modern toggle switch */
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: #ddd;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+        .toggle-switch.active {
+            background: #4CAF50;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 4px 12px;
+        }
+
+        /* Company section */
+        .company-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .company-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .company-count {
+            background: rgba(255,255,255,0.3);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .note {
+            margin-top: 16px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230073b1'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E" alt="Icon">
+        <h2>Hide LinkedIn Jobs</h2>
+    </div>
+
+    <div class="filter-section">
+        <div class="section-header">Quick Filters</div>
+
+        <div class="filter-item active">
+            <div class="filter-item-left">
+                <div class="filter-icon">✓</div>
+                <div class="filter-info">
+                    <div class="filter-label">Applied</div>
+                    <div class="filter-desc">Hide applied jobs</div>
+                </div>
+            </div>
+            <div class="toggle-switch active"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="filter-item">
+            <div class="filter-item-left">
+                <div class="filter-icon">📢</div>
+                <div class="filter-info">
+                    <div class="filter-label">Promoted</div>
+                    <div class="filter-desc">Hide promoted listings</div>
+                </div>
+            </div>
+            <div class="toggle-switch"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="filter-item active">
+            <div class="filter-item-left">
+                <div class="filter-icon">🚫</div>
+                <div class="filter-info">
+                    <div class="filter-label">Dismissed</div>
+                    <div class="filter-desc">Hide dismissed jobs</div>
+                </div>
+            </div>
+            <div class="toggle-switch active"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="filter-item">
+            <div class="filter-item-left">
+                <div class="filter-icon">👀</div>
+                <div class="filter-info">
+                    <div class="filter-label">Viewed</div>
+                    <div class="filter-desc">Hide viewed jobs</div>
+                </div>
+            </div>
+            <div class="toggle-switch"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="filter-item active">
+            <div class="filter-item-left">
+                <div class="filter-icon">👁️</div>
+                <div class="filter-info">
+                    <div class="filter-label">Display Block Icon</div>
+                    <div class="filter-desc">Show block button on jobs</div>
+                </div>
+            </div>
+            <div class="toggle-switch active"></div>
+        </div>
+    </div>
+
+    <div class="company-section">
+        <div class="company-badge">
+            <span>Companies Blocked</span>
+            <span class="company-count">12</span>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>Option 3: List Style</strong><br>
+        • Settings-app style layout<br>
+        • Each item has icon + description<br>
+        • Right-aligned toggle switches<br>
+        • Most space-efficient<br>
+        • Easy to scan and understand
+    </div>
+</body>
+</html>
