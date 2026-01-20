@@ -16,6 +16,17 @@ class LinkedInJobBlocker {
     this.toastHiddenCount = 0;
     this.toastBatchTimer = null;
 
+    // Pre-compiled regex patterns for performance
+    this.patterns = {
+      dismissed: /We['']t show you this job again\./i,
+      applied: /Applied/i,
+      promoted: /Promoted/i,
+      viewed: /Viewed/i
+    };
+
+    // Debug flag (set to false for production)
+    this.debug = false;
+
     // Initialize
     this.init();
   }
@@ -77,6 +88,7 @@ class LinkedInJobBlocker {
   // =========================================================================
 
   logSettings() {
+    if (!this.debug) return;
     console.info('=== Extension Settings ===');
     console.info(`Applied: ${this.cachedSettings.applied === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.applied}`);
     console.info(`Promoted: ${this.cachedSettings.promoted === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.promoted}`);
@@ -226,6 +238,9 @@ class LinkedInJobBlocker {
     // Check if 'show-buttons' is enabled
     if (!this.cachedSettings['show-buttons']) return;
 
+    // Early exit if button already added (tracked by data attribute)
+    if (listing.hasAttribute('data-block-btn-added')) return;
+
     const footer = listing.querySelector('.job-card-list__footer-wrapper');
     if (!footer || footer.querySelector('.job-card-container__footer-item.block-company')) {
       return;
@@ -253,6 +268,9 @@ class LinkedInJobBlocker {
     });
 
     footer.appendChild(blockButton);
+
+    // Mark listing as processed
+    listing.setAttribute('data-block-btn-added', 'true');
   }
 
   handleBlockCompany(companyName) {
@@ -278,12 +296,16 @@ class LinkedInJobBlocker {
 
   hideListedCompanies() {
     const companiesToBlock = this.cachedSettings.companies || [];
+
+    // Query DOM once
     const jobListings = document.querySelectorAll(
       'li[id^="ember"]:not(.hidden-job), li.discovery-templates-entity-item:not(.hidden-job)'
     );
 
+    // Use Set for O(1) lookups instead of O(n) Array.includes()
+    const blockedSet = new Set(companiesToBlock);
+
     let hiddenByCompanyCount = 0;
-    let hiddenBySettingsCount = 0;
 
     jobListings.forEach((listing) => {
       const companyNameElement = listing.querySelector('.artdeco-entity-lockup__subtitle span');
@@ -291,20 +313,22 @@ class LinkedInJobBlocker {
 
       const companyName = companyNameElement.textContent.trim();
 
-      // Block by company
-      if (companiesToBlock.includes(companyName)) {
+      // Block by company - O(1) lookup with Set
+      if (blockedSet.has(companyName)) {
         listing.style.display = 'none';
         listing.classList.add('hidden-job');
         hiddenByCompanyCount++;
-        console.info(`Job hidden for company: ${companyName}`);
+        if (this.debug) {
+          console.info(`Job hidden for company: ${companyName}`);
+        }
       } else {
         // Add block button for visible jobs
         this.addBlockButton(listing, companyName);
       }
     });
 
-    // Hide by footer text settings and collect count
-    hiddenBySettingsCount = this.hideJobsByFooterText();
+    // Hide by footer text settings and collect count - reuse jobListings
+    const hiddenBySettingsCount = this.hideJobsByFooterText(jobListings);
 
     // Show one batched toast for all hidden items
     const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount;
@@ -314,12 +338,8 @@ class LinkedInJobBlocker {
   }
 
   // Enhanced footer text logic with dismiss via class and text fallback
-  hideJobsByFooterText() {
+  hideJobsByFooterText(jobListings) {
     const { applied, promoted, viewed, dismissed } = this.cachedSettings;
-
-    const jobListings = document.querySelectorAll(
-      'li[id^="ember"]:not(.hidden-job), li.discovery-templates-entity-item:not(.hidden-job)'
-    );
 
     let hiddenCount = 0;
 
@@ -349,10 +369,11 @@ class LinkedInJobBlocker {
       // Normalize dismiss text
       const dismissText = dismissTextRaw.trim().replace(/\s+/g, ' ');
 
-      const dismissedMatches = !!(dismissed && /We['’]t show you this job again\./i.test(dismissText));
-      const appliedMatches = !!(applied && /Applied/i.test(footerText));
-      const promotedMatches = !!(promoted && /Promoted/i.test(footerText));
-      const viewedMatches = !!(viewed && /Viewed/i.test(footerText));
+      // Use pre-compiled regex patterns for performance
+      const dismissedMatches = !!(dismissed && this.patterns.dismissed.test(dismissText));
+      const appliedMatches = !!(applied && this.patterns.applied.test(footerText));
+      const promotedMatches = !!(promoted && this.patterns.promoted.test(footerText));
+      const viewedMatches = !!(viewed && this.patterns.viewed.test(footerText));
 
       if (appliedMatches || promotedMatches || viewedMatches || dismissedMatches) {
         listing.style.display = 'none';
