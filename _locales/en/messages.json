@@ -93,16 +93,16 @@
         "message": "Viewed"
     },
     "quickFilterAppliedTooltip": {
-        "message": "Hide jobs that you’ve already applied to."
+        "message": "Hide jobs that you’ve applied to."
     },
     "quickFilterPromotedTooltip": {
-        "message": "Hide promoted job listings. Please note this might result in empty results."
+        "message": "Hide promoted job listings."
     },
     "quickFilterDismissedTooltip": {
         "message": "Hide jobs that you have dismissed."
     },
     "quickFilterViewedTooltip": {
-        "message": "Hide jobs that you’ve already viewed."
+        "message": "Hide jobs that you’ve viewed."
     },
     "showButtonTooltip": {
         "message": "Show/Hide an icon on LinkedIn jobs posting to easily hide a company."
