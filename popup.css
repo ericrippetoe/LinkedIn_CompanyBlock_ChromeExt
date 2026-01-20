@@ -360,8 +360,8 @@ footer span {
 }
 
 /* ========== TOOLTIPS ========== */
-[title]:hover:after {
-    content: attr(title);
+[data-tooltip]:hover:after {
+    content: attr(data-tooltip);
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -381,7 +381,7 @@ footer span {
     pointer-events: none;
 }
 
-[title]:hover:before {
+[data-tooltip]:hover:before {
     content: '';
     position: absolute;
     bottom: 100%;

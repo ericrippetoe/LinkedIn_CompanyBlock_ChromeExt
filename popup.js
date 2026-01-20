@@ -236,30 +236,32 @@ function setLocalizedText() {
 }
 
 function addTooltips() {
-    // Cache element references for better performance
+    // Set data-tooltip attributes for localization (not title to avoid duplicate tooltips)
     const elements = {
-        toggleAppliedLabel: document.getElementById('toggle-applied-label'),
-        togglePromotedLabel: document.getElementById('toggle-promoted-label'),
-        toggleDismissedLabel: document.getElementById('toggle-dismissed-label'),
-        toggleViewedLabel: document.getElementById('toggle-viewed-label'),
-        showIconLabel: document.getElementById('show-icon-label')
+        appliedPill: document.querySelector('[data-filter="applied"]'),
+        promotedPill: document.querySelector('[data-filter="promoted"]'),
+        dismissedPill: document.querySelector('[data-filter="dismissed"]'),
+        viewedPill: document.querySelector('[data-filter="viewed"]'),
+        showButtonsPill: document.querySelector('[data-filter="show-buttons"]'),
+        companyBadge: document.getElementById('company-badge')
     };
 
-    elements.toggleAppliedLabel.title = getLocalizedMessage('quickFilterAppliedTooltip');
-    elements.togglePromotedLabel.title = getLocalizedMessage('quickFilterPromotedTooltip');
-    elements.toggleDismissedLabel.title = getLocalizedMessage('quickFilterDismissedTooltip');
-    elements.toggleViewedLabel.title = getLocalizedMessage('quickFilterViewedTooltip');
-    elements.showIconLabel.title = getLocalizedMessage('showButtonTooltip');
+    if (elements.appliedPill) elements.appliedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterAppliedTooltip'));
+    if (elements.promotedPill) elements.promotedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterPromotedTooltip'));
+    if (elements.dismissedPill) elements.dismissedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterDismissedTooltip'));
+    if (elements.viewedPill) elements.viewedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterViewedTooltip'));
+    if (elements.showButtonsPill) elements.showButtonsPill.setAttribute('data-tooltip', getLocalizedMessage('showButtonTooltip'));
+    if (elements.companyBadge) elements.companyBadge.setAttribute('data-tooltip', getLocalizedMessage('companies_tooltip'));
 }
 
 // SINGLE DOMContentLoaded - All initialization
 document.addEventListener('DOMContentLoaded', () => {
     // Hide company list initially
     document.getElementById('company-list').style.display = 'none';
-    
+
     // Add click handler to company badge
     document.querySelector('.company-badge').addEventListener('click', toggleCompanies);
-    
+
     // Initialize everything
     restoreCompanyList();
     restoreToggleStates();

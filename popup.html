@@ -20,25 +20,25 @@
 
                     <!-- 2x2 Grid for main filters -->
                     <div class="filter-pill-grid">
-                        <div class="filter-pill" data-filter="applied" title="Hide jobs you've applied to">
+                        <div class="filter-pill" data-filter="applied" data-tooltip="Hide jobs you've applied to">
                             <span class="pill-icon">✓</span>
                             <span class="pill-label" id="toggle-applied-label">Applied</span>
                             <input type="checkbox" id="toggle-applied">
                         </div>
 
-                        <div class="filter-pill" data-filter="promoted" title="Hide promoted job listings">
+                        <div class="filter-pill" data-filter="promoted" data-tooltip="Hide promoted job listings">
                             <span class="pill-icon">📢</span>
                             <span class="pill-label" id="toggle-promoted-label">Promoted</span>
                             <input type="checkbox" id="toggle-promoted">
                         </div>
 
-                        <div class="filter-pill" data-filter="dismissed" title="Hide dismissed jobs">
+                        <div class="filter-pill" data-filter="dismissed" data-tooltip="Hide dismissed jobs">
                             <span class="pill-icon">🚫</span>
                             <span class="pill-label" id="toggle-dismissed-label">Dismissed</span>
                             <input type="checkbox" id="toggle-dismissed">
                         </div>
 
-                        <div class="filter-pill" data-filter="viewed" title="Hide viewed jobs">
+                        <div class="filter-pill" data-filter="viewed" data-tooltip="Hide viewed jobs">
                             <span class="pill-icon">👀</span>
                             <span class="pill-label" id="toggle-viewed-label">Viewed</span>
                             <input type="checkbox" id="toggle-viewed">
@@ -46,7 +46,7 @@
                     </div>
 
                     <!-- Full-width Display Block Icon toggle -->
-                    <div class="filter-pill filter-pill-full" data-filter="show-buttons" title="Show/hide block buttons on job cards">
+                    <div class="filter-pill filter-pill-full" data-filter="show-buttons" data-tooltip="Show/hide block buttons on job cards">
                         <span class="pill-icon">👁️</span>
                         <span class="pill-label" id="show-icon-label">Display Block Icon</span>
                         <input type="checkbox" id="toggle-show-buttons">
@@ -57,7 +57,7 @@
             <!-- COMPANIES SECTION -->
             <div class="section">
                 <div class="company-section">
-                    <div class="company-badge" id="company-badge" title="Click to expand/collapse">
+                    <div class="company-badge" id="company-badge" data-tooltip="Click to expand/collapse">
                         <span id="companies-label">Companies</span>
                         <span class="count" id="company-count-badge">0</span>
                     </div>
