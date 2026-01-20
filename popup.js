@@ -235,22 +235,8 @@ function setLocalizedText() {
     elements.companiesLabel.textContent = getLocalizedMessage('companies');
 }
 
-function addTooltips() {
-    // Cache element references for better performance
-    const elements = {
-        toggleAppliedLabel: document.getElementById('toggle-applied-label'),
-        togglePromotedLabel: document.getElementById('toggle-promoted-label'),
-        toggleDismissedLabel: document.getElementById('toggle-dismissed-label'),
-        toggleViewedLabel: document.getElementById('toggle-viewed-label'),
-        showIconLabel: document.getElementById('show-icon-label')
-    };
-
-    elements.toggleAppliedLabel.title = getLocalizedMessage('quickFilterAppliedTooltip');
-    elements.togglePromotedLabel.title = getLocalizedMessage('quickFilterPromotedTooltip');
-    elements.toggleDismissedLabel.title = getLocalizedMessage('quickFilterDismissedTooltip');
-    elements.toggleViewedLabel.title = getLocalizedMessage('quickFilterViewedTooltip');
-    elements.showIconLabel.title = getLocalizedMessage('showButtonTooltip');
-}
+// Tooltips are now handled via data-tooltip attributes in HTML
+// No need for JavaScript to add title attributes
 
 // SINGLE DOMContentLoaded - All initialization
 document.addEventListener('DOMContentLoaded', () => {
@@ -264,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
     restoreCompanyList();
     restoreToggleStates();
     setLocalizedText();
-    addTooltips();
 
     // Clear all button
     document.getElementById('clear-all-btn').addEventListener('click', clearAllCompanies);
