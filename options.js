@@ -5,14 +5,13 @@ function getMessage(key) {
 
 // Function to save the company names
 function saveOptions() {
-    const companyNames = document.getElementById('companyNames').value
-        .split('\n') // Split by lines
-        .map(name => name.trim()) // Remove extra spaces
-        .filter(name => name) // Filter out empty lines
-        .reduce((unique, item) => {
-            if (!unique.includes(item)) unique.push(item); // Ensure uniqueness
-            return unique;
-        }, []);
+    // Use Set for O(1) uniqueness check instead of O(n²) Array.includes()
+    const companyNames = [...new Set(
+        document.getElementById('companyNames').value
+            .split('\n') // Split by lines
+            .map(name => name.trim()) // Remove extra spaces
+            .filter(name => name) // Filter out empty lines
+    )];
 
     chrome.storage.local.set({ companies: companyNames }, function () {
         if (chrome.runtime.lastError) {

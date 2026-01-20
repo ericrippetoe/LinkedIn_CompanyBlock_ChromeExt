@@ -1,3 +1,54 @@
+// In-memory state manager for batched storage operations
+class PopupState {
+    constructor() {
+        this.companies = [];
+        this.pendingWrite = null;
+        this.batchDelay = 100; // ms
+    }
+
+    setCompanies(companies) {
+        this.companies = companies;
+        this.scheduleSave();
+    }
+
+    addCompany(name) {
+        if (!this.companies.includes(name)) {
+            this.companies.push(name);
+            this.scheduleSave();
+            return true;
+        }
+        return false;
+    }
+
+    removeCompany(name) {
+        const index = this.companies.indexOf(name);
+        if (index !== -1) {
+            this.companies.splice(index, 1);
+            this.scheduleSave();
+            return true;
+        }
+        return false;
+    }
+
+    clearCompanies() {
+        this.companies = [];
+        this.scheduleSave();
+    }
+
+    scheduleSave() {
+        clearTimeout(this.pendingWrite);
+        this.pendingWrite = setTimeout(() => {
+            chrome.storage.local.set({ companies: this.companies }, () => {
+                if (chrome.runtime.lastError) {
+                    console.error('Error saving state:', chrome.runtime.lastError);
+                }
+            });
+        }, this.batchDelay);
+    }
+}
+
+const popupState = new PopupState();
+
 // Helper function to save state
 function saveState(key, value) {
     chrome.storage.local.set({ [key]: value }, () => {
@@ -23,8 +74,9 @@ function toggleCompanies() {
 // Helper function to fetch localized messages with placeholders
 function getLocalizedMessage(key, params = {}) {
     let message = chrome.i18n.getMessage(key) || key;
-    Object.keys(params).forEach(param => {
-        message = message.replace(new RegExp(`\\{${param}\\}`, 'g'), params[param]);
+    // Use replaceAll instead of creating new RegExp objects in loop
+    Object.entries(params).forEach(([key, value]) => {
+        message = message.replaceAll(`{${key}}`, value);
     });
     return message;
 }
@@ -50,50 +102,45 @@ function showToast(message, type = 'success') {
 function restoreCompanyList() {
     chrome.storage.local.get('companies', (data) => {
         const companies = data.companies || [];
+        popupState.companies = companies; // Update in-memory state
+
         const companyCount = document.getElementById('company-count');
         const companyCountBadge = document.getElementById('company-count-badge');
-        
+
         if (companyCount) companyCount.textContent = `${companies.length}`;
         if (companyCountBadge) companyCountBadge.textContent = `${companies.length}`;
-        
+
         const companyList = document.getElementById('company-list');
         companyList.innerHTML = '';
+
+        // Use DocumentFragment for batch DOM updates - single reflow
+        const fragment = document.createDocumentFragment();
         companies.forEach((company) => {
             const item = createCompanyItem(company);
-            companyList.appendChild(item);
+            fragment.appendChild(item);
         });
+        companyList.appendChild(fragment);
     });
 }
 
 // Add new company
 function addCompany(companyName) {
-    chrome.storage.local.get('companies', (data) => {
-        const companies = data.companies || [];
-        if (!companies.includes(companyName)) {
-            companies.push(companyName);
-            chrome.storage.local.set({ companies }, () => {
-                restoreCompanyList();
-                showToast(getLocalizedMessage('toastCompanyAdded', {company: companyName}), 'success');
-            });
-        } else {
-            showToast(getLocalizedMessage('toastCompanyExists', {company: companyName}), 'error');
-        }
-    });
+    const added = popupState.addCompany(companyName);
+    if (added) {
+        restoreCompanyList();
+        showToast(getLocalizedMessage('toastCompanyAdded', {company: companyName}), 'success');
+    } else {
+        showToast(getLocalizedMessage('toastCompanyExists', {company: companyName}), 'error');
+    }
 }
 
 // Remove a company
 function removeCompany(companyName) {
-    chrome.storage.local.get('companies', (data) => {
-        const companies = data.companies || [];
-        const index = companies.indexOf(companyName);
-        if (index !== -1) {
-            companies.splice(index, 1);
-            chrome.storage.local.set({ companies }, () => {
-                restoreCompanyList();
-                showToast(getLocalizedMessage('toastCompanyRemoved', {company: companyName}), 'success');
-            });
-        }
-    });
+    const removed = popupState.removeCompany(companyName);
+    if (removed) {
+        restoreCompanyList();
+        showToast(getLocalizedMessage('toastCompanyRemoved', {company: companyName}), 'success');
+    }
 }
 
 // Create a company list item
@@ -114,10 +161,9 @@ function createCompanyItem(companyName) {
 // Confirm and clear all companies
 function clearAllCompanies() {
     if (confirm(getLocalizedMessage('clearConfirmation'))) {
-        chrome.storage.local.set({ companies: [] }, () => {
-            restoreCompanyList();
-            showToast(getLocalizedMessage('toastAllCleared'), 'success');
-        });
+        popupState.clearCompanies();
+        restoreCompanyList();
+        showToast(getLocalizedMessage('toastAllCleared'), 'success');
     }
 }
 
@@ -125,9 +171,17 @@ function clearAllCompanies() {
 function restoreToggleStates() {
     const toggleKeys = ['applied', 'promoted', 'dismissed', 'viewed', 'show-buttons'];
     chrome.storage.local.get(toggleKeys, (data) => {
+        // Batch initialization - collect all undefined values
+        const updates = {};
         if (data['show-buttons'] === undefined) {
-            chrome.storage.local.set({ 'show-buttons': true });
+            updates['show-buttons'] = true;
         }
+
+        // Single write if needed
+        if (Object.keys(updates).length > 0) {
+            chrome.storage.local.set(updates);
+        }
+
         toggleKeys.forEach((toggleKey) => {
             const toggle = document.getElementById(`toggle-${toggleKey}`);
             if (toggle) {
@@ -140,28 +194,51 @@ function restoreToggleStates() {
 
 // Set localized UI text
 function setLocalizedText() {
-    document.getElementById('header-title').textContent = getLocalizedMessage('headerTitle');
-    document.getElementById('add-company-btn').textContent = getLocalizedMessage('addButton');
-    document.getElementById('clear-all-btn').textContent = getLocalizedMessage('clearAllButton');
-    document.getElementById('new-company').placeholder = getLocalizedMessage('addCompanyPlaceholder');
-    document.getElementById('footer-text').innerHTML = getLocalizedMessage('footerText');
+    // Cache element references for better performance
+    const elements = {
+        headerTitle: document.getElementById('header-title'),
+        addBtn: document.getElementById('add-company-btn'),
+        clearBtn: document.getElementById('clear-all-btn'),
+        newCompany: document.getElementById('new-company'),
+        footerText: document.getElementById('footer-text'),
+        quickFiltersTitle: document.querySelector('#quick-filters-title'),
+        toggleAppliedLabel: document.querySelector('#toggle-applied-label'),
+        togglePromotedLabel: document.querySelector('#toggle-promoted-label'),
+        toggleDismissedLabel: document.querySelector('#toggle-dismissed-label'),
+        toggleViewedLabel: document.querySelector('#toggle-viewed-label'),
+        showIconLabel: document.querySelector('#show-icon-label'),
+        companiesLabel: document.getElementById('companies-label')
+    };
 
-    document.querySelector('#quick-filters-title').textContent = getLocalizedMessage('quickFiltersTitle');
-    document.querySelector('#toggle-applied-label').textContent = getLocalizedMessage('quickFilterApplied');
-    document.querySelector('#toggle-promoted-label').textContent = getLocalizedMessage('quickFilterPromoted');
-    document.querySelector('#toggle-dismissed-label').textContent = getLocalizedMessage('quickFilterDismissed');
-    document.querySelector('#toggle-viewed-label').textContent = getLocalizedMessage('quickFilterViewed');
-    document.querySelector('#show-icon-label').textContent = getLocalizedMessage('showButtonsToggle');
-    document.getElementById('companies-label').textContent = getLocalizedMessage('companies');
+    elements.headerTitle.textContent = getLocalizedMessage('headerTitle');
+    elements.addBtn.textContent = getLocalizedMessage('addButton');
+    elements.clearBtn.textContent = getLocalizedMessage('clearAllButton');
+    elements.newCompany.placeholder = getLocalizedMessage('addCompanyPlaceholder');
+    elements.footerText.innerHTML = getLocalizedMessage('footerText');
+    elements.quickFiltersTitle.textContent = getLocalizedMessage('quickFiltersTitle');
+    elements.toggleAppliedLabel.textContent = getLocalizedMessage('quickFilterApplied');
+    elements.togglePromotedLabel.textContent = getLocalizedMessage('quickFilterPromoted');
+    elements.toggleDismissedLabel.textContent = getLocalizedMessage('quickFilterDismissed');
+    elements.toggleViewedLabel.textContent = getLocalizedMessage('quickFilterViewed');
+    elements.showIconLabel.textContent = getLocalizedMessage('showButtonsToggle');
+    elements.companiesLabel.textContent = getLocalizedMessage('companies');
 }
 
 function addTooltips() {
-    document.getElementById('toggle-applied-label').title = getLocalizedMessage('quickFilterAppliedTooltip');
-    document.getElementById('toggle-promoted-label').title = getLocalizedMessage('quickFilterPromotedTooltip');
-    document.getElementById('toggle-dismissed-label').title = getLocalizedMessage('quickFilterDismissedTooltip');
-    document.getElementById('toggle-viewed-label').title = getLocalizedMessage('quickFilterViewedTooltip');
-    document.getElementById('show-icon-label').title = getLocalizedMessage('showButtonTooltip');
-    //document.getElementById('toggle-show-buttons').title = getLocalizedMessage('showButtonTooltip');
+    // Cache element references for better performance
+    const elements = {
+        toggleAppliedLabel: document.getElementById('toggle-applied-label'),
+        togglePromotedLabel: document.getElementById('toggle-promoted-label'),
+        toggleDismissedLabel: document.getElementById('toggle-dismissed-label'),
+        toggleViewedLabel: document.getElementById('toggle-viewed-label'),
+        showIconLabel: document.getElementById('show-icon-label')
+    };
+
+    elements.toggleAppliedLabel.title = getLocalizedMessage('quickFilterAppliedTooltip');
+    elements.togglePromotedLabel.title = getLocalizedMessage('quickFilterPromotedTooltip');
+    elements.toggleDismissedLabel.title = getLocalizedMessage('quickFilterDismissedTooltip');
+    elements.toggleViewedLabel.title = getLocalizedMessage('quickFilterViewedTooltip');
+    elements.showIconLabel.title = getLocalizedMessage('showButtonTooltip');
 }
 
 // SINGLE DOMContentLoaded - All initialization
