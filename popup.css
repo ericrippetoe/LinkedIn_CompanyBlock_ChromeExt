@@ -77,104 +77,94 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* List item with checkbox */
-.filter-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: background 0.2s;
-    cursor: pointer;
-}
-
-.filter-item:hover {
-    background: #f5f5f5;
-}
-
-.filter-item-left {
-    display: flex;
-    align-items: center;
+/* 2x2 Grid for filter pills */
+.filter-pill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    flex: 1;
+    margin-bottom: 8px;
 }
 
-.filter-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
+/* Pill button style */
+.filter-pill {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    background: #e8e8e8;
-    color: #666;
-    flex-shrink: 0;
-}
-
-.filter-item.active .filter-icon {
-    background: #0073b1;
-    color: white;
-}
-
-.filter-label {
-    font-size: 13px;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
     font-weight: 500;
-    color: #333;
-}
-
-/* Divider between items */
-.filter-divider {
-    height: 1px;
-    background: #e0e0e0;
-    margin: 2px 10px;
-}
-
-/* Styled checkbox */
-.toggle-switch {
-    width: 18px;
-    height: 18px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background: white;
-    position: relative;
     cursor: pointer;
     transition: all 0.2s ease;
-    flex-shrink: 0;
+    border: 2px solid #e0e0e0;
+    background: #fafafa;
+    color: #666;
+    position: relative;
 }
 
-.toggle-switch.active,
-.filter-item.active .toggle-switch {
-    background: #0073b1;
+.filter-pill:hover {
+    border-color: #ccc;
+    background: #f0f0f0;
+}
+
+.filter-pill.active {
+    background: linear-gradient(135deg, #0073b1 0%, #005582 100%);
     border-color: #0073b1;
-}
-
-/* Checkmark */
-.toggle-switch::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
     color: white;
+    box-shadow: 0 2px 6px rgba(0, 115, 177, 0.3);
+}
+
+/* Full-width pill for Display Block Icon */
+.filter-pill-full {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+/* Pill icon and label on same line */
+.pill-icon {
     font-size: 14px;
-    font-weight: bold;
-    transition: transform 0.2s ease;
+    line-height: 1;
 }
 
-.toggle-switch.active::after,
-.filter-item.active .toggle-switch::after {
-    transform: translate(-50%, -50%) scale(1);
+.pill-label {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
 }
 
-/* Hide actual checkbox, we'll use visual toggle */
-.filter-item input[type="checkbox"] {
+/* Hide actual checkbox */
+.filter-pill input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
 }
 
-/* Legacy styles for backward compatibility - can be removed */
+/* Legacy styles - keeping for backward compatibility */
+.filter-item {
+    display: none;
+}
+
+.filter-item-left {
+    display: none;
+}
+
+.filter-icon {
+    display: none;
+}
+
+.filter-label {
+    display: none;
+}
+
+.filter-divider {
+    display: none;
+}
+
+.toggle-switch {
+    display: none;
+}
+
 .toggle-group {
     display: none;
 }

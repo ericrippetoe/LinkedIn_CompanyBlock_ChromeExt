@@ -13,62 +13,43 @@
 
     <div class="content-wrapper">
         <div class="main-content">
-            <!-- FILTERS SECTION - List Style -->
+            <!-- FILTERS SECTION - Pill Grid Style -->
             <div class="section">
                 <div class="filter-section">
                     <div class="section-title" id="quick-filters-title">Quick Filters</div>
 
-                    <div class="filter-item" data-filter="applied" title="Hide jobs you've applied to">
-                        <div class="filter-item-left">
-                            <div class="filter-icon">✓</div>
-                            <div class="filter-label" id="toggle-applied-label">Applied</div>
+                    <!-- 2x2 Grid for main filters -->
+                    <div class="filter-pill-grid">
+                        <div class="filter-pill" data-filter="applied" title="Hide jobs you've applied to">
+                            <span class="pill-icon">✓</span>
+                            <span class="pill-label" id="toggle-applied-label">Applied</span>
+                            <input type="checkbox" id="toggle-applied">
                         </div>
-                        <input type="checkbox" id="toggle-applied">
-                        <div class="toggle-switch"></div>
+
+                        <div class="filter-pill" data-filter="promoted" title="Hide promoted job listings">
+                            <span class="pill-icon">📢</span>
+                            <span class="pill-label" id="toggle-promoted-label">Promoted</span>
+                            <input type="checkbox" id="toggle-promoted">
+                        </div>
+
+                        <div class="filter-pill" data-filter="dismissed" title="Hide dismissed jobs">
+                            <span class="pill-icon">🚫</span>
+                            <span class="pill-label" id="toggle-dismissed-label">Dismissed</span>
+                            <input type="checkbox" id="toggle-dismissed">
+                        </div>
+
+                        <div class="filter-pill" data-filter="viewed" title="Hide viewed jobs">
+                            <span class="pill-icon">👀</span>
+                            <span class="pill-label" id="toggle-viewed-label">Viewed</span>
+                            <input type="checkbox" id="toggle-viewed">
+                        </div>
                     </div>
 
-                    <div class="filter-divider"></div>
-
-                    <div class="filter-item" data-filter="promoted" title="Hide promoted job listings">
-                        <div class="filter-item-left">
-                            <div class="filter-icon">📢</div>
-                            <div class="filter-label" id="toggle-promoted-label">Promoted</div>
-                        </div>
-                        <input type="checkbox" id="toggle-promoted">
-                        <div class="toggle-switch"></div>
-                    </div>
-
-                    <div class="filter-divider"></div>
-
-                    <div class="filter-item" data-filter="dismissed" title="Hide dismissed jobs">
-                        <div class="filter-item-left">
-                            <div class="filter-icon">🚫</div>
-                            <div class="filter-label" id="toggle-dismissed-label">Dismissed</div>
-                        </div>
-                        <input type="checkbox" id="toggle-dismissed">
-                        <div class="toggle-switch"></div>
-                    </div>
-
-                    <div class="filter-divider"></div>
-
-                    <div class="filter-item" data-filter="viewed" title="Hide viewed jobs">
-                        <div class="filter-item-left">
-                            <div class="filter-icon">👀</div>
-                            <div class="filter-label" id="toggle-viewed-label">Viewed</div>
-                        </div>
-                        <input type="checkbox" id="toggle-viewed">
-                        <div class="toggle-switch"></div>
-                    </div>
-
-                    <div class="filter-divider"></div>
-
-                    <div class="filter-item" data-filter="show-buttons" title="Show/hide block buttons on job cards">
-                        <div class="filter-item-left">
-                            <div class="filter-icon">👁️</div>
-                            <div class="filter-label" id="show-icon-label">Display Block Icon</div>
-                        </div>
+                    <!-- Full-width Display Block Icon toggle -->
+                    <div class="filter-pill filter-pill-full" data-filter="show-buttons" title="Show/hide block buttons on job cards">
+                        <span class="pill-icon">👁️</span>
+                        <span class="pill-label" id="show-icon-label">Display Block Icon</span>
                         <input type="checkbox" id="toggle-show-buttons">
-                        <div class="toggle-switch"></div>
                     </div>
                 </div>
             </div>

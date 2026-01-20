@@ -189,13 +189,13 @@ function restoreToggleStates() {
                 toggle.checked = isChecked;
                 toggle.addEventListener('change', () => saveState(toggleKey, toggle.checked));
 
-                // Update visual state for filter items
-                const filterItem = toggle.closest('.filter-item');
-                if (filterItem) {
+                // Update visual state for filter pills
+                const filterPill = toggle.closest('.filter-pill');
+                if (filterPill) {
                     if (isChecked) {
-                        filterItem.classList.add('active');
+                        filterPill.classList.add('active');
                     } else {
-                        filterItem.classList.remove('active');
+                        filterPill.classList.remove('active');
                     }
                 }
             }
@@ -292,13 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Filter item click handlers - make entire row clickable
-    document.querySelectorAll('.filter-item').forEach(item => {
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        const toggleSwitch = item.querySelector('.toggle-switch');
+    // Filter pill click handlers - make entire pill clickable
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+        const checkbox = pill.querySelector('input[type="checkbox"]');
 
-        // Click on entire item toggles the checkbox
-        item.addEventListener('click', (e) => {
+        // Click on entire pill toggles the checkbox
+        pill.addEventListener('click', (e) => {
             // Don't toggle if clicking on the checkbox itself
             if (e.target !== checkbox) {
                 checkbox.checked = !checkbox.checked;
@@ -306,21 +305,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkbox.dispatchEvent(new Event('change'));
             }
             // Update visual state
-            updateFilterItemVisualState(item, checkbox.checked);
+            updateFilterPillVisualState(pill, checkbox.checked);
         });
 
         // Update visual state when checkbox changes
         checkbox.addEventListener('change', () => {
-            updateFilterItemVisualState(item, checkbox.checked);
+            updateFilterPillVisualState(pill, checkbox.checked);
         });
     });
 
-    // Function to update filter item visual state
-    function updateFilterItemVisualState(item, isActive) {
+    // Function to update filter pill visual state
+    function updateFilterPillVisualState(pill, isActive) {
         if (isActive) {
-            item.classList.add('active');
+            pill.classList.add('active');
         } else {
-            item.classList.remove('active');
+            pill.classList.remove('active');
         }
     }
 
