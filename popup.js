@@ -235,21 +235,38 @@ function setLocalizedText() {
     elements.companiesLabel.textContent = getLocalizedMessage('companies');
 }
 
-// Tooltips are now handled via data-tooltip attributes in HTML
-// No need for JavaScript to add title attributes
+function addTooltips() {
+    // Set data-tooltip attributes for localization (not title to avoid duplicate tooltips)
+    const elements = {
+        appliedPill: document.querySelector('[data-filter="applied"]'),
+        promotedPill: document.querySelector('[data-filter="promoted"]'),
+        dismissedPill: document.querySelector('[data-filter="dismissed"]'),
+        viewedPill: document.querySelector('[data-filter="viewed"]'),
+        showButtonsPill: document.querySelector('[data-filter="show-buttons"]'),
+        companyBadge: document.getElementById('company-badge')
+    };
+
+    if (elements.appliedPill) elements.appliedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterAppliedTooltip'));
+    if (elements.promotedPill) elements.promotedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterPromotedTooltip'));
+    if (elements.dismissedPill) elements.dismissedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterDismissedTooltip'));
+    if (elements.viewedPill) elements.viewedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterViewedTooltip'));
+    if (elements.showButtonsPill) elements.showButtonsPill.setAttribute('data-tooltip', getLocalizedMessage('showButtonTooltip'));
+    if (elements.companyBadge) elements.companyBadge.setAttribute('data-tooltip', getLocalizedMessage('companies_tooltip'));
+}
 
 // SINGLE DOMContentLoaded - All initialization
 document.addEventListener('DOMContentLoaded', () => {
     // Hide company list initially
     document.getElementById('company-list').style.display = 'none';
-    
+
     // Add click handler to company badge
     document.querySelector('.company-badge').addEventListener('click', toggleCompanies);
-    
+
     // Initialize everything
     restoreCompanyList();
     restoreToggleStates();
     setLocalizedText();
+    addTooltips();
 
     // Clear all button
     document.getElementById('clear-all-btn').addEventListener('click', clearAllCompanies);
