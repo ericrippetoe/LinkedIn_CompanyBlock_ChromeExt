@@ -185,8 +185,19 @@ function restoreToggleStates() {
         toggleKeys.forEach((toggleKey) => {
             const toggle = document.getElementById(`toggle-${toggleKey}`);
             if (toggle) {
-                toggle.checked = data[toggleKey] ?? toggleKey === 'show-buttons';
+                const isChecked = data[toggleKey] ?? toggleKey === 'show-buttons';
+                toggle.checked = isChecked;
                 toggle.addEventListener('change', () => saveState(toggleKey, toggle.checked));
+
+                // Update visual state for filter items
+                const filterItem = toggle.closest('.filter-item');
+                if (filterItem) {
+                    if (isChecked) {
+                        filterItem.classList.add('active');
+                    } else {
+                        filterItem.classList.remove('active');
+                    }
+                }
             }
         });
     });
@@ -280,6 +291,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Filter item click handlers - make entire row clickable
+    document.querySelectorAll('.filter-item').forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const toggleSwitch = item.querySelector('.toggle-switch');
+
+        // Click on entire item toggles the checkbox
+        item.addEventListener('click', (e) => {
+            // Don't toggle if clicking on the checkbox itself
+            if (e.target !== checkbox) {
+                checkbox.checked = !checkbox.checked;
+                // Trigger change event to save state
+                checkbox.dispatchEvent(new Event('change'));
+            }
+            // Update visual state
+            updateFilterItemVisualState(item, checkbox.checked);
+        });
+
+        // Update visual state when checkbox changes
+        checkbox.addEventListener('change', () => {
+            updateFilterItemVisualState(item, checkbox.checked);
+        });
+    });
+
+    // Function to update filter item visual state
+    function updateFilterItemVisualState(item, isActive) {
+        if (isActive) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    }
 
     // Version number
     const versionNumber = chrome.runtime.getManifest().version;

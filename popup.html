@@ -13,44 +13,65 @@
 
     <div class="content-wrapper">
         <div class="main-content">
-            <!-- QUICK FILTERS SECTION -->
+            <!-- FILTERS SECTION - List Style -->
             <div class="section">
-                <div class="section-title" id="quick-filters-title">Quick Filters</div>
-                <div class="toggle-group">
-                    <div class="quick-toggle" title="Hide jobs you've applied to">
-                        <span class="quick-toggle-label" id="toggle-applied-label">Applied</span>
-                        <input type="checkbox" id="toggle-applied">
-                    </div>
-                    <div class="quick-toggle" title="Hide promoted job listings">
-                        <span class="quick-toggle-label" id="toggle-promoted-label">Promoted</span>
-                        <input type="checkbox" id="toggle-promoted">
-                    </div>
-                    <div class="quick-toggle" title="Hide dismissed jobs">
-                        <span class="quick-toggle-label" id="toggle-dismissed-label">Dismissed</span>
-                        <input type="checkbox" id="toggle-dismissed">
-                    </div>
-                    <div class="quick-toggle" title="Hide viewed jobs">
-                        <span class="quick-toggle-label" id="toggle-viewed-label">Viewed</span>
-                        <input type="checkbox" id="toggle-viewed">
-                    </div>
-                </div>  
-            </div>
+                <div class="filter-section">
+                    <div class="section-title" id="quick-filters-title">Quick Filters</div>
 
-            <!-- SHOW ICON TOGGLE SECTION -->
-            <div class="section">
-                <div class="show-icon-toggle full-width-toggle" title="Show/hide block buttons on job cards">
-                    <div class="toggle-left">
-                        <span id="show-icon-label">Display Block Icon</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#0a66c2" class="bi bi-eye-slash-fill">
-                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
-                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
-                        </svg>
+                    <div class="filter-item" data-filter="applied" title="Hide jobs you've applied to">
+                        <div class="filter-item-left">
+                            <div class="filter-icon">✓</div>
+                            <div class="filter-label" id="toggle-applied-label">Applied</div>
+                        </div>
+                        <input type="checkbox" id="toggle-applied">
+                        <div class="toggle-switch"></div>
                     </div>
-                    <input type="checkbox" id="toggle-show-buttons">
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-item" data-filter="promoted" title="Hide promoted job listings">
+                        <div class="filter-item-left">
+                            <div class="filter-icon">📢</div>
+                            <div class="filter-label" id="toggle-promoted-label">Promoted</div>
+                        </div>
+                        <input type="checkbox" id="toggle-promoted">
+                        <div class="toggle-switch"></div>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-item" data-filter="dismissed" title="Hide dismissed jobs">
+                        <div class="filter-item-left">
+                            <div class="filter-icon">🚫</div>
+                            <div class="filter-label" id="toggle-dismissed-label">Dismissed</div>
+                        </div>
+                        <input type="checkbox" id="toggle-dismissed">
+                        <div class="toggle-switch"></div>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-item" data-filter="viewed" title="Hide viewed jobs">
+                        <div class="filter-item-left">
+                            <div class="filter-icon">👀</div>
+                            <div class="filter-label" id="toggle-viewed-label">Viewed</div>
+                        </div>
+                        <input type="checkbox" id="toggle-viewed">
+                        <div class="toggle-switch"></div>
+                    </div>
+
+                    <div class="filter-divider"></div>
+
+                    <div class="filter-item" data-filter="show-buttons" title="Show/hide block buttons on job cards">
+                        <div class="filter-item-left">
+                            <div class="filter-icon">👁️</div>
+                            <div class="filter-label" id="show-icon-label">Display Block Icon</div>
+                        </div>
+                        <input type="checkbox" id="toggle-show-buttons">
+                        <div class="toggle-switch"></div>
+                    </div>
                 </div>
             </div>
-
-            <div class="section-break"></div>
 
             <!-- COMPANIES SECTION -->
             <div class="section">
