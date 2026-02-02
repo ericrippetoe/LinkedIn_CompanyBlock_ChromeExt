@@ -1,6 +1,19 @@
 // LinkedIn Job Blocker - Full Refactored Content Script
 // Date: 2025-12
 
+// ============================================================================
+// Constants
+// ============================================================================
+const TIMING = {
+  TOAST_SHOW_DELAY: 100,      // ms - delay before toast animation starts
+  TOAST_DISPLAY: 3000,        // ms - how long toast stays visible
+  TOAST_FADE_OUT: 300,        // ms - toast fade out animation duration
+  TOAST_BATCH_WINDOW: 1500,   // ms - window to batch multiple hide notifications
+  NOTICE_SHOW_DELAY: 50,      // ms - delay before notice animation starts
+  NOTICE_FADE_OUT: 300,       // ms - notice fade out animation duration
+  DEBOUNCE_DELAY: 300         // ms - mutation observer debounce window
+};
+
 class LinkedInJobBlocker {
   constructor() {
     // In-memory cache of settings
@@ -60,7 +73,7 @@ class LinkedInJobBlocker {
 
   safeStorageGet(keys, callback) {
     try {
-      chrome.storage.local.get(keys, (data) => {
+      chrome.storage.sync.get(keys, (data) => {
         if (chrome.runtime.lastError) {
           console.error('Storage error:', chrome.runtime.lastError);
           return;
@@ -74,7 +87,7 @@ class LinkedInJobBlocker {
 
   safeStorageSet(data, callback) {
     try {
-      chrome.storage.local.set(data, () => {
+      chrome.storage.sync.set(data, () => {
         if (chrome.runtime.lastError) {
           console.error('Storage error:', chrome.runtime.lastError);
           return;
@@ -107,26 +120,27 @@ class LinkedInJobBlocker {
     // If message is a string, show; if numeric (counts), format accordingly
     const toast = document.createElement('div');
     toast.className = 'toast-notification';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
     toast.textContent = typeof message === 'string' ? message : String(message);
     document.body.appendChild(toast);
 
     // Trigger animation
     setTimeout(() => {
       toast.classList.add('show');
-    }, 100);
+    }, TIMING.TOAST_SHOW_DELAY);
 
-    // Remove after 3 seconds
+    // Remove after display duration
     setTimeout(() => {
       toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
+      setTimeout(() => toast.remove(), TIMING.TOAST_FADE_OUT);
+    }, TIMING.TOAST_DISPLAY);
   }
 
   // Batchable toast scheduler
   scheduleToastNotification(count) {
     this.toastHiddenCount += count;
     clearTimeout(this.toastBatchTimer);
-    // 1.5s window to batch
     this.toastBatchTimer = setTimeout(() => {
       if (this.toastHiddenCount > 0) {
         const msg = this.toastHiddenCount === 1
@@ -135,7 +149,7 @@ class LinkedInJobBlocker {
         this.showToast(msg);
         this.toastHiddenCount = 0;
       }
-    }, 1500);
+    }, TIMING.TOAST_BATCH_WINDOW);
   }
 
   // Helper to get localized messages
@@ -171,14 +185,14 @@ class LinkedInJobBlocker {
     // Dismiss button handler
     notice.querySelector('.ljb-refresh-notice__dismiss').addEventListener('click', () => {
       notice.classList.remove('show');
-      setTimeout(() => notice.remove(), 300);
+      setTimeout(() => notice.remove(), TIMING.NOTICE_FADE_OUT);
       this.refreshNoticeShown = false;
     });
 
     document.body.appendChild(notice);
 
     // Trigger animation
-    setTimeout(() => notice.classList.add('show'), 50);
+    setTimeout(() => notice.classList.add('show'), TIMING.NOTICE_SHOW_DELAY);
     this.refreshNoticeShown = true;
   }
 
@@ -530,13 +544,13 @@ class LinkedInJobBlocker {
     clearTimeout(this.debounceTimer);
     this.debounceTimer = setTimeout(() => {
       this.hideListedCompanies();
-    }, 300); // Debounce window
+    }, TIMING.DEBOUNCE_DELAY);
   }
 
   setupStorageListener() {
     // Listen for changes from other tabs/popups
     chrome.storage.onChanged.addListener((changes, areaName) => {
-      if (areaName === 'local') {
+      if (areaName === 'sync') {
         let needsRefreshNotice = false;
 
         Object.keys(changes).forEach((key) => {

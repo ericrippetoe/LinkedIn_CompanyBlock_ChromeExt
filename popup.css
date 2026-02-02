@@ -162,6 +162,11 @@ body {
     border-color: var(--primary-dark);
 }
 
+.filter-pill:focus-within {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
 /* Full-width pill for Display Block Icon */
 .filter-pill-full {
     grid-column: 1 / -1;
@@ -189,18 +194,6 @@ body {
     pointer-events: none;
 }
 
-/* Legacy styles - keeping for backward compatibility */
-.filter-item, .filter-item-left, .filter-icon, .filter-label,
-.filter-divider, .toggle-switch, .toggle-group, .quick-toggle,
-.quick-toggle-label, .show-icon-toggle, .full-width-toggle, .toggle-left {
-    display: none;
-}
-
-.section-break {
-    height: 0;
-    margin: 0;
-    display: none;
-}
 
 .company-section {
     padding: 12px;
@@ -244,11 +237,17 @@ body {
 }
 
 .company-badge .count {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.9);
+    color: var(--primary);
     border-radius: 12px;
     padding: 2px 8px;
     font-size: 10px;
     font-weight: bold;
+}
+
+.company-badge:focus {
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
 }
 
 .company-item {
@@ -306,6 +305,11 @@ body {
     transform: scale(0.98);
 }
 
+.add-company button:focus {
+    outline: 2px solid var(--neutral-900);
+    outline-offset: 2px;
+}
+
 /* Clear All Button - Error red */
 .clear-all-btn {
     width: 100%;
@@ -329,6 +333,11 @@ body {
     transform: scale(0.98);
 }
 
+.clear-all-btn:focus {
+    outline: 2px solid var(--neutral-900);
+    outline-offset: 2px;
+}
+
 /* Company X buttons - Error red */
 .company-item button {
     background: var(--error);
@@ -345,6 +354,11 @@ body {
 
 .company-item button:hover {
     background: var(--error-dark);
+}
+
+.company-item button:focus {
+    outline: 2px solid var(--neutral-900);
+    outline-offset: 2px;
 }
 
 footer {
@@ -364,7 +378,9 @@ footer span {
 }
 
 /* ========== TOOLTIPS ========== */
-[data-tooltip]:hover:after {
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:after,
+[data-tooltip]:focus-within:after {
     content: attr(data-tooltip);
     position: absolute;
     bottom: 100%;
@@ -388,7 +404,9 @@ footer span {
     pointer-events: none;
 }
 
-[data-tooltip]:hover:before {
+[data-tooltip]:hover:before,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus-within:before {
     content: '';
     position: absolute;
     bottom: 100%;
