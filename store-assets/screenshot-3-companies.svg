@@ -21,7 +21,7 @@
   <text x="640" y="130" text-anchor="middle" fill="white" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="24">Create your personal company blocklist</text>
 
   <!-- Left side - Before (cluttered feed) -->
-  <g transform="translate(100, 150)">
+  <g transform="translate(100, 110)">
     <text x="200" y="30" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600">Before</text>
     <text x="200" y="55" text-anchor="middle" fill="white" fill-opacity="0.7" font-family="Segoe UI, Arial, sans-serif" font-size="14">Cluttered with unwanted listings</text>
 
@@ -69,13 +69,13 @@
   </g>
 
   <!-- Arrow -->
-  <g transform="translate(540, 370)">
+  <g transform="translate(540, 330)">
     <rect x="0" y="15" width="200" height="40" rx="20" fill="white" fill-opacity="0.2"/>
     <text x="100" y="43" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Block →</text>
   </g>
 
   <!-- Right side - After (clean feed) -->
-  <g transform="translate(780, 150)">
+  <g transform="translate(780, 110)">
     <text x="200" y="30" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="600">After</text>
     <text x="200" y="55" text-anchor="middle" fill="white" fill-opacity="0.7" font-family="Segoe UI, Arial, sans-serif" font-size="14">Only jobs you want to see</text>
 

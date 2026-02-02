@@ -122,22 +122,23 @@
     <text x="120" y="418" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Open LinkedIn Jobs</text>
   </g>
 
-  <!-- Floating feature callouts around the popup -->
-  <g transform="translate(1100, 130)">
-    <rect width="200" height="70" rx="12" fill="white" fill-opacity="0.15"/>
-    <text x="100" y="30" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">Hide Applied Jobs</text>
-    <text x="100" y="52" text-anchor="middle" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Already applied? Gone!</text>
+  <!-- Floating feature callouts - vertically centered alongside popup (y=60 to y=500) -->
+  <!-- 3 boxes of 80px height, evenly spaced with 50px gaps -->
+  <g transform="translate(1095, 110)">
+    <rect width="230" height="80" rx="14" fill="white" fill-opacity="0.15"/>
+    <text x="115" y="34" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">Hide Applied Jobs</text>
+    <text x="115" y="58" text-anchor="middle" fill="white" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="13">Already applied? Gone!</text>
   </g>
 
-  <g transform="translate(1100, 350)">
-    <rect width="200" height="70" rx="12" fill="white" fill-opacity="0.15"/>
-    <text x="100" y="30" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">Block Bad Companies</text>
-    <text x="100" y="52" text-anchor="middle" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="12">Never see them again</text>
+  <g transform="translate(1095, 240)">
+    <rect width="230" height="80" rx="14" fill="white" fill-opacity="0.15"/>
+    <text x="115" y="34" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">Block Bad Companies</text>
+    <text x="115" y="58" text-anchor="middle" fill="white" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="13">Never see them again</text>
   </g>
 
-  <g transform="translate(1100, 470)">
-    <rect width="200" height="70" rx="12" fill="white" fill-opacity="0.15"/>
-    <text x="100" y="30" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">Your Data, Your Device</text>
-    <text x="100" y="52" text-anchor="middle" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="12">No external servers</text>
+  <g transform="translate(1095, 370)">
+    <rect width="230" height="80" rx="14" fill="white" fill-opacity="0.15"/>
+    <text x="115" y="34" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">Your Data, Your Device</text>
+    <text x="115" y="58" text-anchor="middle" fill="white" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="13">No external servers</text>
   </g>
 </svg>

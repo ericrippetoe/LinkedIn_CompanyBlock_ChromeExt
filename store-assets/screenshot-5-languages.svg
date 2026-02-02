@@ -127,12 +127,16 @@
     <g filter="url(#shadow5)">
       <rect width="240" height="280" rx="12" fill="white"/>
       <rect x="10" y="10" width="220" height="35" rx="8" fill="#F7F8FA"/>
+      <!-- Icon with eye-slash -->
       <circle cx="32" cy="27" r="10" fill="#0D7377"/>
+      <ellipse cx="32" cy="27" rx="6" ry="3.5" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="32" cy="27" r="1.5" fill="white"/>
+      <line x1="27" y1="22" x2="37" y2="32" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
       <text x="52" y="32" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">LinkedIn Job Blocker</text>
 
       <text x="20" y="65" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600">QUICK FILTERS</text>
       <rect x="15" y="75" width="100" height="24" rx="12" fill="#0D7377"/>
-      <text x="65" y="92" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Applied</text>
+      <text x="65" y="91" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Applied</text>
       <rect x="125" y="75" width="100" height="24" rx="12" fill="#F7F8FA" stroke="#E5E7EB"/>
       <text x="175" y="92" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9">★ Promoted</text>
 
@@ -156,12 +160,16 @@
     <g filter="url(#shadow5)">
       <rect width="240" height="280" rx="12" fill="white"/>
       <rect x="10" y="10" width="220" height="35" rx="8" fill="#F7F8FA"/>
+      <!-- Icon with eye-slash -->
       <circle cx="32" cy="27" r="10" fill="#0D7377"/>
+      <ellipse cx="32" cy="27" rx="6" ry="3.5" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="32" cy="27" r="1.5" fill="white"/>
+      <line x1="27" y1="22" x2="37" y2="32" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
       <text x="52" y="32" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Bloqueador de Empleos</text>
 
       <text x="20" y="65" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600">FILTROS RÁPIDOS</text>
       <rect x="15" y="75" width="100" height="24" rx="12" fill="#0D7377"/>
-      <text x="65" y="92" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Aplicado</text>
+      <text x="65" y="91" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Aplicado</text>
       <rect x="125" y="75" width="100" height="24" rx="12" fill="#F7F8FA" stroke="#E5E7EB"/>
       <text x="175" y="92" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9">★ Promovido</text>
 
@@ -185,12 +193,16 @@
     <g filter="url(#shadow5)">
       <rect width="240" height="280" rx="12" fill="white"/>
       <rect x="10" y="10" width="220" height="35" rx="8" fill="#F7F8FA"/>
+      <!-- Icon with eye-slash -->
       <circle cx="32" cy="27" r="10" fill="#0D7377"/>
+      <ellipse cx="32" cy="27" rx="6" ry="3.5" stroke="white" stroke-width="1.5" fill="none"/>
+      <circle cx="32" cy="27" r="1.5" fill="white"/>
+      <line x1="27" y1="22" x2="37" y2="32" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
       <text x="52" y="32" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Bloqueur d'Emplois</text>
 
       <text x="20" y="65" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="600">FILTRES RAPIDES</text>
       <rect x="15" y="75" width="100" height="24" rx="12" fill="#0D7377"/>
-      <text x="65" y="92" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Postulé</text>
+      <text x="65" y="91" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="9">✓ Postulé</text>
       <rect x="125" y="75" width="100" height="24" rx="12" fill="#F7F8FA" stroke="#E5E7EB"/>
       <text x="175" y="92" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="9">★ Promu</text>
 

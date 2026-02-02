@@ -89,11 +89,11 @@
     <rect x="215" y="325" width="65" height="30" rx="6" fill="#0D7377"/>
     <text x="247" y="344" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">Add</text>
 
-    <!-- LinkedIn Jobs Bar -->
+    <!-- LinkedIn Jobs Bar - centered content -->
     <rect x="10" y="380" width="280" height="36" rx="8" fill="#0D7377"/>
-    <rect x="105" y="389" width="20" height="18" rx="4" fill="white"/>
-    <text x="115" y="402" text-anchor="middle" fill="#0D7377" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700">in</text>
-    <text x="170" y="402" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">Open LinkedIn Jobs</text>
+    <rect x="85" y="389" width="20" height="18" rx="4" fill="white"/>
+    <text x="95" y="402" text-anchor="middle" fill="#0D7377" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="700">in</text>
+    <text x="113" y="402" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">Open LinkedIn Jobs</text>
   </g>
 
   <!-- Feature callouts -->
