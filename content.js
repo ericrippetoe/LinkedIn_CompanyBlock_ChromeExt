@@ -107,6 +107,8 @@ class LinkedInJobBlocker {
     // If message is a string, show; if numeric (counts), format accordingly
     const toast = document.createElement('div');
     toast.className = 'toast-notification';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
     toast.textContent = typeof message === 'string' ? message : String(message);
     document.body.appendChild(toast);
 
