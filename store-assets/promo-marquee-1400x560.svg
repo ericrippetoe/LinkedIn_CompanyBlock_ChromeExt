@@ -57,7 +57,7 @@
     </g>
 
     <!-- Bottom text -->
-    <text x="0" y="350" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500">Free • Open Source • No Tracking • 14 Languages</text>
+    <text x="0" y="350" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500">Free • Open Source • No Tracking • 12 Languages</text>
   </g>
 
   <!-- Right side - App Preview -->
@@ -117,9 +117,9 @@
 
     <!-- LinkedIn Jobs Bar -->
     <rect x="12" y="400" width="296" height="28" rx="8" fill="#0D7377"/>
-    <rect x="115" y="405" width="20" height="18" rx="4" fill="white"/>
-    <text x="125" y="418" text-anchor="middle" fill="#0D7377" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">in</text>
-    <text x="175" y="418" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Open LinkedIn Jobs</text>
+    <rect x="93" y="405" width="20" height="18" rx="4" fill="white"/>
+    <text x="103" y="418" text-anchor="middle" fill="#0D7377" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">in</text>
+    <text x="120" y="418" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600">Open LinkedIn Jobs</text>
   </g>
 
   <!-- Floating feature callouts around the popup -->
