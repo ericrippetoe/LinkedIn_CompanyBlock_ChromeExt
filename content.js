@@ -16,6 +16,9 @@ class LinkedInJobBlocker {
     this.toastHiddenCount = 0;
     this.toastBatchTimer = null;
 
+    // Refresh notice state
+    this.refreshNoticeShown = false;
+
     // Pre-compiled regex patterns for performance
     this.patterns = {
       dismissed: /We['']t show you this job again\./i,
@@ -140,6 +143,45 @@ class LinkedInJobBlocker {
     return chrome.i18n.getMessage(key) || key;
   }
 
+  // Show refresh notice banner
+  showRefreshNotice() {
+    if (this.refreshNoticeShown) return;
+
+    // Remove any existing notice
+    const existing = document.querySelector('.ljb-refresh-notice');
+    if (existing) existing.remove();
+
+    const notice = document.createElement('div');
+    notice.className = 'ljb-refresh-notice';
+    const iconUrl = chrome.runtime.getURL('icons/icon-16x16.png');
+    notice.innerHTML = `
+      <div class="ljb-refresh-notice__text">
+        <img class="ljb-refresh-notice__icon" src="${iconUrl}" alt="" />
+        <span>${this.getLocalizedMessage('refreshNoticeText') || 'LinkedIn Jobs Blocker settings have changed. Please refresh for an accurate view.'}</span>
+      </div>
+      <button class="ljb-refresh-notice__btn">${this.getLocalizedMessage('refreshButton') || 'Refresh Page'}</button>
+      <button class="ljb-refresh-notice__dismiss">${this.getLocalizedMessage('dismissButton') || 'Dismiss'}</button>
+    `;
+
+    // Refresh button handler
+    notice.querySelector('.ljb-refresh-notice__btn').addEventListener('click', () => {
+      location.reload();
+    });
+
+    // Dismiss button handler
+    notice.querySelector('.ljb-refresh-notice__dismiss').addEventListener('click', () => {
+      notice.classList.remove('show');
+      setTimeout(() => notice.remove(), 300);
+      this.refreshNoticeShown = false;
+    });
+
+    document.body.appendChild(notice);
+
+    // Trigger animation
+    setTimeout(() => notice.classList.add('show'), 50);
+    this.refreshNoticeShown = true;
+  }
+
   // =========================================================================
   // Styles Management
   // =========================================================================
@@ -152,7 +194,7 @@ class LinkedInJobBlocker {
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #255898;
+        background-color: #0D7377;
         color: #ffffff;
         padding: 10px 20px;
         border-radius: 5px;
@@ -179,13 +221,13 @@ class LinkedInJobBlocker {
       }
 
       .block-button-container svg {
-        fill: #255898;
+        fill: #0D7377;
         cursor: pointer;
         transition: fill 0.3s ease;
       }
 
       .block-button-container:hover svg {
-        fill: #005582;
+        fill: #095557;
       }
 
       /* Tooltip */
@@ -226,6 +268,74 @@ class LinkedInJobBlocker {
       }
 
       /* Wrapper tweaks for LinkedIn card visuals remain minimal */
+
+      /* Refresh Notice Banner */
+      .ljb-refresh-notice {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #0D7377 0%, #095557 100%);
+        color: #ffffff;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        z-index: 10001;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        font-size: 14px;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .ljb-refresh-notice.show {
+        transform: translateY(0);
+      }
+
+      .ljb-refresh-notice__text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .ljb-refresh-notice__icon {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+
+      .ljb-refresh-notice__btn {
+        background: #ffffff;
+        color: #0D7377;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.1s ease;
+      }
+
+      .ljb-refresh-notice__btn:hover {
+        background: #f0f0f0;
+        transform: scale(1.02);
+      }
+
+      .ljb-refresh-notice__dismiss {
+        background: transparent;
+        color: #ffffff;
+        border: 1px solid rgba(255,255,255,0.5);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .ljb-refresh-notice__dismiss:hover {
+        background: rgba(255,255,255,0.1);
+      }
     `;
     document.head.appendChild(style);
   }
@@ -252,7 +362,7 @@ class LinkedInJobBlocker {
 
     blockButton.innerHTML = `
       <div class="block-button-container" title="Block this company">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#255898" viewBox="0 0 16 16" aria-hidden="true" role="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0D7377" viewBox="0 0 16 16" aria-hidden="true" role="none">
           <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
           <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
         </svg>
@@ -427,10 +537,39 @@ class LinkedInJobBlocker {
     // Listen for changes from other tabs/popups
     chrome.storage.onChanged.addListener((changes, areaName) => {
       if (areaName === 'local') {
+        let needsRefreshNotice = false;
+
         Object.keys(changes).forEach((key) => {
-          this.cachedSettings[key] = changes[key].newValue;
+          const oldValue = changes[key].oldValue;
+          const newValue = changes[key].newValue;
+          this.cachedSettings[key] = newValue;
+
+          // Check if a filter was turned OFF (true -> false)
+          // This means previously hidden jobs should now be visible, but they can't unhide without refresh
+          if (['applied', 'promoted', 'dismissed', 'viewed'].includes(key)) {
+            if (oldValue === true && newValue === false) {
+              needsRefreshNotice = true;
+            }
+          }
+
+          // Check if a company was removed from the block list
+          if (key === 'companies') {
+            const oldCompanies = oldValue || [];
+            const newCompanies = newValue || [];
+            // If any company was removed, jobs from that company should now be visible
+            if (oldCompanies.some(company => !newCompanies.includes(company))) {
+              needsRefreshNotice = true;
+            }
+          }
         });
+
+        // Always run hide logic for newly hidden items
         this.hideListedCompanies();
+
+        // Show refresh notice if settings changed in a way that requires refresh
+        if (needsRefreshNotice) {
+          this.showRefreshNotice();
+        }
       }
     });
   }

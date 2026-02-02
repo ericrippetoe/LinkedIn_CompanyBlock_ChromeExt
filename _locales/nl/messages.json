@@ -12,7 +12,7 @@
         "message": "Verberg gemakkelijk vacatures op LinkedIn op basis van bedrijven of status."
     },
     "headerTitle": {
-        "message": "LinkedIn Vacatures Verbergen"
+        "message": "LinkedIn Vacatures Blocker"
     },
     "textareaPlaceholder": {
         "message": "Voer bedrijfsnamen in, één per regel."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "Alle bedrijven verwijderd"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker instellingen zijn gewijzigd. Vernieuw voor een nauwkeurige weergave."
+    },
+    "refreshButton": {
+        "message": "Pagina vernieuwen"
+    },
+    "dismissButton": {
+        "message": "Negeren"
     }
 }

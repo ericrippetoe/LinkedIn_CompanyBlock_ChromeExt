@@ -12,7 +12,7 @@
         "message": "Nascondi facilmente le offerte di lavoro su LinkedIn in base alle aziende o allo stato."
     },
     "headerTitle": {
-        "message": "Nascondi Offerte LinkedIn"
+        "message": "Blocco Offerte LinkedIn"
     },
     "textareaPlaceholder": {
         "message": "Inserisci nomi aziende, uno per riga."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "Tutte le aziende eliminate"
+    },
+    "refreshNoticeText": {
+        "message": "Le impostazioni di LinkedIn Jobs Blocker sono cambiate. Aggiorna per una visualizzazione accurata."
+    },
+    "refreshButton": {
+        "message": "Aggiorna pagina"
+    },
+    "dismissButton": {
+        "message": "Ignora"
     }
 }

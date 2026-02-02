@@ -1,124 +1,27 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'; style-src 'self' 'unsafe-inline';">
     <title>Hide LinkedIn Jobs By Company</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 15px;
-            margin: 0;
-            width: 350px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        #header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Centers the content horizontally */
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-            border: 2px solid #255898;
-            color: #255898;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            /* Ensures text is centered */
-        }
-
-        #header img {
-            width: 30px;
-            height: 30px;
-            margin-right: 8px;
-            /* Adjust spacing between the image and the text */
-        }
-
-        #header h2 {
-            font-size: 16px;
-            margin: 0;
-            line-height: 1.0;
-        }
-
-        textarea {
-            width: calc(100% - 20px);
-            height: 150px;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            resize: none;
-            font-size: 14px;
-            font-family: 'Lato', sans-serif;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        #save {
-            background-color: #0073b1;
-            color: white;
-        }
-
-        #save:hover {
-            background-color: #005582;
-        }
-
-        #clear {
-            background-color: #d9534f;
-            color: white;
-        }
-
-        #clear:hover {
-            background-color: #c9302c;
-        }
-
-        .status {
-            margin-top: 10px;
-            font-size: 14px;
-            color: green;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="options.css">
 </head>
-
 <body>
     <div id="header">
-        <img src="icon128.png" alt="Extension Icon" />
+        <img src="icons/icon-128x128.png" alt="Extension Icon" />
         <h2 id="header-title">Options</h2>
     </div>
 
-    <textarea id="companyNames" placeholder="Loading..."></textarea>
+    <label for="companyNames" class="visually-hidden">Company names to block, one per line</label>
+    <textarea id="companyNames" placeholder="Loading..." aria-describedby="textarea-help"></textarea>
+    <span id="textarea-help" class="visually-hidden">Enter company names, one per line</span>
+
     <div class="button-container">
-        <button id="clear">Clear All</button>
-        <button id="save">Save</button>
+        <button id="clear" aria-label="Clear all company names">Clear All</button>
+        <button id="save" aria-label="Save company names">Save</button>
     </div>
-    <div id="status" class="status"></div>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
 
     <script src="options.js"></script>
 </body>
-
 </html>

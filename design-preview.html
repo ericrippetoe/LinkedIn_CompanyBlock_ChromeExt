@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toadstone Labs - Design System Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary: #0D7377;
+            --primary-dark: #095557;
+            --primary-light: #14919B;
+
+            /* Secondary / Accent */
+            --secondary: #E8A838;
+            --secondary-dark: #D4922A;
+            --secondary-light: #F5C364;
+
+            /* Neutrals */
+            --neutral-900: #1A1D23;
+            --neutral-800: #2D3139;
+            --neutral-700: #4A5568;
+            --neutral-600: #6B7280;
+            --neutral-500: #9CA3AF;
+            --neutral-400: #D1D5DB;
+            --neutral-300: #E5E7EB;
+            --neutral-200: #F3F4F6;
+            --neutral-100: #F7F8FA;
+            --neutral-50: #FAFBFC;
+
+            /* Semantic */
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --info: #3B82F6;
+            --info-light: #DBEAFE;
+
+            /* Typography */
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--neutral-100);
+            color: var(--neutral-900);
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-500);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        /* Header Preview */
+        .header-preview {
+            background: var(--neutral-900);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .color-swatch {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .color-swatch-color {
+            height: 80px;
+        }
+
+        .color-swatch-info {
+            padding: 0.75rem;
+            background: white;
+        }
+
+        .color-swatch-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-swatch-hex {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--neutral-600);
+        }
+
+        /* Typography */
+        .type-sample {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .type-sample:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .type-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--neutral-500);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 { font-size: 3rem; font-weight: 700; line-height: 1.2; }
+        h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.3; }
+        h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.4; }
+        h4 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+        h5 { font-size: 1rem; font-weight: 600; line-height: 1.5; }
+
+        .body-large { font-size: 1.125rem; }
+        .body-regular { font-size: 1rem; }
+        .body-small { font-size: 0.875rem; }
+        .caption { font-size: 0.75rem; color: var(--neutral-600); }
+
+        code {
+            font-family: var(--font-mono);
+            background: var(--neutral-200);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Buttons */
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--neutral-900);
+        }
+        .btn-secondary:hover {
+            background: var(--secondary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--primary);
+        }
+        .btn-ghost:hover {
+            background: var(--neutral-200);
+        }
+
+        .btn-dark {
+            background: var(--neutral-900);
+            color: white;
+        }
+        .btn-dark:hover {
+            background: var(--neutral-800);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--neutral-200);
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.15);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--neutral-300);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: var(--neutral-500);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert-success {
+            background: var(--success-light);
+            color: #065F46;
+        }
+
+        .alert-warning {
+            background: var(--warning-light);
+            color: #92400E;
+        }
+
+        .alert-error {
+            background: var(--error-light);
+            color: #991B1B;
+        }
+
+        .alert-info {
+            background: var(--info-light);
+            color: #1E40AF;
+        }
+
+        /* Hero Section Preview */
+        .hero-preview {
+            background: linear-gradient(135deg, var(--neutral-900) 0%, #2D3139 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(13, 115, 119, 0.2);
+            color: var(--primary-light);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--neutral-400);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Service Card Variation */
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--neutral-200);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--neutral-100);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.75rem;
+        }
+
+        .service-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-description {
+            color: var(--neutral-600);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .service-link {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .service-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Tool/Product Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--neutral-200);
+            transition: all 0.3s;
+        }
+
+        .tool-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .tool-image {
+            background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .tool-content {
+            padding: 1.5rem;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: var(--success-light);
+            color: #065F46;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .tool-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-description {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer Preview */
+        .footer-preview {
+            background: var(--neutral-900);
+            color: var(--neutral-400);
+            padding: 3rem 2rem 2rem;
+            border-radius: 12px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--neutral-400);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--neutral-800);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        /* Dark Mode Section */
+        .dark-section {
+            background: var(--neutral-900);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .dark-section .section-title {
+            color: var(--neutral-500);
+            border-bottom-color: var(--neutral-700);
+        }
+
+        /* Badges */
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: rgba(13, 115, 119, 0.15);
+            color: var(--primary);
+        }
+
+        .badge-secondary {
+            background: rgba(232, 168, 56, 0.15);
+            color: var(--secondary-dark);
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: #065F46;
+        }
+
+        .badge-neutral {
+            background: var(--neutral-200);
+            color: var(--neutral-700);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="margin-bottom: 0.5rem;">Toadstone Labs</h1>
+        <p style="color: var(--neutral-600); margin-bottom: 2rem;">Design System Preview</p>
+
+        <!-- Header Preview -->
+        <div class="section">
+            <div class="section-title">Header / Navigation</div>
+            <div class="header-preview">
+                <div class="header-content">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs><linearGradient id="logoGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0D7377"/><stop offset="100%" style="stop-color:#E8A838"/></linearGradient></defs>
+                                <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#logoGrad1)"/>
+                                <path d="M256 112L352 208L256 400L160 208L256 112Z" fill="white"/>
+                                <path d="M256 112L352 208H160L256 112Z" fill="white" fill-opacity="0.9"/>
+                                <path d="M160 208L256 400L256 208H160Z" fill="white" fill-opacity="0.7"/>
+                                <path d="M352 208L256 400L256 208H352Z" fill="white" fill-opacity="0.85"/>
+                            </svg>
+                        </div>
+                        toadstone labs
+                    </div>
+                    <nav>
+                        <ul class="nav-links">
+                            <li><a href="#">Tools</a></li>
+                            <li><a href="#">Services</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Palette -->
+        <div class="section">
+            <div class="section-title">Color Palette</div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--neutral-700);">Primary & Secondary</h4>
+            <div class="color-grid" style="margin-bottom: 2rem;">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--primary);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Primary</div>
+                        <div class="color-swatch-hex">#0D7377</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--primary-dark);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Primary Dark</div>
+                        <div class="color-swatch-hex">#095557</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--primary-light);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Primary Light</div>
+                        <div class="color-swatch-hex">#14919B</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--secondary);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Secondary</div>
+                        <div class="color-swatch-hex">#E8A838</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--secondary-dark);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Secondary Dark</div>
+                        <div class="color-swatch-hex">#D4922A</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--secondary-light);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Secondary Light</div>
+                        <div class="color-swatch-hex">#F5C364</div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--neutral-700);">Neutrals</h4>
+            <div class="color-grid" style="margin-bottom: 2rem;">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--neutral-900);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Neutral 900</div>
+                        <div class="color-swatch-hex">#1A1D23</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--neutral-700);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Neutral 700</div>
+                        <div class="color-swatch-hex">#4A5568</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--neutral-500);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Neutral 500</div>
+                        <div class="color-swatch-hex">#9CA3AF</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--neutral-300);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Neutral 300</div>
+                        <div class="color-swatch-hex">#E5E7EB</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--neutral-100); border: 1px solid var(--neutral-200);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Neutral 100</div>
+                        <div class="color-swatch-hex">#F7F8FA</div>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--neutral-700);">Semantic</h4>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--success);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Success</div>
+                        <div class="color-swatch-hex">#10B981</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--warning);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Warning</div>
+                        <div class="color-swatch-hex">#F59E0B</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--error);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Error</div>
+                        <div class="color-swatch-hex">#EF4444</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: var(--info);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Info</div>
+                        <div class="color-swatch-hex">#3B82F6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="section">
+            <div class="section-title">Typography</div>
+
+            <div class="type-sample">
+                <div class="type-label">H1 - Inter Bold 48px</div>
+                <h1>Build. Automate. Secure.</h1>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">H2 - Inter Bold 36px</div>
+                <h2>Our Tools & Services</h2>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">H3 - Inter Semibold 24px</div>
+                <h3>Full Stack Development</h3>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">H4 - Inter Semibold 20px</div>
+                <h4>Custom Admin Platforms</h4>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">Body Large - Inter Regular 18px</div>
+                <p class="body-large">We help businesses build powerful tools, automate workflows, and secure their digital assets. From Chrome extensions to enterprise platforms.</p>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">Body Regular - Inter Regular 16px</div>
+                <p class="body-regular">Toadstone Labs specializes in building practical, powerful software solutions. Whether you need a Chrome extension, a custom admin dashboard, or security consulting from a former CISO, we've got you covered.</p>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">Body Small - Inter Regular 14px</div>
+                <p class="body-small">Contact us to discuss your project requirements. We typically respond within 24 hours.</p>
+            </div>
+
+            <div class="type-sample">
+                <div class="type-label">Code - JetBrains Mono 14px</div>
+                <p><code>npm install @toadstone/utils</code></p>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="section">
+            <div class="section-title">Buttons</div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--neutral-700);">Button Variants</h4>
+            <div class="button-row" style="margin-bottom: 1.5rem;">
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-outline">Outline Button</button>
+                <button class="btn btn-ghost">Ghost Button</button>
+                <button class="btn btn-dark">Dark Button</button>
+            </div>
+
+            <h4 style="margin-bottom: 1rem; color: var(--neutral-700);">Button Sizes</h4>
+            <div class="button-row">
+                <button class="btn btn-primary btn-sm">Small</button>
+                <button class="btn btn-primary">Default</button>
+                <button class="btn btn-primary btn-lg">Large</button>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="section">
+            <div class="section-title">Badges & Tags</div>
+            <div class="badge-row">
+                <span class="badge badge-primary">Chrome Extension</span>
+                <span class="badge badge-secondary">Featured</span>
+                <span class="badge badge-success">New</span>
+                <span class="badge badge-neutral">Coming Soon</span>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="section">
+            <div class="section-title">Alerts & Notifications</div>
+            <div class="alert alert-success">
+                <span>&#10003;</span>
+                <span>Your message has been sent successfully. We'll get back to you within 24 hours.</span>
+            </div>
+            <div class="alert alert-info">
+                <span>&#9432;</span>
+                <span>New feature available! Check out our latest Chrome extension.</span>
+            </div>
+            <div class="alert alert-warning">
+                <span>&#9888;</span>
+                <span>Please complete all required fields before submitting.</span>
+            </div>
+            <div class="alert alert-error">
+                <span>&#10005;</span>
+                <span>Something went wrong. Please try again later.</span>
+            </div>
+        </div>
+
+        <!-- Form Elements -->
+        <div class="section">
+            <div class="section-title">Form Elements</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" placeholder="john@example.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Company (Optional)</label>
+                <input type="text" class="form-input" placeholder="Your company name">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea class="form-input" placeholder="Tell us about your project..."></textarea>
+            </div>
+
+            <button class="btn btn-primary">Send Message</button>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="section">
+            <div class="section-title">Hero Section</div>
+            <div class="hero-preview">
+                <div class="hero-badge">
+                    <svg style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px;" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0D7377"/><stop offset="100%" style="stop-color:#E8A838"/></linearGradient></defs>
+                        <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#heroGrad)"/>
+                        <path d="M256 112L352 208L256 400L160 208L256 112Z" fill="white"/>
+                    </svg>
+                    Software Development & Security
+                </div>
+                <h1 class="hero-title">Build. <span class="highlight">Automate.</span> Secure.</h1>
+                <p class="hero-subtitle">From Chrome extensions to enterprise platforms, we build practical tools and provide expert consulting to help your business thrive.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg">Explore Our Tools</button>
+                    <button class="btn btn-outline btn-lg" style="border-color: white; color: white;">Get In Touch</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Cards -->
+        <div class="section">
+            <div class="section-title">Service Cards</div>
+            <div class="card-grid">
+                <div class="service-card">
+                    <div class="service-icon">&#128736;</div>
+                    <h3 class="service-title">Our Tools</h3>
+                    <p class="service-description">Browser extensions and utilities built to solve real problems. Practical, powerful, and easy to use.</p>
+                    <a href="#" class="service-link">View Tools &#8594;</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128187;</div>
+                    <h3 class="service-title">Development</h3>
+                    <p class="service-description">Full stack development services. Admin platforms, web apps, and custom solutions tailored to your needs.</p>
+                    <a href="#" class="service-link">Learn More &#8594;</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#9881;</div>
+                    <h3 class="service-title">Automation</h3>
+                    <p class="service-description">Streamline your workflows with custom automation. From simple scripts to complex integrations.</p>
+                    <a href="#" class="service-link">Learn More &#8594;</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">&#128274;</div>
+                    <h3 class="service-title">Security Consulting</h3>
+                    <p class="service-description">Expert security guidance from a former CISO. Assessments, compliance, and strategic advisory.</p>
+                    <a href="#" class="service-link">Learn More &#8594;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool/Product Cards -->
+        <div class="section">
+            <div class="section-title">Product / Tool Cards</div>
+            <div class="card-grid">
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <svg style="width: 120px; height: 120px;" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M64 32C64 14.3 78.3 0 96 0H320L448 128V480C448 497.7 433.7 512 416 512H96C78.3 512 64 497.7 64 480V32Z" fill="#0D7377"/>
+                            <path d="M320 0L448 128H352C334.3 128 320 113.7 320 96V0Z" fill="#14919B"/>
+                            <path d="M256 160L284 256L380 284L284 312L256 408L228 312L132 284L228 256L256 160Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="tool-content">
+                        <span class="tool-badge">Chrome Extension</span>
+                        <h3 class="tool-title">One Click Resumes</h3>
+                        <p class="tool-description">AI-powered resume generator. Build your profile once, create tailored resumes for any job with a single click.</p>
+                        <button class="btn btn-primary" style="width: 100%;">Install Free</button>
+                    </div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <svg style="width: 120px; height: 120px;" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs><linearGradient id="blockerGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0D7377"/><stop offset="100%" style="stop-color:#E8A838"/></linearGradient></defs>
+                            <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#blockerGrad)"/>
+                            <ellipse cx="256" cy="256" rx="140" ry="90" stroke="white" stroke-width="36" fill="none"/>
+                            <circle cx="256" cy="256" r="44" fill="white"/>
+                            <line x1="120" y1="120" x2="392" y2="392" stroke="white" stroke-width="40" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="tool-content">
+                        <span class="tool-badge">Chrome Extension</span>
+                        <h3 class="tool-title">LinkedIn Jobs Blocker</h3>
+                        <p class="tool-description">Take control of your job search. Hide jobs by status, block companies by name, and declutter your feed.</p>
+                        <button class="btn btn-primary" style="width: 100%;">Install Free</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="section">
+            <div class="section-title">Footer</div>
+            <div class="footer-preview">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs><linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0D7377"/><stop offset="100%" style="stop-color:#E8A838"/></linearGradient></defs>
+                                    <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#footerGrad)"/>
+                                    <path d="M256 112L352 208L256 400L160 208L256 112Z" fill="white"/>
+                                    <path d="M256 112L352 208H160L256 112Z" fill="white" fill-opacity="0.9"/>
+                                    <path d="M160 208L256 400L256 208H160Z" fill="white" fill-opacity="0.7"/>
+                                    <path d="M352 208L256 400L256 208H352Z" fill="white" fill-opacity="0.85"/>
+                                </svg>
+                            </div>
+                            toadstone labs
+                        </div>
+                        <p>Building practical tools and providing expert consulting to help businesses thrive in the digital age.</p>
+                    </div>
+                    <div>
+                        <div class="footer-title">Tools</div>
+                        <ul class="footer-links">
+                            <li><a href="#">One Click Resumes</a></li>
+                            <li><a href="#">LinkedIn Jobs Blocker</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="footer-title">Services</div>
+                        <ul class="footer-links">
+                            <li><a href="#">Development</a></li>
+                            <li><a href="#">Automation</a></li>
+                            <li><a href="#">Security</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="footer-title">Company</div>
+                        <ul class="footer-links">
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Terms</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <span>&copy; 2025 Toadstone Labs. All rights reserved.</span>
+                    <span>info@toadstonelabs.com</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alternative Color Schemes -->
+        <div class="section">
+            <div class="section-title">Alternative: Dark Mode Preview</div>
+            <div class="dark-section">
+                <h2 style="margin-bottom: 1rem;">Dark Mode Support</h2>
+                <p style="color: var(--neutral-400); margin-bottom: 1.5rem;">The design system includes dark mode variants for all components. This can be implemented as a user preference toggle.</p>
+                <div class="button-row">
+                    <button class="btn btn-primary">Primary Button</button>
+                    <button class="btn btn-secondary">Secondary Button</button>
+                    <button class="btn btn-outline" style="border-color: var(--primary-light); color: var(--primary-light);">Outline Button</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="section" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white;">
+            <h2 style="margin-bottom: 1rem;">Ready to Build?</h2>
+            <p style="opacity: 0.9; margin-bottom: 1rem;">This design system provides the foundation for the Toadstone Labs website. The teal primary color conveys trust and technical expertise, while the amber accent adds warmth and approachability.</p>
+            <p style="opacity: 0.9;">Let me know if you'd like any adjustments to colors, typography, or component styles before we proceed with the full build.</p>
+        </div>
+    </div>
+</body>
+</html>

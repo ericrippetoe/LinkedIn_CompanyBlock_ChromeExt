@@ -60,14 +60,17 @@ function saveState(key, value) {
 
 function toggleCompanies() {
     const companyList = document.getElementById('company-list');
-    const companyBadge = document.querySelector('.company-badge');
-    
-    if (companyList.style.display === 'none' || !companyList.style.display) {
+    const companyBadge = document.getElementById('company-badge');
+    const isExpanded = companyList.style.display !== 'none' && companyList.style.display !== '';
+
+    if (!isExpanded) {
         companyList.style.display = 'flex';
-        companyBadge.style.background = 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)';
+        companyBadge.setAttribute('aria-expanded', 'true');
+        companyBadge.style.background = 'var(--primary-dark)';
     } else {
         companyList.style.display = 'none';
-        companyBadge.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        companyBadge.setAttribute('aria-expanded', 'false');
+        companyBadge.style.background = 'var(--primary)';
     }
 }
 
@@ -81,16 +84,18 @@ function getLocalizedMessage(key, params = {}) {
     return message;
 }
 
-// Toast notification helper
+// Toast notification helper with screen reader support
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
     toast.innerHTML = `
-        <span class="icon">${type === 'success' ? '✅' : '⚠️'}</span>
+        <span class="icon" aria-hidden="true">${type === 'success' ? '✅' : '⚠️'}</span>
         ${message}
     `;
     document.body.appendChild(toast);
-    
+
     setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
         toast.classList.remove('show');
@@ -98,28 +103,34 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// Restore the company list and count
+// Render company list from in-memory state (no storage read)
+function renderCompanyList() {
+    const companies = popupState.companies;
+
+    const companyCount = document.getElementById('company-count');
+    const companyCountBadge = document.getElementById('company-count-badge');
+
+    if (companyCount) companyCount.textContent = `${companies.length}`;
+    if (companyCountBadge) companyCountBadge.textContent = `${companies.length}`;
+
+    const companyList = document.getElementById('company-list');
+    companyList.innerHTML = '';
+
+    // Use DocumentFragment for batch DOM updates - single reflow
+    const fragment = document.createDocumentFragment();
+    companies.forEach((company) => {
+        const item = createCompanyItem(company);
+        fragment.appendChild(item);
+    });
+    companyList.appendChild(fragment);
+}
+
+// Restore the company list from storage (initial load only)
 function restoreCompanyList() {
     chrome.storage.local.get('companies', (data) => {
         const companies = data.companies || [];
         popupState.companies = companies; // Update in-memory state
-
-        const companyCount = document.getElementById('company-count');
-        const companyCountBadge = document.getElementById('company-count-badge');
-
-        if (companyCount) companyCount.textContent = `${companies.length}`;
-        if (companyCountBadge) companyCountBadge.textContent = `${companies.length}`;
-
-        const companyList = document.getElementById('company-list');
-        companyList.innerHTML = '';
-
-        // Use DocumentFragment for batch DOM updates - single reflow
-        const fragment = document.createDocumentFragment();
-        companies.forEach((company) => {
-            const item = createCompanyItem(company);
-            fragment.appendChild(item);
-        });
-        companyList.appendChild(fragment);
+        renderCompanyList();
     });
 }
 
@@ -127,7 +138,7 @@ function restoreCompanyList() {
 function addCompany(companyName) {
     const added = popupState.addCompany(companyName);
     if (added) {
-        restoreCompanyList();
+        renderCompanyList();
         showToast(getLocalizedMessage('toastCompanyAdded', {company: companyName}), 'success');
     } else {
         showToast(getLocalizedMessage('toastCompanyExists', {company: companyName}), 'error');
@@ -138,31 +149,31 @@ function addCompany(companyName) {
 function removeCompany(companyName) {
     const removed = popupState.removeCompany(companyName);
     if (removed) {
-        restoreCompanyList();
+        renderCompanyList();
         showToast(getLocalizedMessage('toastCompanyRemoved', {company: companyName}), 'success');
     }
 }
 
-// Create a company list item
+// Create a company list item (as li element for semantic HTML)
 function createCompanyItem(companyName) {
-    const div = document.createElement('div');
-    div.className = 'company-item';
+    const li = document.createElement('li');
+    li.className = 'company-item';
     const nameSpan = document.createElement('span');
     nameSpan.textContent = companyName;
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'X';
-    removeBtn.setAttribute('aria-label', getLocalizedMessage('removeCompany'));
+    removeBtn.setAttribute('aria-label', getLocalizedMessage('removeCompany') + ': ' + companyName);
     removeBtn.addEventListener('click', () => removeCompany(companyName));
-    div.appendChild(nameSpan);
-    div.appendChild(removeBtn);
-    return div;
+    li.appendChild(nameSpan);
+    li.appendChild(removeBtn);
+    return li;
 }
 
 // Confirm and clear all companies
 function clearAllCompanies() {
     if (confirm(getLocalizedMessage('clearConfirmation'))) {
         popupState.clearCompanies();
-        restoreCompanyList();
+        renderCompanyList();
         showToast(getLocalizedMessage('toastAllCleared'), 'success');
     }
 }
@@ -254,13 +265,31 @@ function addTooltips() {
     if (elements.companyBadge) elements.companyBadge.setAttribute('data-tooltip', getLocalizedMessage('companies_tooltip'));
 }
 
+// Extracted function to handle adding a company (eliminates duplication)
+function handleAddCompany() {
+    const input = document.getElementById('new-company');
+    const companyName = input.value.trim();
+    if (companyName) {
+        addCompany(companyName);
+        input.value = '';
+        input.focus();
+    }
+}
+
 // SINGLE DOMContentLoaded - All initialization
 document.addEventListener('DOMContentLoaded', () => {
     // Hide company list initially
     document.getElementById('company-list').style.display = 'none';
 
-    // Add click handler to company badge
-    document.querySelector('.company-badge').addEventListener('click', toggleCompanies);
+    // Add click and keyboard handlers to company badge
+    const companyBadge = document.getElementById('company-badge');
+    companyBadge.addEventListener('click', toggleCompanies);
+    companyBadge.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleCompanies();
+        }
+    });
 
     // Initialize everything
     restoreCompanyList();
@@ -271,26 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clear all button
     document.getElementById('clear-all-btn').addEventListener('click', clearAllCompanies);
 
-    // Add company button
-    document.getElementById('add-company-btn').addEventListener('click', () => {
-        const input = document.getElementById('new-company');
-        const companyName = input.value.trim();
-        if (companyName) {
-            addCompany(companyName);
-            input.value = '';
-        }
-    });
+    // Add company button - uses shared handler
+    document.getElementById('add-company-btn').addEventListener('click', handleAddCompany);
 
-    // Enter key in input
+    // Enter key in input - uses shared handler
     document.getElementById('new-company').addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            const input = document.getElementById('new-company');
-            const companyName = input.value.trim();
-            if (companyName) {
-                addCompany(companyName);
-                input.value = '';
-            }
+            handleAddCompany();
         }
     });
 

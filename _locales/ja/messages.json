@@ -12,7 +12,7 @@
         "message": "企業またはステータスに基づいて LinkedIn のジョブリストを簡単に非表示にします。"
     },
     "headerTitle": {
-        "message": "LinkedIn ジョブを非表示にする"
+        "message": "LinkedIn ジョブブロッカー"
     },
     "textareaPlaceholder": {
         "message": "企業名を入力してください。1行に1つ。"
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "すべての企業がクリアされました"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker の設定が変更されました。正確な表示のために更新してください。"
+    },
+    "refreshButton": {
+        "message": "ページを更新"
+    },
+    "dismissButton": {
+        "message": "閉じる"
     }
 }

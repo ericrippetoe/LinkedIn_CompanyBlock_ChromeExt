@@ -12,7 +12,7 @@
         "message": "Easily hide job listings on LinkedIn based on companies or status."
     },
     "headerTitle": {
-        "message": "Hide LinkedIn Jobs"
+        "message": "LinkedIn Jobs Blocker"
     },
     "textareaPlaceholder": {
         "message": "Enter company names, one per line."
@@ -117,7 +117,7 @@
         "message": "Delete"
     },
     "footerText": {
-        "message": "Made with <span style='color:#e74c3c;'>❤️</span> by <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+        "message": "Made with <span style='color:#EF4444;'>❤️</span> by <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0D7377; font-weight:500;'>Eric Rippetoe</a>"
     },
     "toastCompanyAdded": {
         "message": "\"{company}\" added successfully!"
@@ -130,5 +130,14 @@
     },
     "toastAllCleared": {
         "message": "All companies cleared"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker settings have changed. Please refresh for an accurate view."
+    },
+    "refreshButton": {
+        "message": "Refresh Page"
+    },
+    "dismissButton": {
+        "message": "Dismiss"
     }
 }
