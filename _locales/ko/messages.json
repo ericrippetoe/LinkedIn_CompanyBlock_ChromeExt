@@ -12,7 +12,7 @@
         "message": "회사 또는 상태에 따라 LinkedIn의 채용공고를 쉽게 숨깁니다."
     },
     "headerTitle": {
-        "message": "LinkedIn 채용공고 숨기기"
+        "message": "LinkedIn 채용공고 차단기"
     },
     "textareaPlaceholder": {
         "message": "회사명을 입력하세요. 한 줄에 하나씩."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "모든 회사가 삭제되었습니다"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker 설정이 변경되었습니다. 정확한 보기를 위해 새로고침하세요."
+    },
+    "refreshButton": {
+        "message": "페이지 새로고침"
+    },
+    "dismissButton": {
+        "message": "닫기"
     }
 }

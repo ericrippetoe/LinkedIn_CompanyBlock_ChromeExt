@@ -78,7 +78,7 @@ Visit the [Chrome Web Store](https://chromewebstore.google.com/detail/linkedin-j
 ├── popup.css # Popup styling
 ├── [language folders]/ # i18n translations (ar, de, en, es, fr, hi, it, ko, nl, pt, ru, zh)
 │ └── messages.json # Localized strings
-├── icons/ # Extension icons (icon16.png, icon48.png, icon128.png)
+├── icons/ # Extension icons (various sizes from 16x16 to 512x512)
 ├── LICENSE # MIT License
 ├── README.md # This file
 ├── CONTRIBUTING.md # Contribution guidelines

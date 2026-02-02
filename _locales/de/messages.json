@@ -12,7 +12,7 @@
         "message": "Verstecke Stellenanzeigen auf LinkedIn einfach nach Unternehmen oder Status."
     },
     "headerTitle": {
-        "message": "LinkedIn Jobs verstecken"
+        "message": "LinkedIn Jobs Blocker"
     },
     "textareaPlaceholder": {
         "message": "Firmennamen eingeben, einen pro Zeile."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "Alle Unternehmen geleert"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker Einstellungen wurden geändert. Bitte aktualisieren Sie für eine genaue Ansicht."
+    },
+    "refreshButton": {
+        "message": "Seite aktualisieren"
+    },
+    "dismissButton": {
+        "message": "Schließen"
     }
 }

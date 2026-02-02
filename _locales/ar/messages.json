@@ -12,7 +12,7 @@
         "message": "إخفاء إعلانات الوظائف على LinkedIn بناءً على الشركات أو الحالة بسهولة."
     },
     "headerTitle": {
-        "message": "إخفاء وظائف LinkedIn"
+        "message": "حاجب وظائف LinkedIn"
     },
     "textareaPlaceholder": {
         "message": "أدخل أسماء الشركات، واحدة لكل سطر."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "تم مسح جميع الشركات"
+    },
+    "refreshNoticeText": {
+        "message": "تم تغيير إعدادات LinkedIn Jobs Blocker. يرجى التحديث للحصول على عرض دقيق."
+    },
+    "refreshButton": {
+        "message": "تحديث الصفحة"
+    },
+    "dismissButton": {
+        "message": "تجاهل"
     }
 }

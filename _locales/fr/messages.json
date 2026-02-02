@@ -12,7 +12,7 @@
         "message": "Masquez facilement les offres d'emploi sur LinkedIn selon les entreprises ou le statut."
     },
     "headerTitle": {
-        "message": "Masquer les emplois LinkedIn"
+        "message": "Bloqueur d'Emplois LinkedIn"
     },
     "textareaPlaceholder": {
         "message": "Entrez les noms d'entreprises, un par ligne."
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "Toutes les entreprises supprimées"
+    },
+    "refreshNoticeText": {
+        "message": "Les paramètres de LinkedIn Jobs Blocker ont changé. Veuillez actualiser pour une vue précise."
+    },
+    "refreshButton": {
+        "message": "Actualiser la page"
+    },
+    "dismissButton": {
+        "message": "Ignorer"
     }
 }

@@ -12,7 +12,7 @@
         "message": "कंपनियों या स्थिति के आधार पर लिंक्डइन पर जॉब लिस्टिंग आसानी से छुपाएँ।"
     },
     "headerTitle": {
-        "message": "लिंक्डइन जॉब्स छुपाएँ"
+        "message": "लिंक्डइन जॉब्स ब्लॉकर"
     },
     "textareaPlaceholder": {
         "message": "कंपनी के नाम दर्ज करें, एक प्रति पंक्ति।"
@@ -127,5 +127,14 @@
     },
     "toastAllCleared": {
         "message": "सभी कंपनियाँ साफ़ की गई"
+    },
+    "refreshNoticeText": {
+        "message": "LinkedIn Jobs Blocker सेटिंग्स बदली गईं। सटीक दृश्य के लिए कृपया रिफ्रेश करें।"
+    },
+    "refreshButton": {
+        "message": "पेज रिफ्रेश करें"
+    },
+    "dismissButton": {
+        "message": "खारिज करें"
     }
 }
