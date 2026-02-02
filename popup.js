@@ -1,9 +1,47 @@
+// ============================================================================
+// Constants
+// ============================================================================
+const TIMING = {
+    BATCH_DELAY: 100,        // ms - delay before batched storage write
+    TOAST_SHOW_DELAY: 100,   // ms - delay before toast animation starts
+    TOAST_DISPLAY: 3000,     // ms - how long toast stays visible
+    TOAST_FADE_OUT: 400      // ms - toast fade out animation duration
+};
+
+// ============================================================================
+// Storage Helpers (Promise-based)
+// ============================================================================
+function storageGet(keys) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get(keys, (data) => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
+function storageSet(data) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.set(data, () => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
+// ============================================================================
 // In-memory state manager for batched storage operations
+// ============================================================================
 class PopupState {
     constructor() {
         this.companies = [];
         this.pendingWrite = null;
-        this.batchDelay = 100; // ms
     }
 
     setCompanies(companies) {
@@ -37,27 +75,34 @@ class PopupState {
 
     scheduleSave() {
         clearTimeout(this.pendingWrite);
-        this.pendingWrite = setTimeout(() => {
-            chrome.storage.local.set({ companies: this.companies }, () => {
-                if (chrome.runtime.lastError) {
-                    console.error('Error saving state:', chrome.runtime.lastError);
-                }
-            });
-        }, this.batchDelay);
+        this.pendingWrite = setTimeout(async () => {
+            try {
+                await storageSet({ companies: this.companies });
+            } catch (error) {
+                console.error('Error saving state:', error);
+                showToast(getLocalizedMessage('errorSaving'), 'error');
+            }
+        }, TIMING.BATCH_DELAY);
     }
 }
 
 const popupState = new PopupState();
 
-// Helper function to save state
-function saveState(key, value) {
-    chrome.storage.local.set({ [key]: value }, () => {
-        if (chrome.runtime.lastError) {
-            console.error('Error saving state:', chrome.runtime.lastError);
-        }
-    });
+// ============================================================================
+// Helper function to save state (with error feedback)
+// ============================================================================
+async function saveState(key, value) {
+    try {
+        await storageSet({ [key]: value });
+    } catch (error) {
+        console.error('Error saving state:', error);
+        showToast(getLocalizedMessage('errorSaving'), 'error');
+    }
 }
 
+// ============================================================================
+// UI Functions
+// ============================================================================
 function toggleCompanies() {
     const companyList = document.getElementById('company-list');
     const companyBadge = document.getElementById('company-badge');
@@ -77,9 +122,8 @@ function toggleCompanies() {
 // Helper function to fetch localized messages with placeholders
 function getLocalizedMessage(key, params = {}) {
     let message = chrome.i18n.getMessage(key) || key;
-    // Use replaceAll instead of creating new RegExp objects in loop
-    Object.entries(params).forEach(([key, value]) => {
-        message = message.replaceAll(`{${key}}`, value);
+    Object.entries(params).forEach(([paramKey, value]) => {
+        message = message.replaceAll(`{${paramKey}}`, value);
     });
     return message;
 }
@@ -96,12 +140,16 @@ function showToast(message, type = 'success') {
     `;
     document.body.appendChild(toast);
 
-    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => toast.classList.add('show'), TIMING.TOAST_SHOW_DELAY);
     setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400);
-    }, 3000);
+        setTimeout(() => toast.remove(), TIMING.TOAST_FADE_OUT);
+    }, TIMING.TOAST_DISPLAY);
 }
+
+// ============================================================================
+// Company List Management
+// ============================================================================
 
 // Render company list from in-memory state (no storage read)
 function renderCompanyList() {
@@ -126,12 +174,16 @@ function renderCompanyList() {
 }
 
 // Restore the company list from storage (initial load only)
-function restoreCompanyList() {
-    chrome.storage.local.get('companies', (data) => {
+async function restoreCompanyList() {
+    try {
+        const data = await storageGet('companies');
         const companies = data.companies || [];
-        popupState.companies = companies; // Update in-memory state
+        popupState.companies = companies;
         renderCompanyList();
-    });
+    } catch (error) {
+        console.error('Error loading companies:', error);
+        showToast(getLocalizedMessage('errorLoading'), 'error');
+    }
 }
 
 // Add new company
@@ -178,10 +230,17 @@ function clearAllCompanies() {
     }
 }
 
+// ============================================================================
+// Toggle States
+// ============================================================================
+
 // Restore toggle states
-function restoreToggleStates() {
+async function restoreToggleStates() {
     const toggleKeys = ['applied', 'promoted', 'dismissed', 'viewed', 'show-buttons'];
-    chrome.storage.local.get(toggleKeys, (data) => {
+
+    try {
+        const data = await storageGet(toggleKeys);
+
         // Batch initialization - collect all undefined values
         const updates = {};
         if (data['show-buttons'] === undefined) {
@@ -190,7 +249,7 @@ function restoreToggleStates() {
 
         // Single write if needed
         if (Object.keys(updates).length > 0) {
-            chrome.storage.local.set(updates);
+            await storageSet(updates);
         }
 
         toggleKeys.forEach((toggleKey) => {
@@ -211,12 +270,18 @@ function restoreToggleStates() {
                 }
             }
         });
-    });
+    } catch (error) {
+        console.error('Error restoring toggle states:', error);
+        showToast(getLocalizedMessage('errorLoading'), 'error');
+    }
 }
+
+// ============================================================================
+// Localization
+// ============================================================================
 
 // Set localized UI text
 function setLocalizedText() {
-    // Cache element references for better performance
     const elements = {
         headerTitle: document.getElementById('header-title'),
         addBtn: document.getElementById('add-company-btn'),
@@ -247,7 +312,6 @@ function setLocalizedText() {
 }
 
 function addTooltips() {
-    // Set data-tooltip attributes for localization (not title to avoid duplicate tooltips)
     const elements = {
         appliedPill: document.querySelector('[data-filter="applied"]'),
         promotedPill: document.querySelector('[data-filter="promoted"]'),
@@ -265,6 +329,10 @@ function addTooltips() {
     if (elements.companyBadge) elements.companyBadge.setAttribute('data-tooltip', getLocalizedMessage('companies_tooltip'));
 }
 
+// ============================================================================
+// Event Handlers
+// ============================================================================
+
 // Extracted function to handle adding a company (eliminates duplication)
 function handleAddCompany() {
     const input = document.getElementById('new-company');
@@ -276,8 +344,20 @@ function handleAddCompany() {
     }
 }
 
-// SINGLE DOMContentLoaded - All initialization
-document.addEventListener('DOMContentLoaded', () => {
+// Function to update filter pill visual state
+function updateFilterPillVisualState(pill, isActive) {
+    if (isActive) {
+        pill.classList.add('active');
+    } else {
+        pill.classList.remove('active');
+    }
+}
+
+// ============================================================================
+// Initialization
+// ============================================================================
+
+document.addEventListener('DOMContentLoaded', async () => {
     // Hide company list initially
     document.getElementById('company-list').style.display = 'none';
 
@@ -291,9 +371,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initialize everything
-    restoreCompanyList();
-    restoreToggleStates();
+    // Initialize everything (async operations run in parallel)
+    await Promise.all([
+        restoreCompanyList(),
+        restoreToggleStates()
+    ]);
+
     setLocalizedText();
     addTooltips();
 
@@ -332,15 +415,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateFilterPillVisualState(pill, checkbox.checked);
         });
     });
-
-    // Function to update filter pill visual state
-    function updateFilterPillVisualState(pill, isActive) {
-        if (isActive) {
-            pill.classList.add('active');
-        } else {
-            pill.classList.remove('active');
-        }
-    }
 
     // Version number
     const versionNumber = chrome.runtime.getManifest().version;
