@@ -1,0 +1,165 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#095557"/>
+      <stop offset="50%" style="stop-color:#0D7377"/>
+      <stop offset="100%" style="stop-color:#14919B"/>
+    </linearGradient>
+    <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-opacity="0.25"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="800" fill="url(#bgGrad2)"/>
+
+  <!-- Subtle pattern -->
+  <g fill="white" fill-opacity="0.03">
+    <circle cx="200" cy="150" r="80"/>
+    <circle cx="1100" cy="650" r="120"/>
+    <circle cx="150" cy="600" r="60"/>
+    <circle cx="1150" cy="200" r="90"/>
+  </g>
+
+  <!-- Main headline -->
+  <text x="640" y="90" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="700" direction="rtl">فلاتر سريعة</text>
+  <text x="640" y="140" text-anchor="middle" fill="white" fill-opacity="0.85" font-family="Segoe UI, Arial, sans-serif" font-size="24" direction="rtl">إخفاء الوظائف التي شاهدتها بالفعل أو لا تهمك</text>
+
+  <!-- Four filter cards in a row - RTL order -->
+  <g transform="translate(940, 220)">
+    <!-- Applied Filter Card -->
+    <g filter="url(#shadow2)">
+      <rect width="250" height="300" rx="16" fill="white"/>
+      <rect y="0" width="250" height="70" rx="16" fill="#0D7377"/>
+      <rect y="55" width="250" height="15" fill="#0D7377"/>
+
+      <!-- Checkmark icon -->
+      <circle cx="125" cy="35" r="25" fill="white" fill-opacity="0.2"/>
+      <text x="125" y="45" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="28">&#x2713;</text>
+
+      <text x="125" y="110" text-anchor="middle" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl">تم التقديم</text>
+      <text x="125" y="145" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">إخفاء الوظائف التي</text>
+      <text x="125" y="165" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">تقدمت لها بالفعل</text>
+
+      <!-- Example visual -->
+      <rect x="25" y="190" width="200" height="40" rx="8" fill="#F7F8FA" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="35" y="200" width="60" height="8" rx="4" fill="#D1D5DB"/>
+      <rect x="35" y="215" width="100" height="6" rx="3" fill="#E5E7EB"/>
+      <rect x="165" y="200" width="50" height="20" rx="4" fill="#10B981"/>
+      <text x="190" y="214" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="7" font-weight="600" direction="rtl">تم التقديم</text>
+
+      <text x="125" y="260" text-anchor="middle" fill="#0D7377" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" direction="rtl">&#x2190; مخفي</text>
+    </g>
+  </g>
+
+  <g transform="translate(660, 220)">
+    <!-- Promoted Filter Card -->
+    <g filter="url(#shadow2)">
+      <rect width="250" height="300" rx="16" fill="white"/>
+      <rect y="0" width="250" height="70" rx="16" fill="#E8A838"/>
+      <rect y="55" width="250" height="15" fill="#E8A838"/>
+
+      <!-- Star icon -->
+      <circle cx="125" cy="35" r="25" fill="white" fill-opacity="0.2"/>
+      <text x="125" y="45" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="28">&#x2605;</text>
+
+      <text x="125" y="110" text-anchor="middle" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl">معروضة</text>
+      <text x="125" y="145" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">إخفاء إعلانات</text>
+      <text x="125" y="165" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">الوظائف المروجة</text>
+
+      <!-- Example visual -->
+      <rect x="25" y="190" width="200" height="40" rx="8" fill="#F7F8FA" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="35" y="200" width="60" height="8" rx="4" fill="#D1D5DB"/>
+      <rect x="35" y="215" width="100" height="6" rx="3" fill="#E5E7EB"/>
+      <rect x="170" y="200" width="45" height="20" rx="4" fill="#E8A838"/>
+      <text x="192" y="214" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="8" font-weight="600" direction="rtl">معروضة</text>
+
+      <text x="125" y="260" text-anchor="middle" fill="#E8A838" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" direction="rtl">&#x2190; مخفي</text>
+    </g>
+  </g>
+
+  <g transform="translate(380, 220)">
+    <!-- Dismissed Filter Card -->
+    <g filter="url(#shadow2)">
+      <rect width="250" height="300" rx="16" fill="white"/>
+      <rect y="0" width="250" height="70" rx="16" fill="#EF4444"/>
+      <rect y="55" width="250" height="15" fill="#EF4444"/>
+
+      <!-- X icon -->
+      <circle cx="125" cy="35" r="25" fill="white" fill-opacity="0.2"/>
+      <text x="125" y="45" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="28">&#x2715;</text>
+
+      <text x="125" y="110" text-anchor="middle" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" direction="rtl">مرفوضة</text>
+      <text x="125" y="145" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">إخفاء الوظائف</text>
+      <text x="125" y="165" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">التي رفضتها</text>
+
+      <!-- Example visual -->
+      <rect x="25" y="190" width="200" height="40" rx="8" fill="#F7F8FA" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="35" y="200" width="60" height="8" rx="4" fill="#D1D5DB"/>
+      <rect x="35" y="215" width="100" height="6" rx="3" fill="#E5E7EB"/>
+      <rect x="170" y="200" width="45" height="20" rx="4" fill="#6B7280"/>
+      <text x="192" y="214" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="8" font-weight="600" direction="rtl">مرفوضة</text>
+
+      <text x="125" y="260" text-anchor="middle" fill="#EF4444" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" direction="rtl">&#x2190; مخفي</text>
+    </g>
+  </g>
+
+  <g transform="translate(100, 220)">
+    <!-- Viewed Filter Card -->
+    <g filter="url(#shadow2)">
+      <rect width="250" height="300" rx="16" fill="white"/>
+      <rect y="0" width="250" height="70" rx="16" fill="#6B7280"/>
+      <rect y="55" width="250" height="15" fill="#6B7280"/>
+
+      <!-- Eye icon -->
+      <circle cx="125" cy="35" r="25" fill="white" fill-opacity="0.2"/>
+      <text x="125" y="45" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="28">&#x25C9;</text>
+
+      <text x="125" y="110" text-anchor="middle" fill="#1A1D23" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700" direction="rtl">تمت المشاهدة</text>
+      <text x="125" y="145" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">إخفاء الوظائف</text>
+      <text x="125" y="165" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="14" direction="rtl">التي شاهدتها</text>
+
+      <!-- Example visual -->
+      <rect x="25" y="190" width="200" height="40" rx="8" fill="#F7F8FA" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="35" y="200" width="60" height="8" rx="4" fill="#D1D5DB"/>
+      <rect x="35" y="215" width="100" height="6" rx="3" fill="#E5E7EB"/>
+      <rect x="160" y="200" width="55" height="20" rx="4" fill="#9CA3AF"/>
+      <text x="187" y="214" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="6" font-weight="600" direction="rtl">تمت المشاهدة</text>
+
+      <text x="125" y="260" text-anchor="middle" fill="#6B7280" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" direction="rtl">&#x2190; مخفي</text>
+    </g>
+  </g>
+
+  <!-- Bottom section - How it works -->
+  <rect x="200" y="560" width="880" height="180" rx="16" fill="white" fill-opacity="0.1"/>
+
+  <text x="640" y="610" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="600" direction="rtl">كيف يعمل</text>
+
+  <g transform="translate(800, 640)">
+    <circle cx="30" cy="30" r="24" fill="#E8A838"/>
+    <text x="30" y="38" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">1</text>
+    <text x="80" y="28" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" direction="rtl">تفعيل الفلتر</text>
+    <text x="80" y="48" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="13" direction="rtl">انقر للتفعيل</text>
+  </g>
+
+  <g transform="translate(530, 640)">
+    <circle cx="30" cy="30" r="24" fill="#E8A838"/>
+    <text x="30" y="38" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">2</text>
+    <text x="80" y="28" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" direction="rtl">فحص تلقائي</text>
+    <text x="80" y="48" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="13" direction="rtl">يتم فحص الوظائف</text>
+  </g>
+
+  <g transform="translate(260, 640)">
+    <circle cx="30" cy="30" r="24" fill="#E8A838"/>
+    <text x="30" y="38" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">3</text>
+    <text x="80" y="28" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600" direction="rtl">تغذية نظيفة</text>
+    <text x="80" y="48" fill="white" fill-opacity="0.8" font-family="Segoe UI, Arial, sans-serif" font-size="13" direction="rtl">الوظائف المطابقة مخفية</text>
+  </g>
+</svg>
