@@ -35,6 +35,67 @@ function storageSet(data) {
     });
 }
 
+function localStorageGet(keys) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(keys, (data) => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(data);
+            }
+        });
+    });
+}
+
+// ============================================================================
+// Migration Helper (local → sync storage, runs once)
+// ============================================================================
+async function migrateLocalToSync() {
+    try {
+        // Check if migration already done
+        const syncData = await storageGet(['_migrated', 'companies']);
+        if (syncData._migrated) {
+            return; // Already migrated
+        }
+
+        // Check if sync already has data (user may have set up on another device)
+        if (syncData.companies && syncData.companies.length > 0) {
+            await storageSet({ _migrated: true });
+            return;
+        }
+
+        // Check local storage for existing data
+        const localData = await localStorageGet(['companies', 'applied', 'promoted', 'dismissed', 'viewed', 'show-buttons']);
+
+        // If local has companies or settings, migrate them
+        const hasLocalData = (localData.companies && localData.companies.length > 0) ||
+                            localData.applied !== undefined ||
+                            localData.promoted !== undefined ||
+                            localData.dismissed !== undefined ||
+                            localData.viewed !== undefined ||
+                            localData['show-buttons'] !== undefined;
+
+        if (hasLocalData) {
+            // Copy local data to sync
+            const dataToMigrate = { _migrated: true };
+            if (localData.companies) dataToMigrate.companies = localData.companies;
+            if (localData.applied !== undefined) dataToMigrate.applied = localData.applied;
+            if (localData.promoted !== undefined) dataToMigrate.promoted = localData.promoted;
+            if (localData.dismissed !== undefined) dataToMigrate.dismissed = localData.dismissed;
+            if (localData.viewed !== undefined) dataToMigrate.viewed = localData.viewed;
+            if (localData['show-buttons'] !== undefined) dataToMigrate['show-buttons'] = localData['show-buttons'];
+
+            await storageSet(dataToMigrate);
+            console.log('Migration complete: local → sync storage');
+        } else {
+            // No local data, just mark as migrated
+            await storageSet({ _migrated: true });
+        }
+    } catch (error) {
+        console.error('Migration failed:', error);
+    }
+}
+
 // ============================================================================
 // In-memory state manager for batched storage operations
 // ============================================================================
@@ -370,6 +431,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             toggleCompanies();
         }
     });
+
+    // Run migration first (local → sync storage, one-time)
+    await migrateLocalToSync();
 
     // Initialize everything (async operations run in parallel)
     await Promise.all([
