@@ -1,7 +1,8 @@
-<meta charset="UTF-8">
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'; style-src 'self' 'unsafe-inline';">
     <title>Job Filter</title>
     <link rel="stylesheet" href="popup.css">
 </head>
@@ -15,41 +16,41 @@
         <div class="main-content">
             <!-- FILTERS SECTION - Pill Grid Style -->
             <div class="section">
-                <div class="filter-section">
+                <div class="filter-section" role="group" aria-labelledby="quick-filters-title">
                     <div class="section-title" id="quick-filters-title">Quick Filters</div>
 
                     <!-- 2x2 Grid for main filters -->
                     <div class="filter-pill-grid">
-                        <div class="filter-pill" data-filter="applied" data-tooltip="Hide jobs you've applied to">
-                            <span class="pill-icon">✓</span>
+                        <div class="filter-pill" data-filter="applied">
+                            <span class="pill-icon" aria-hidden="true">✓</span>
                             <span class="pill-label" id="toggle-applied-label">Applied</span>
-                            <input type="checkbox" id="toggle-applied">
+                            <input type="checkbox" id="toggle-applied" aria-labelledby="toggle-applied-label">
                         </div>
 
-                        <div class="filter-pill" data-filter="promoted" data-tooltip="Hide promoted job listings">
-                            <span class="pill-icon">📢</span>
+                        <div class="filter-pill" data-filter="promoted">
+                            <span class="pill-icon" aria-hidden="true">📢</span>
                             <span class="pill-label" id="toggle-promoted-label">Promoted</span>
-                            <input type="checkbox" id="toggle-promoted">
+                            <input type="checkbox" id="toggle-promoted" aria-labelledby="toggle-promoted-label">
                         </div>
 
-                        <div class="filter-pill" data-filter="dismissed" data-tooltip="Hide dismissed jobs">
-                            <span class="pill-icon">🚫</span>
+                        <div class="filter-pill" data-filter="dismissed">
+                            <span class="pill-icon" aria-hidden="true">🚫</span>
                             <span class="pill-label" id="toggle-dismissed-label">Dismissed</span>
-                            <input type="checkbox" id="toggle-dismissed">
+                            <input type="checkbox" id="toggle-dismissed" aria-labelledby="toggle-dismissed-label">
                         </div>
 
-                        <div class="filter-pill" data-filter="viewed" data-tooltip="Hide viewed jobs">
-                            <span class="pill-icon">👀</span>
+                        <div class="filter-pill" data-filter="viewed">
+                            <span class="pill-icon" aria-hidden="true">👀</span>
                             <span class="pill-label" id="toggle-viewed-label">Viewed</span>
-                            <input type="checkbox" id="toggle-viewed">
+                            <input type="checkbox" id="toggle-viewed" aria-labelledby="toggle-viewed-label">
                         </div>
                     </div>
 
                     <!-- Full-width Display Block Icon toggle -->
-                    <div class="filter-pill filter-pill-full" data-filter="show-buttons" data-tooltip="Show/hide block buttons on job cards">
-                        <span class="pill-icon">👁️</span>
+                    <div class="filter-pill filter-pill-full" data-filter="show-buttons">
+                        <span class="pill-icon" aria-hidden="true">👁️</span>
                         <span class="pill-label" id="show-icon-label">Display Block Icon</span>
-                        <input type="checkbox" id="toggle-show-buttons">
+                        <input type="checkbox" id="toggle-show-buttons" aria-labelledby="show-icon-label">
                     </div>
                 </div>
             </div>
@@ -57,32 +58,34 @@
             <!-- COMPANIES SECTION -->
             <div class="section">
                 <div class="company-section">
-                    <div class="company-badge" id="company-badge" data-tooltip="Click to expand/collapse">
+                    <div class="company-badge" id="company-badge" role="button" tabindex="0" aria-expanded="false" aria-controls="company-list">
                         <span id="companies-label">Companies</span>
                         <span class="count" id="company-count-badge">0</span>
                     </div>
-                    <div class="company-list" id="company-list" style="display: none;">
+                    <ul class="company-list" id="company-list" role="list">
                         <!-- Company items populate here -->
-                    </div>
+                    </ul>
                     <div class="add-company">
-                        <input type="text" id="new-company" placeholder="Add new company">
-                        <button id="add-company-btn">Add</button>
+                        <label for="new-company" class="visually-hidden">Add company to block list</label>
+                        <input type="text" id="new-company" placeholder="Add new company" maxlength="100">
+                        <button id="add-company-btn" aria-label="Add company to block list">Add</button>
                     </div>
-                    <button id="clear-all-btn" class="clear-all-btn">Clear All</button>
+                    <button id="clear-all-btn" class="clear-all-btn" aria-label="Clear all blocked companies">Clear All</button>
                 </div>
             </div>
         </div>
     </div>
 
     <a
-  href="https://www.linkedin.com/jobs/"
-  class="li-jobs-bar"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <span class="li-jobs-icon">in</span>
-  <span class="li-jobs-text">Open LinkedIn Jobs</span>
-</a>
+        href="https://www.linkedin.com/jobs/"
+        class="li-jobs-bar"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open LinkedIn Jobs in new tab"
+    >
+        <span class="li-jobs-icon" aria-hidden="true">in</span>
+        <span class="li-jobs-text">Open LinkedIn Jobs</span>
+    </a>
     <footer>
         <span id="version-number"></span>
         <span id="footer-text"></span>
