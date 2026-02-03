@@ -363,18 +363,50 @@ body {
 
 footer {
     margin-top: auto;
-    padding: 8px 12px;
+    padding: 6px 12px;
     border-top: 1px solid var(--neutral-300);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10px;
+    font-size: 9px;
     color: var(--neutral-600);
     flex-shrink: 0;
+    gap: 8px;
 }
 
 footer span {
-    font-size: 12px;
+    font-size: 9px;
+}
+
+footer #version-number {
+    color: var(--neutral-500);
+}
+
+footer #footer-text {
+    text-align: right;
+}
+
+footer #footer-text a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.rate-us {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--secondary);
+    transition: all 0.2s ease;
+}
+
+.rate-us:hover {
+    color: var(--secondary-dark);
+    transform: scale(1.05);
+}
+
+.rate-us .stars {
+    font-size: 10px;
+    letter-spacing: 1px;
 }
 
 /* ========== TOOLTIPS ========== */
