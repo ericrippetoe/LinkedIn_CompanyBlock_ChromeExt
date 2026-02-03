@@ -1,0 +1,23 @@
+Tired of scrolling through job listings from companies you're not interested in? Sick of seeing jobs you've already dismissed, or applied to? Take control of your LinkedIn job search with this powerful, lightweight extension that lets you hide unwanted job postings instantly.
+
+How It Works
+Simply click the block icon on any job listing to hide all postings from that company—or add companies manually through the clean, intuitive interface. Your blocklist and settings automatically sync across all your devices when signed into Chrome, so your preferences follow you everywhere.
+
+Key Features
+✅ One-Click Blocking — Block companies directly from LinkedIn's job search page with a single click
+✅ Smart Category Filters — Automatically hide jobs you've already Applied to, Viewed, Dismissed, or that are Promoted
+✅ Cross-Device Sync — Your blocklist and settings sync seamlessly across all your Chrome browsers
+✅ Clean Interface — Simple, distraction-free popup to manage your blocked companies
+✅ Accessible Design — Full keyboard navigation and screen reader support
+✅ 12 Languages Supported — Available in English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Dutch, Arabic, and Hindi
+
+Why Users Love It
+→ Saves Time — Stop wasting clicks on jobs from staffing agencies, recruiters, or companies you've already rejected
+→ Stays Out of Your Way — Lightweight and fast, works silently in the background without slowing down LinkedIn
+→ Privacy First — All data stays in your Chrome profile. No external servers, no tracking, no account required
+→ Always Free — Every feature is available immediately with no limits, no premium tier, no strings attached
+
+Perfect For
+✅ Job seekers filtering out staffing agencies and recruiters
+✅ Anyone avoiding specific companies during their search
+✅ Users who want a cleaner, more focused LinkedIn Jobs experience
