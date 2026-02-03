@@ -1,0 +1,23 @@
+¿Cansado de desplazarte por ofertas de empleo de empresas que no te interesan? ¿Harto de ver trabajos que ya descartaste o a los que ya aplicaste? Toma el control de tu búsqueda de empleo en LinkedIn con esta extensión potente y ligera que te permite ocultar ofertas no deseadas al instante.
+
+Cómo Funciona
+Simplemente haz clic en el icono de bloqueo en cualquier oferta de empleo para ocultar todas las publicaciones de esa empresa, o añade empresas manualmente a través de la interfaz limpia e intuitiva. Tu lista de bloqueo y configuración se sincronizan automáticamente en todos tus dispositivos cuando inicias sesión en Chrome, así que tus preferencias te siguen a todas partes.
+
+Características Principales
+✅ Bloqueo con Un Clic — Bloquea empresas directamente desde la página de búsqueda de empleo de LinkedIn con un solo clic
+✅ Filtros de Categorías Inteligentes — Oculta automáticamente trabajos a los que ya Aplicaste, Viste, Descartaste o que son Promocionados
+✅ Sincronización Entre Dispositivos — Tu lista de bloqueo y configuración se sincronizan perfectamente en todos tus navegadores Chrome
+✅ Interfaz Limpia — Ventana emergente simple y sin distracciones para gestionar tus empresas bloqueadas
+✅ Diseño Accesible — Navegación completa por teclado y soporte para lectores de pantalla
+✅ 12 Idiomas Soportados — Disponible en inglés, español, francés, alemán, italiano, portugués, chino, japonés, coreano, neerlandés, árabe e hindi
+
+Por Qué les Encanta a los Usuarios
+→ Ahorra Tiempo — Deja de perder clics en trabajos de agencias de empleo, reclutadores o empresas que ya rechazaste
+→ No Molesta — Ligera y rápida, funciona silenciosamente en segundo plano sin ralentizar LinkedIn
+→ Privacidad Primero — Todos los datos permanecen en tu perfil de Chrome. Sin servidores externos, sin rastreo, sin cuenta requerida
+→ Siempre Gratis — Todas las funciones están disponibles inmediatamente sin límites, sin nivel premium, sin compromisos
+
+Perfecto Para
+✅ Buscadores de empleo que filtran agencias de empleo y reclutadores
+✅ Cualquiera que evite empresas específicas durante su búsqueda
+✅ Usuarios que quieren una experiencia de LinkedIn Jobs más limpia y enfocada
