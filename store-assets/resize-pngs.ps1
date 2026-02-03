@@ -1,7 +1,17 @@
 # resize-pngs.ps1 - Resize all Chrome Web Store PNGs to exact required dimensions
-# Requires ImageMagick (magick) to be installed: winget install ImageMagick.ImageMagick
+# Uses Inkscape (which you already have installed)
 
 $ErrorActionPreference = "Stop"
+
+# Try to find Inkscape
+$inkscape = "inkscape"
+if (-not (Get-Command $inkscape -ErrorAction SilentlyContinue)) {
+    $inkscape = "C:\Program Files\Inkscape\bin\inkscape.exe"
+    if (-not (Test-Path $inkscape)) {
+        Write-Host "Inkscape not found! Install with: winget install Inkscape.Inkscape" -ForegroundColor Red
+        exit 1
+    }
+}
 
 # Get all PNG files in current directory
 $pngFiles = Get-ChildItem -Filter "*.png"
@@ -27,20 +37,27 @@ foreach ($file in $pngFiles) {
         continue
     }
 
-    # Check current dimensions
-    $identify = magick identify -format "%wx%h" $file.FullName
+    Write-Host "$name - Resizing to ${width}x${height}..." -ForegroundColor Cyan
 
-    if ($identify -eq "${width}x${height}") {
-        Write-Host "$name - Already correct (${width}x${height})" -ForegroundColor Green
-    }
-    else {
-        Write-Host "$name - Resizing from $identify to ${width}x${height}..." -ForegroundColor Cyan
+    # Create temp SVG that embeds the PNG, then export at exact size
+    $tempSvg = [System.IO.Path]::GetTempFileName() + ".svg"
+    $pngPath = $file.FullName -replace '\\', '/'
 
-        # Resize with ImageMagick (use ! to force exact dimensions, ignore aspect ratio)
-        magick $file.FullName -resize "${width}x${height}!" -background white -flatten $file.FullName
+    # Create SVG wrapper
+    $svgContent = @"
+<svg xmlns="http://www.w3.org/2000/svg" width="$width" height="$height" viewBox="0 0 $width $height">
+  <image href="file:///$pngPath" width="$width" height="$height" preserveAspectRatio="none"/>
+</svg>
+"@
+    $svgContent | Out-File -FilePath $tempSvg -Encoding UTF8
 
-        Write-Host "$name - Done!" -ForegroundColor Green
-    }
+    # Export with Inkscape
+    & $inkscape $tempSvg --export-type=png --export-width=$width --export-height=$height --export-filename="$($file.FullName)"
+
+    # Clean up temp file
+    Remove-Item $tempSvg -ErrorAction SilentlyContinue
+
+    Write-Host "$name - Done!" -ForegroundColor Green
 }
 
 Write-Host "`nAll files processed!" -ForegroundColor Green
