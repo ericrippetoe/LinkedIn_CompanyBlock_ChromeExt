@@ -1,1 +1,143 @@
-{"extensionName":{"message":"Bloqueador de Vagas LinkedIn"},"extensionDescription":{"message":"Oculte facilmente anúncios de emprego no LinkedIn com base em empresas ou status."},"appName":{"message":"Bloqueador de Vagas LinkedIn"},"appDescription":{"message":"Oculte facilmente anúncios de emprego no LinkedIn com base em empresas ou status."},"headerTitle":{"message":"Bloqueador de Vagas LinkedIn"},"textareaPlaceholder":{"message":"Digite nomes de empresas, um por linha."},"saveButton":{"message":"Salvar"},"statusSaved":{"message":"Salvo! Fechando em {count}..."},"donateText":{"message":"Apoie meu trabalho - Compre-me um café!"},"toastBlockedJob":{"message":"Vaga bloqueada de: {company}"},"errorSaving":{"message":"Erro ao salvar dados. Tente novamente."},"placeholderLoading":{"message":"Carregando empresas salvas..."},"tooltipBlockButton":{"message":"Clique para bloquear esta empresa."},"successAddedCompany":{"message":"Empresa adicionada à lista de bloqueio: {company}"},"errorAddingCompany":{"message":"Não foi possível adicionar a empresa. Tente novamente mais tarde."},"popupInstructions":{"message":"Gerencie sua lista de bloqueio abaixo. Digite uma empresa por linha e clique em Salvar."},"clearAllButton":{"message":"Limpar Todas as Empresas"},"clearConfirmation":{"message":"Tem certeza de que deseja limpar todas as empresas bloqueadas?"},"successClearAll":{"message":"Lista de bloqueio limpa."},"addButton":{"message":"Adicionar"},"addCompanyPlaceholder":{"message":"Adicionar empresa à lista de bloqueio"},"showButtonsToggle":{"message":"Exibir Ícone de Bloqueio"},"removeCompany":{"message":"Remover esta empresa"},"helpText":{"message":"Ajuda"},"versionNumber":{"message":"Versão: {version}"},"quickFiltersTitle":{"message":"Filtros Rápidos"},"quickFilterApplied":{"message":"Candidaturas"},"quickFilterPromoted":{"message":"Patrocinadas"},"quickFilterDismissed":{"message":"Descartadas"},"quickFilterViewed":{"message":"Visualizadas"},"quickFilterAppliedTooltip":{"message":"Oculte vagas nas quais você já se candidatou."},"quickFilterPromotedTooltip":{"message":"Oculte anúncios de emprego patrocinados. Note que isso pode resultar em resultados vazios."},"quickFilterDismissedTooltip":{"message":"Oculte vagas que você descartou."},"quickFilterViewedTooltip":{"message":"Oculte vagas que você já visualizou."},"showButtonTooltip":{"message":"Mostrar/ocultar um ícone em postagens de emprego do LinkedIn para bloquear facilmente uma empresa."},"companies":{"message":"Empresas Bloqueadas"},"companies_tooltip":{"message":"Clique para expandir/recolher a lista bloqueada."},"delete_message":{"message":"Excluir"},"footerText":{"message":"Feito com <span style='color:#e74c3c;'>❤️</span> por <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"},"toastCompanyAdded":{"message":"\"{company}\" adicionado com sucesso!"},"toastCompanyRemoved":{"message":"\"{company}\" foi removido"},"toastCompanyExists":{"message":"\"{company}\" já está bloqueado"},"toastAllCleared":{"message":"Todas as empresas removidas"},"refreshNoticeText":{"message":"As configurações do LinkedIn Jobs Blocker foram alteradas. Atualize para uma visualização precisa."},"refreshButton":{"message":"Atualizar página"},"dismissButton":{"message":"Ignorar"}}
+{
+    "extensionName": {
+        "message": "Bloqueador de Vagas LinkedIn"
+    },
+    "extensionDescription": {
+        "message": "Oculte facilmente anúncios de emprego no LinkedIn com base em empresas ou status."
+    },
+    "appName": {
+        "message": "Bloqueador de Vagas LinkedIn"
+    },
+    "appDescription": {
+        "message": "Oculte facilmente anúncios de emprego no LinkedIn com base em empresas ou status."
+    },
+    "headerTitle": {
+        "message": "Bloqueador de Vagas LinkedIn"
+    },
+    "textareaPlaceholder": {
+        "message": "Digite nomes de empresas, um por linha."
+    },
+    "saveButton": {
+        "message": "Salvar"
+    },
+    "statusSaved": {
+        "message": "Salvo! Fechando em {count}..."
+    },
+    "donateText": {
+        "message": "Apoie meu trabalho - Compre-me um café!"
+    },
+    "toastBlockedJob": {
+        "message": "Vaga bloqueada de: {company}"
+    },
+    "errorSaving": {
+        "message": "Erro ao salvar dados. Tente novamente."
+    },
+    "placeholderLoading": {
+        "message": "Carregando empresas salvas..."
+    },
+    "tooltipBlockButton": {
+        "message": "Clique para bloquear esta empresa."
+    },
+    "successAddedCompany": {
+        "message": "Empresa adicionada à lista de bloqueio: {company}"
+    },
+    "errorAddingCompany": {
+        "message": "Não foi possível adicionar a empresa. Tente novamente mais tarde."
+    },
+    "popupInstructions": {
+        "message": "Gerencie sua lista de bloqueio abaixo. Digite uma empresa por linha e clique em Salvar."
+    },
+    "clearAllButton": {
+        "message": "Limpar Todas as Empresas"
+    },
+    "clearConfirmation": {
+        "message": "Tem certeza de que deseja limpar todas as empresas bloqueadas?"
+    },
+    "successClearAll": {
+        "message": "Lista de bloqueio limpa."
+    },
+    "addButton": {
+        "message": "Adicionar"
+    },
+    "addCompanyPlaceholder": {
+        "message": "Adicionar empresa à lista de bloqueio"
+    },
+    "showButtonsToggle": {
+        "message": "Exibir Ícone de Bloqueio"
+    },
+    "removeCompany": {
+        "message": "Remover esta empresa"
+    },
+    "helpText": {
+        "message": "Ajuda"
+    },
+    "versionNumber": {
+        "message": "Versão: {version}"
+    },
+    "quickFiltersTitle": {
+        "message": "Filtros Rápidos"
+    },
+    "quickFilterApplied": {
+        "message": "Candidaturas"
+    },
+    "quickFilterPromoted": {
+        "message": "Patrocinadas"
+    },
+    "quickFilterDismissed": {
+        "message": "Descartadas"
+    },
+    "quickFilterViewed": {
+        "message": "Visualizadas"
+    },
+    "quickFilterAppliedTooltip": {
+        "message": "Oculte vagas nas quais você já se candidatou."
+    },
+    "quickFilterPromotedTooltip": {
+        "message": "Oculte anúncios de emprego patrocinados. Note que isso pode resultar em resultados vazios."
+    },
+    "quickFilterDismissedTooltip": {
+        "message": "Oculte vagas que você descartou."
+    },
+    "quickFilterViewedTooltip": {
+        "message": "Oculte vagas que você já visualizou."
+    },
+    "showButtonTooltip": {
+        "message": "Mostrar/ocultar um ícone em postagens de emprego do LinkedIn para bloquear facilmente uma empresa."
+    },
+    "companies": {
+        "message": "Empresas Bloqueadas"
+    },
+    "companies_tooltip": {
+        "message": "Clique para expandir/recolher a lista bloqueada."
+    },
+    "delete_message": {
+        "message": "Excluir"
+    },
+    "footerText": {
+        "message": "Feito com <span style='color:#e74c3c;'>❤️</span> por <a href='https://www.linkedin.com/in/ericrippetoe/' target='_blank' style='color:#0073b1; font-weight:500;'>Eric Rippetoe</a>"
+    },
+    "toastCompanyAdded": {
+        "message": "\"{company}\" adicionado com sucesso!"
+    },
+    "toastCompanyRemoved": {
+        "message": "\"{company}\" foi removido"
+    },
+    "toastCompanyExists": {
+        "message": "\"{company}\" já está bloqueado"
+    },
+    "toastAllCleared": {
+        "message": "Todas as empresas removidas"
+    },
+    "refreshNoticeText": {
+        "message": "As configurações do LinkedIn Jobs Blocker foram alteradas. Atualize para uma visualização precisa."
+    },
+    "refreshButton": {
+        "message": "Atualizar página"
+    },
+    "dismissButton": {
+        "message": "Ignorar"
+    },
+    "rateUsTooltip": {
+        "message": "Avalie-nos na Chrome Web Store"
+    }
+}

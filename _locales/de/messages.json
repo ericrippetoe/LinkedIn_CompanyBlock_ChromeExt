@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "Schließen"
+    },
+    "rateUsTooltip": {
+        "message": "Bewerten Sie uns im Chrome Web Store"
     }
 }

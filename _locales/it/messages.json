@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "Ignora"
+    },
+    "rateUsTooltip": {
+        "message": "Valutaci sul Chrome Web Store"
     }
 }

@@ -368,14 +368,14 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9px;
+    font-size: 10px;
     color: var(--neutral-600);
     flex-shrink: 0;
     gap: 8px;
 }
 
 footer span {
-    font-size: 9px;
+    font-size: 10px;
 }
 
 footer #version-number {
@@ -405,7 +405,7 @@ footer #footer-text a {
 }
 
 .rate-us .stars {
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 1px;
 }
 

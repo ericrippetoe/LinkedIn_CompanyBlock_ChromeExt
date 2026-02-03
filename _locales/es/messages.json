@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "Descartar"
+    },
+    "rateUsTooltip": {
+        "message": "Califícanos en Chrome Web Store"
     }
 }
