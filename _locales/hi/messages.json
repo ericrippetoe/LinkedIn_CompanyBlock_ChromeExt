@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "खारिज करें"
+    },
+    "rateUsTooltip": {
+        "message": "Chrome वेब स्टोर पर हमें रेट करें"
     }
 }

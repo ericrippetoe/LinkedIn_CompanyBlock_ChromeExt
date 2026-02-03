@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "閉じる"
+    },
+    "rateUsTooltip": {
+        "message": "Chrome ウェブストアで評価してください"
     }
 }

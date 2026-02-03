@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "닫기"
+    },
+    "rateUsTooltip": {
+        "message": "Chrome 웹 스토어에서 평가해 주세요"
     }
 }

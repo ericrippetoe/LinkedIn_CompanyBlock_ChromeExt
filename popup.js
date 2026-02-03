@@ -379,7 +379,8 @@ function addTooltips() {
         dismissedPill: document.querySelector('[data-filter="dismissed"]'),
         viewedPill: document.querySelector('[data-filter="viewed"]'),
         showButtonsPill: document.querySelector('[data-filter="show-buttons"]'),
-        companyBadge: document.getElementById('company-badge')
+        companyBadge: document.getElementById('company-badge'),
+        rateUsLink: document.getElementById('rate-us-link')
     };
 
     if (elements.appliedPill) elements.appliedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterAppliedTooltip'));
@@ -388,6 +389,7 @@ function addTooltips() {
     if (elements.viewedPill) elements.viewedPill.setAttribute('data-tooltip', getLocalizedMessage('quickFilterViewedTooltip'));
     if (elements.showButtonsPill) elements.showButtonsPill.setAttribute('data-tooltip', getLocalizedMessage('showButtonTooltip'));
     if (elements.companyBadge) elements.companyBadge.setAttribute('data-tooltip', getLocalizedMessage('companies_tooltip'));
+    if (elements.rateUsLink) elements.rateUsLink.setAttribute('title', getLocalizedMessage('rateUsTooltip'));
 }
 
 // ============================================================================

@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "Negeren"
+    },
+    "rateUsTooltip": {
+        "message": "Beoordeel ons in de Chrome Web Store"
     }
 }

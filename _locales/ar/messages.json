@@ -136,5 +136,8 @@
     },
     "dismissButton": {
         "message": "تجاهل"
+    },
+    "rateUsTooltip": {
+        "message": "قيمنا على متجر Chrome الإلكتروني"
     }
 }
