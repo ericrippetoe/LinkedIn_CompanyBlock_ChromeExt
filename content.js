@@ -32,6 +32,10 @@ class LinkedInJobBlocker {
     // Refresh notice state
     this.refreshNoticeShown = false;
 
+    // SPA navigation tracking
+    this.navigationTimer = null;
+    this.currentUrl = location.href;
+
     // Pre-compiled regex patterns for performance
     this.patterns = {
       dismissed: /We['']t show you this job again\./i,
@@ -54,6 +58,7 @@ class LinkedInJobBlocker {
     this.setupObserver();
     this.setupStorageListener();
     this.setupDOMContentLoaded();
+    this.setupNavigationListener();
   }
 
   // =========================================================================
@@ -586,6 +591,43 @@ class LinkedInJobBlocker {
         }
       }
     });
+  }
+
+  // =========================================================================
+  // SPA Navigation Listener
+  // =========================================================================
+
+  setupNavigationListener() {
+    // LinkedIn is a SPA that uses history.pushState / replaceState for routing.
+    // The content script only runs once on the initial page load, so we intercept
+    // these calls to detect in-app navigation and re-apply job hiding.
+    const originalPushState = history.pushState.bind(history);
+    history.pushState = (...args) => {
+      originalPushState(...args);
+      this.onUrlChange();
+    };
+
+    const originalReplaceState = history.replaceState.bind(history);
+    history.replaceState = (...args) => {
+      originalReplaceState(...args);
+      this.onUrlChange();
+    };
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => this.onUrlChange());
+  }
+
+  onUrlChange() {
+    const newUrl = location.href;
+    if (newUrl === this.currentUrl) return;
+    this.currentUrl = newUrl;
+
+    // Wait for LinkedIn's SPA to finish rendering the new page content
+    // before scanning for jobs to hide.
+    clearTimeout(this.navigationTimer);
+    this.navigationTimer = setTimeout(() => {
+      this.hideListedCompanies();
+    }, 500);
   }
 
   // =========================================================================
