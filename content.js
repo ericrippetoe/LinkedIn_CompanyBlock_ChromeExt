@@ -554,8 +554,12 @@ class LinkedInJobBlocker {
         shouldHide = true;
       }
 
-      if (!shouldHide && dismissed && this.patterns.dismissed.test(link.textContent)) {
-        shouldHide = true;
+      // Detect dismissed state via the undo button's aria-label (reliable) or
+      // text content as a fallback (guards against apostrophe encoding variants)
+      if (!shouldHide && dismissed) {
+        const isDismissed = !!link.querySelector('button[aria-label*="dismissed, undo"]') ||
+                            this.patterns.dismissed.test(link.textContent);
+        if (isDismissed) shouldHide = true;
       }
 
       if (!shouldHide && promoted && this.patterns.promoted.test(link.textContent)) {
@@ -585,8 +589,18 @@ class LinkedInJobBlocker {
     const dismissBtn = link.querySelector('button[aria-label^="Dismiss"]');
     if (!dismissBtn) return;
 
-    const container = dismissBtn.parentElement;
-    if (!container) return;
+    // DOM path: button → button-container div → title-row div → footer div (next sibling)
+    // The footer/extra-info area (shows "Promoted", alumni, etc.) is the sibling of the
+    // title row — the same relative position as .job-card-list__footer-wrapper on other pages.
+    const titleRow = dismissBtn.parentElement?.parentElement;
+    let footerArea = titleRow?.nextElementSibling;
+
+    if (!footerArea || footerArea.tagName !== 'DIV') {
+      // Card has no extra-info footer — create a minimal one so the button has a home
+      footerArea = document.createElement('div');
+      footerArea.style.cssText = 'display:flex;align-items:center;padding:4px 0;';
+      titleRow?.parentElement?.appendChild(footerArea);
+    }
 
     const blockBtn = document.createElement('button');
     blockBtn.type = 'button';
@@ -606,7 +620,7 @@ class LinkedInJobBlocker {
       this.handleBlockCompany(companyName);
     });
 
-    container.appendChild(blockBtn);
+    footerArea.appendChild(blockBtn);
     link.setAttribute('data-ljb-btn-added', 'true');
   }
 
