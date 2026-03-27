@@ -554,10 +554,12 @@ class LinkedInJobBlocker {
         shouldHide = true;
       }
 
-      // Detect dismissed state via the undo button's aria-label (reliable) or
-      // text content as a fallback (guards against apostrophe encoding variants)
+      // Detect dismissed state. LinkedIn marks the undo button with
+      // data-view-name="undo-dismiss-job" (most reliable) or an aria-label
+      // containing "dismissed, undo" (fallback), or the text pattern.
       if (!shouldHide && dismissed) {
-        const isDismissed = !!link.querySelector('button[aria-label*="dismissed, undo"]') ||
+        const isDismissed = !!link.querySelector('button[data-view-name="undo-dismiss-job"]') ||
+                            !!link.querySelector('button[aria-label*="dismissed, undo"]') ||
                             this.patterns.dismissed.test(link.textContent);
         if (isDismissed) shouldHide = true;
       }
@@ -585,21 +587,32 @@ class LinkedInJobBlocker {
     if (!this.cachedSettings['show-buttons']) return;
     if (link.hasAttribute('data-ljb-btn-added')) return;
 
-    // Find the active dismiss button (not the undo variant on already-dismissed cards)
-    const dismissBtn = link.querySelector('button[aria-label^="Dismiss"]');
+    // Find the active dismiss button. Prefer data-view-name (stable internal attribute)
+    // over aria-label (localised text that may change).
+    const dismissBtn = link.querySelector('button[data-view-name="dismiss-job"]') ||
+                       link.querySelector('button[aria-label^="Dismiss"]');
     if (!dismissBtn) return;
 
-    // DOM path: button → button-container div → title-row div → footer div (next sibling)
-    // The footer/extra-info area (shows "Promoted", alumni, etc.) is the sibling of the
-    // title row — the same relative position as .job-card-list__footer-wrapper on other pages.
-    const titleRow = dismissBtn.parentElement?.parentElement;
-    let footerArea = titleRow?.nextElementSibling;
+    // Walk up from the dismiss button until we find an ancestor whose nextElementSibling
+    // is a <div> — that sibling is the footer/extra-info area (contains "1 day ago",
+    // "Promoted", alumni info, etc.).  This traversal is depth-agnostic so it survives
+    // LinkedIn adding or removing intermediate wrapper divs around the dismiss button.
+    let footerArea = null;
+    let node = dismissBtn;
+    while (node && node !== link) {
+      node = node.parentElement;
+      const sib = node?.nextElementSibling;
+      if (sib && sib.tagName === 'DIV') {
+        footerArea = sib;
+        break;
+      }
+    }
 
-    if (!footerArea || footerArea.tagName !== 'DIV') {
-      // Card has no extra-info footer — create a minimal one so the button has a home
+    if (!footerArea) {
+      // Card has no footer area — create a minimal one
       footerArea = document.createElement('div');
       footerArea.style.cssText = 'display:flex;align-items:center;padding:4px 0;';
-      titleRow?.parentElement?.appendChild(footerArea);
+      dismissBtn.parentElement?.parentElement?.appendChild(footerArea);
     }
 
     const blockBtn = document.createElement('button');
