@@ -638,6 +638,34 @@ class LinkedInJobBlocker {
 }
 
 // ============================================================================
+// One-shot reload guard for LinkedIn jobs pages
+// ============================================================================
+// If job listings don't appear within ~2.5 s of the content script first
+// running on a /jobs page, reload once to recover from stale SPA state.
+// sessionStorage prevents infinite reload loops: the flag is set before the
+// reload and consumed (removed) on the next load so subsequent navigations
+// can trigger a reload again if genuinely needed.
+function maybeReloadJobsPage() {
+  if (!location.pathname.startsWith('/jobs')) return;
+
+  const RELOAD_KEY = 'ljb_jobs_reloaded';
+  if (sessionStorage.getItem(RELOAD_KEY)) {
+    sessionStorage.removeItem(RELOAD_KEY); // consume flag; next visit can retry
+    return;
+  }
+
+  setTimeout(() => {
+    const hasContent = document.querySelector(
+      '.jobs-search-results__list-wrapper, li[id^="ember"], li.discovery-templates-entity-item'
+    );
+    if (!hasContent) {
+      sessionStorage.setItem(RELOAD_KEY, '1');
+      location.reload();
+    }
+  }, 2500);
+}
+
+// ============================================================================
 // Initialization with prerender guard
 // ============================================================================
 // LinkedIn uses Chrome's Speculation Rules API to pre-render pages in a hidden
@@ -646,8 +674,13 @@ class LinkedInJobBlocker {
 // incomplete / not yet visible.  Deferring until the 'prerenderingchange'
 // event (fired when the page is activated) ensures we initialize against the
 // real, live document.
-if (document.prerendering) {
-  document.addEventListener('prerenderingchange', () => new LinkedInJobBlocker(), { once: true });
-} else {
+function initExtension() {
+  maybeReloadJobsPage();
   new LinkedInJobBlocker();
+}
+
+if (document.prerendering) {
+  document.addEventListener('prerenderingchange', initExtension, { once: true });
+} else {
+  initExtension();
 }
