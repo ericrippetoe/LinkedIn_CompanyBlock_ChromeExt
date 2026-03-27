@@ -38,7 +38,7 @@ class LinkedInJobBlocker {
 
     // Pre-compiled regex patterns for performance
     this.patterns = {
-      dismissed: /We['']t show you this job again\./i,
+      dismissed: /We['']t show you this job again\.|won['']t recommend this job anymore/i,
       applied: /Applied/i,
       promoted: /Promoted/i,
       viewed: /Viewed/i
@@ -459,8 +459,11 @@ class LinkedInJobBlocker {
     // Hide by footer text settings and collect count - reuse jobListings
     const hiddenBySettingsCount = this.hideJobsByFooterText(jobListings);
 
+    // Root /jobs/ page uses a different card structure (not <li> elements)
+    const hiddenByRootCards = this.hideRootJobsPageCards();
+
     // Show one batched toast for all hidden items
-    const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount;
+    const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount + hiddenByRootCards;
     if (totalHidden > 0) {
       this.scheduleToastNotification(totalHidden);
     }
@@ -512,6 +515,138 @@ class LinkedInJobBlocker {
     });
 
     return hiddenCount;
+  }
+
+  // =========================================================================
+  // Root /jobs/ page card handling
+  // =========================================================================
+  // The root LinkedIn jobs page renders picks as <a componentkey> elements
+  // inside <div data-display-contents="true"> wrappers — not <li> elements.
+  // Company name, dismissed text, and promoted text all require different
+  // selectors from the search/collections pages.
+
+  hideRootJobsPageCards() {
+    const companiesToBlock = this.cachedSettings.companies || [];
+    const blockedSet = new Set(companiesToBlock);
+    const { dismissed, promoted } = this.cachedSettings;
+    let hiddenCount = 0;
+
+    const cardLinks = document.querySelectorAll('a[componentkey]');
+
+    cardLinks.forEach((link) => {
+      const wrapper = link.parentElement;
+      if (!wrapper || wrapper.dataset.displayContents !== 'true') return;
+      if (wrapper.classList.contains('hidden-job')) return; // already hidden
+
+      // Company name: first <p> immediately before a " • " separator <p>
+      let companyName = null;
+      const paragraphs = Array.from(link.querySelectorAll('p'));
+      for (let i = 0; i < paragraphs.length - 1; i++) {
+        if (paragraphs[i + 1].textContent.trim() === '•') {
+          companyName = paragraphs[i].textContent.trim();
+          break;
+        }
+      }
+
+      let shouldHide = false;
+
+      if (companyName && blockedSet.has(companyName)) {
+        shouldHide = true;
+      }
+
+      // Detect dismissed state. LinkedIn marks the undo button with
+      // data-view-name="undo-dismiss-job" (most reliable) or an aria-label
+      // containing "dismissed, undo" (fallback), or the text pattern.
+      if (!shouldHide && dismissed) {
+        const isDismissed = !!link.querySelector('button[data-view-name="undo-dismiss-job"]') ||
+                            !!link.querySelector('button[aria-label*="dismissed, undo"]') ||
+                            this.patterns.dismissed.test(link.textContent);
+        if (isDismissed) shouldHide = true;
+      }
+
+      if (!shouldHide && promoted && this.patterns.promoted.test(link.textContent)) {
+        shouldHide = true;
+      }
+
+      if (shouldHide) {
+        wrapper.style.display = 'none';
+        wrapper.classList.add('hidden-job');
+        // Also hide the adjacent <hr> separator
+        const next = wrapper.nextElementSibling;
+        if (next && next.tagName === 'HR') next.style.display = 'none';
+        hiddenCount++;
+      } else if (companyName) {
+        this.addBlockButtonToRootCard(link, companyName);
+      }
+    });
+
+    return hiddenCount;
+  }
+
+  addBlockButtonToRootCard(link, companyName) {
+    if (!this.cachedSettings['show-buttons']) return;
+    if (link.hasAttribute('data-ljb-btn-added')) return;
+
+    // Find the active dismiss button. Prefer data-view-name (stable internal attribute)
+    // over aria-label (localised text that may change).
+    const dismissBtn = link.querySelector('button[data-view-name="dismiss-job"]') ||
+                       link.querySelector('button[aria-label^="Dismiss"]');
+    if (!dismissBtn) return;
+
+    // Walk up from the dismiss button until we find an ancestor whose nextElementSibling
+    // is a <div> — that sibling is the footer/extra-info area (contains "1 day ago",
+    // "Promoted", alumni info, etc.).  This traversal is depth-agnostic so it survives
+    // LinkedIn adding or removing intermediate wrapper divs around the dismiss button.
+    let footerArea = null;
+    let node = dismissBtn;
+    while (node && node !== link) {
+      node = node.parentElement;
+      const sib = node?.nextElementSibling;
+      if (sib && sib.tagName === 'DIV') {
+        footerArea = sib;
+        break;
+      }
+    }
+
+    if (!footerArea) {
+      // Card has no footer area — create a minimal one
+      footerArea = document.createElement('div');
+      footerArea.style.cssText = 'display:flex;align-items:center;padding:4px 0;';
+      dismissBtn.parentElement?.parentElement?.appendChild(footerArea);
+    }
+
+    const blockBtn = document.createElement('button');
+    blockBtn.type = 'button';
+    blockBtn.title = this.getLocalizedMessage('tooltipBlockButton') || 'Block this company';
+    blockBtn.setAttribute('aria-label', `Block ${companyName}`);
+    blockBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0D7377" viewBox="0 0 16 16" aria-hidden="true" role="none">
+        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+      </svg>
+    `;
+    blockBtn.style.cssText = 'background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;';
+
+    blockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.handleBlockCompany(companyName);
+    });
+
+    // The date/status row ("1 day ago · Easy Apply", etc.) is always the LAST
+    // <div> child of the footer.  Earlier children may be a connections row,
+    // alumni row, or "Actively reviewing" row — we want to skip those.
+    const footerDivs = Array.from(footerArea.children).filter(el => el.tagName === 'DIV');
+    const statusRow = footerDivs[footerDivs.length - 1] || footerArea;
+
+    const sep = document.createElement('p');
+    sep.setAttribute('aria-hidden', 'true');
+    sep.textContent = ' · ';
+    sep.style.marginLeft = '4px';
+
+    statusRow.appendChild(sep);
+    statusRow.appendChild(blockBtn);
+    link.setAttribute('data-ljb-btn-added', 'true');
   }
 
   // =========================================================================
@@ -637,5 +772,50 @@ class LinkedInJobBlocker {
   // Muted: no-op placeholder if you want future extension hooks
 }
 
-// Initialize the extension
-new LinkedInJobBlocker();
+// ============================================================================
+// One-shot reload guard for LinkedIn jobs pages
+// ============================================================================
+// If job listings don't appear within ~2.5 s of the content script first
+// running on a /jobs page, reload once to recover from stale SPA state.
+// sessionStorage prevents infinite reload loops: the flag is set before the
+// reload and consumed (removed) on the next load so subsequent navigations
+// can trigger a reload again if genuinely needed.
+function maybeReloadJobsPage() {
+  if (!location.pathname.startsWith('/jobs')) return;
+
+  const RELOAD_KEY = 'ljb_jobs_reloaded';
+  if (sessionStorage.getItem(RELOAD_KEY)) {
+    sessionStorage.removeItem(RELOAD_KEY); // consume flag; next visit can retry
+    return;
+  }
+
+  setTimeout(() => {
+    const hasContent = document.querySelector(
+      '.jobs-search-results__list-wrapper, li[id^="ember"], li.discovery-templates-entity-item, a[componentkey][href*="/jobs/collections/"]'
+    );
+    if (!hasContent) {
+      sessionStorage.setItem(RELOAD_KEY, '1');
+      location.reload();
+    }
+  }, 2500);
+}
+
+// ============================================================================
+// Initialization with prerender guard
+// ============================================================================
+// LinkedIn uses Chrome's Speculation Rules API to pre-render pages in a hidden
+// document context before the user navigates there.  When the content script
+// runs during prerendering, document.prerendering === true and the DOM is
+// incomplete / not yet visible.  Deferring until the 'prerenderingchange'
+// event (fired when the page is activated) ensures we initialize against the
+// real, live document.
+function initExtension() {
+  maybeReloadJobsPage();
+  new LinkedInJobBlocker();
+}
+
+if (document.prerendering) {
+  document.addEventListener('prerenderingchange', initExtension, { once: true });
+} else {
+  initExtension();
+}
