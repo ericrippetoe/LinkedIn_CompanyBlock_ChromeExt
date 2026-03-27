@@ -633,7 +633,18 @@ class LinkedInJobBlocker {
       this.handleBlockCompany(companyName);
     });
 
-    footerArea.appendChild(blockBtn);
+    // Insert into the status row inside the footer (the flex <div> containing the
+    // inline <p> items like "Viewed · 1 day ago · Be an early applicant").
+    // When the footer also has a connections row (contains a <ul>), skip that one.
+    const statusRow = Array.from(footerArea.children)
+      .find(el => el.tagName === 'DIV' && !el.querySelector('ul')) || footerArea;
+
+    const sep = document.createElement('p');
+    sep.setAttribute('aria-hidden', 'true');
+    sep.textContent = ' · ';
+
+    statusRow.appendChild(sep);
+    statusRow.appendChild(blockBtn);
     link.setAttribute('data-ljb-btn-added', 'true');
   }
 
