@@ -642,6 +642,7 @@ class LinkedInJobBlocker {
     const sep = document.createElement('p');
     sep.setAttribute('aria-hidden', 'true');
     sep.textContent = ' · ';
+    sep.style.marginLeft = '4px';
 
     statusRow.appendChild(sep);
     statusRow.appendChild(blockBtn);
