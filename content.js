@@ -38,7 +38,7 @@ class LinkedInJobBlocker {
 
     // Pre-compiled regex patterns for performance
     this.patterns = {
-      dismissed: /We['']t show you this job again\./i,
+      dismissed: /We['']t show you this job again\.|won['']t recommend this job anymore/i,
       applied: /Applied/i,
       promoted: /Promoted/i,
       viewed: /Viewed/i
@@ -459,8 +459,11 @@ class LinkedInJobBlocker {
     // Hide by footer text settings and collect count - reuse jobListings
     const hiddenBySettingsCount = this.hideJobsByFooterText(jobListings);
 
+    // Root /jobs/ page uses a different card structure (not <li> elements)
+    const hiddenByRootCards = this.hideRootJobsPageCards();
+
     // Show one batched toast for all hidden items
-    const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount;
+    const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount + hiddenByRootCards;
     if (totalHidden > 0) {
       this.scheduleToastNotification(totalHidden);
     }
@@ -512,6 +515,99 @@ class LinkedInJobBlocker {
     });
 
     return hiddenCount;
+  }
+
+  // =========================================================================
+  // Root /jobs/ page card handling
+  // =========================================================================
+  // The root LinkedIn jobs page renders picks as <a componentkey> elements
+  // inside <div data-display-contents="true"> wrappers — not <li> elements.
+  // Company name, dismissed text, and promoted text all require different
+  // selectors from the search/collections pages.
+
+  hideRootJobsPageCards() {
+    const companiesToBlock = this.cachedSettings.companies || [];
+    const blockedSet = new Set(companiesToBlock);
+    const { dismissed, promoted } = this.cachedSettings;
+    let hiddenCount = 0;
+
+    const cardLinks = document.querySelectorAll('a[componentkey]');
+
+    cardLinks.forEach((link) => {
+      const wrapper = link.parentElement;
+      if (!wrapper || wrapper.dataset.displayContents !== 'true') return;
+      if (wrapper.classList.contains('hidden-job')) return; // already hidden
+
+      // Company name: first <p> immediately before a " • " separator <p>
+      let companyName = null;
+      const paragraphs = Array.from(link.querySelectorAll('p'));
+      for (let i = 0; i < paragraphs.length - 1; i++) {
+        if (paragraphs[i + 1].textContent.trim() === '•') {
+          companyName = paragraphs[i].textContent.trim();
+          break;
+        }
+      }
+
+      let shouldHide = false;
+
+      if (companyName && blockedSet.has(companyName)) {
+        shouldHide = true;
+      }
+
+      if (!shouldHide && dismissed && this.patterns.dismissed.test(link.textContent)) {
+        shouldHide = true;
+      }
+
+      if (!shouldHide && promoted && this.patterns.promoted.test(link.textContent)) {
+        shouldHide = true;
+      }
+
+      if (shouldHide) {
+        wrapper.style.display = 'none';
+        wrapper.classList.add('hidden-job');
+        // Also hide the adjacent <hr> separator
+        const next = wrapper.nextElementSibling;
+        if (next && next.tagName === 'HR') next.style.display = 'none';
+        hiddenCount++;
+      } else if (companyName) {
+        this.addBlockButtonToRootCard(link, companyName);
+      }
+    });
+
+    return hiddenCount;
+  }
+
+  addBlockButtonToRootCard(link, companyName) {
+    if (!this.cachedSettings['show-buttons']) return;
+    if (link.hasAttribute('data-ljb-btn-added')) return;
+
+    // Find the active dismiss button (not the undo variant on already-dismissed cards)
+    const dismissBtn = link.querySelector('button[aria-label^="Dismiss"]');
+    if (!dismissBtn) return;
+
+    const container = dismissBtn.parentElement;
+    if (!container) return;
+
+    const blockBtn = document.createElement('button');
+    blockBtn.type = 'button';
+    blockBtn.title = this.getLocalizedMessage('tooltipBlockButton') || 'Block this company';
+    blockBtn.setAttribute('aria-label', `Block ${companyName}`);
+    blockBtn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0D7377" viewBox="0 0 16 16" aria-hidden="true" role="none">
+        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+      </svg>
+    `;
+    blockBtn.style.cssText = 'background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;';
+
+    blockBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      this.handleBlockCompany(companyName);
+    });
+
+    container.appendChild(blockBtn);
+    link.setAttribute('data-ljb-btn-added', 'true');
   }
 
   // =========================================================================
@@ -656,7 +752,7 @@ function maybeReloadJobsPage() {
 
   setTimeout(() => {
     const hasContent = document.querySelector(
-      '.jobs-search-results__list-wrapper, li[id^="ember"], li.discovery-templates-entity-item'
+      '.jobs-search-results__list-wrapper, li[id^="ember"], li.discovery-templates-entity-item, a[componentkey][href*="/jobs/collections/"]'
     );
     if (!hasContent) {
       sessionStorage.setItem(RELOAD_KEY, '1');
