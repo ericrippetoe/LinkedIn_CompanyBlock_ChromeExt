@@ -633,11 +633,11 @@ class LinkedInJobBlocker {
       this.handleBlockCompany(companyName);
     });
 
-    // Insert into the status row inside the footer (the flex <div> containing the
-    // inline <p> items like "Viewed · 1 day ago · Be an early applicant").
-    // When the footer also has a connections row (contains a <ul>), skip that one.
-    const statusRow = Array.from(footerArea.children)
-      .find(el => el.tagName === 'DIV' && !el.querySelector('ul')) || footerArea;
+    // The date/status row ("1 day ago · Easy Apply", etc.) is always the LAST
+    // <div> child of the footer.  Earlier children may be a connections row,
+    // alumni row, or "Actively reviewing" row — we want to skip those.
+    const footerDivs = Array.from(footerArea.children).filter(el => el.tagName === 'DIV');
+    const statusRow = footerDivs[footerDivs.length - 1] || footerArea;
 
     const sep = document.createElement('p');
     sep.setAttribute('aria-hidden', 'true');
