@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.4.0] - 2026-11-07
+
+### Fixed
+
+- 🐛 **Support LinkedIn's new job card layout** – Cards are now found by `componentkey="job-card-component-ref-…"` instead of the old Ember `<li>` structure. Company, status and dismiss state are read from stable signals (paragraph order and LinkedIn icon ids) rather than hashed class names
+- 🐛 **Dismissed detection** – LinkedIn's "We won’t recommend this job anymore" uses a curly apostrophe, which the old pattern never matched. Dismissed cards are now also detected by the undo icon, which works in any UI language
+- 🐛 **Unwanted page reloads** – Removed the 2.5 s "reload if no jobs found" fallback, which reloaded `/jobs` pages on every other visit once LinkedIn's markup changed
+- 🐛 **"Applied Scientist" false positives** – Status filters no longer look at the job title or company name
+
+### Changed
+
+- ⚡ **Faster, flicker-free hiding** – The MutationObserver now re-checks only the cards that changed, and does so before the browser paints, instead of re-scanning the whole page after a 300 ms debounce
+- ✨ **Viewed/Applied jobs hide after you move on** – The job you're looking at stays in the list until you select a different one (tracked by click and by `currentJobId` in the URL)
+- 🎨 **Animated hiding** – Jobs you've already seen fade and slide out, then collapse so the list closes the gap smoothly. Jobs filtered on first render still hide instantly (no flash), and the animation is skipped when the OS "reduce motion" setting is on
+- ✨ **No refresh needed** – Turning a filter off or unblocking a company un-hides matching jobs right away; turning "Display Block Icon" off removes the buttons
+- ✨ **Case-insensitive company matching** – "acme corp" in the block list now matches "Acme Corp"
+- 🎨 **Native-looking block button** – Placed next to LinkedIn's dismiss (X) button and styled like it
+- 🧹 Replaced the `history.pushState` patch (which can't see page navigation from an extension's isolated world) with the observer, which already catches new cards
+- 🧹 Layouts are handled by small "adapters", so future LinkedIn changes only need a new adapter
+- 🧹 Orphaned scripts stop observing after the extension is reloaded or updated
+
+---
+
 ## [2.2.1] - 2026-01-20
 
 ### Fixed

@@ -1,5 +1,10 @@
-// LinkedIn Job Blocker - Full Refactored Content Script
-// Date: 2025-12
+// LinkedIn Job Blocker - Content Script
+//
+// LinkedIn renders job cards in several layouts. Each layout is described by an
+// "adapter" (see ADAPTERS below) that knows how to find a card, read the company
+// and status from it, decide which element to hide, and where to put the block
+// button. When LinkedIn changes its markup again, add or update an adapter —
+// the rest of the script does not need to change.
 
 // ============================================================================
 // Constants
@@ -9,71 +14,384 @@ const TIMING = {
   TOAST_DISPLAY: 3000,        // ms - how long toast stays visible
   TOAST_FADE_OUT: 300,        // ms - toast fade out animation duration
   TOAST_BATCH_WINDOW: 1500,   // ms - window to batch multiple hide notifications
-  NOTICE_SHOW_DELAY: 50,      // ms - delay before notice animation starts
-  NOTICE_FADE_OUT: 300,       // ms - notice fade out animation duration
-  DEBOUNCE_DELAY: 300         // ms - mutation observer debounce window
+  HIDE_ANIMATION: 450         // ms - fade/slide out, then collapse
 };
 
+const BRAND_COLOR = '#0D7377';
+const HIDDEN_ATTR = 'data-ljb-hidden';   // value = key of the job that caused the hide
+const HIDING_ATTR = 'data-ljb-hiding';   // set while the hide animation runs
+const HIDDEN_OR_HIDING = `[${HIDDEN_ATTR}], [${HIDING_ATTR}]`;
+const BUTTON_CLASS = 'ljb-block-btn';
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+// LinkedIn icon ids are design-system tokens; unlike text and aria-labels they
+// are the same in every UI language.
+const ICON_IDS = {
+  dismiss: 'xmark-outline-small',
+  undo: 'arrow-curve-left-outline-small'
+};
+
+const PATTERNS = {
+  // "We won’t recommend this job anymore." / "We won't show you this job again."
+  // LinkedIn uses a curly apostrophe (U+2019); accept straight ones too.
+  dismissed: /won[\u2019\u2018']t (?:show you|recommend) this job/i,
+  applied: /\bApplied\b/i,
+  promoted: /\bPromoted\b/i,
+  viewed: /\bViewed\b/i
+};
+
+const SETTING_KEYS = ['applied', 'promoted', 'dismissed', 'viewed', 'show-buttons', 'companies'];
+const FILTER_KEYS = ['applied', 'promoted', 'dismissed', 'viewed'];
+
+const BLOCK_ICON_PATHS = [
+  'm10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z',
+  'M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z'
+];
+
+// ============================================================================
+// Small helpers
+// ============================================================================
+const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+
+const normalizeCompany = (name) =>
+  String(name || '').normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+
+const attrSelector = (name, value) => `[${name}="${String(value).replace(/["\\]/g, '\\$&')}"]`;
+
+function createBlockIcon() {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 16 16');
+  svg.setAttribute('width', '16');
+  svg.setAttribute('height', '16');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  for (const d of BLOCK_ICON_PATHS) {
+    const path = document.createElementNS(SVG_NS, 'path');
+    path.setAttribute('d', d);
+    svg.appendChild(path);
+  }
+  return svg;
+}
+
+// Walk up from a card through wrappers that contain nothing but the card, so
+// hiding removes the whole list slot (border, padding) and not just its content.
+// Stops at list containers so a list that briefly holds one card is never hidden.
+function outermostSoleWrapper(el, maxDepth = 4) {
+  let node = el;
+  for (let i = 0; i < maxDepth; i++) {
+    const parent = node.parentElement;
+    if (!parent || parent === document.body || parent.childElementCount !== 1) break;
+    if (parent.matches('ul, ol, [role="list"], main, [role="main"], section')) break;
+    node = parent;
+    if (node.tagName === 'LI') break;
+  }
+  return node;
+}
+
+// Job keys end in LinkedIn's numeric job id ("job-card-component-ref-4488033941",
+// or the bare id for Ember cards).
+const jobIdFromKey = (key) => {
+  const m = /(\d{5,})$/.exec(key || '');
+  return m ? m[1] : null;
+};
+
+let legacyKeyCounter = 0;
+function legacyKey(el) {
+  if (!el.dataset.ljbKey) el.dataset.ljbKey = `ljb-${++legacyKeyCounter}`;
+  return el.dataset.ljbKey;
+}
+
+// ============================================================================
+// Layout adapters
+// ============================================================================
+// Each adapter provides:
+//   selector          CSS selector that finds candidate cards
+//   accept(el)        optional extra filter
+//   canonical(el)     normalise to one element per job (default: el)
+//   key(card)         stable id for the job
+//   read(card)        { company, dismissed, applied, promoted, viewed } or null
+//   container(card)   element to hide
+//   addButton(card, company, blocker)
+
+const SDUI_CARD_SELECTOR = '[componentkey^="job-card-component-ref-"]';
+
+// 2026 layout: obfuscated class names, cards marked with
+// componentkey="job-card-component-ref-<jobId>". The outer clickable
+// div[role=button] and an inner div carry the same componentkey.
+const sduiAdapter = {
+  name: 'sdui-2026',
+  selector: SDUI_CARD_SELECTOR,
+
+  canonical(el) {
+    const sel = attrSelector('componentkey', el.getAttribute('componentkey'));
+    let top = el;
+    let up;
+    while ((up = top.parentElement && top.parentElement.closest(sel))) top = up;
+    return top;
+  },
+
+  key(card) {
+    return card.getAttribute('componentkey');
+  },
+
+  // Paragraph order inside a card: [title] [company] [location] [status…]
+  // The title <p> holds a screen-reader span plus an aria-hidden visual span.
+  read(card) {
+    const ps = Array.from(card.querySelectorAll('p'));
+    if (ps.length < 2) return null; // not rendered yet
+
+    let titleIdx = 0;
+    if (!ps[0].querySelector('span[aria-hidden="true"]') &&
+        ps[1].querySelector('span[aria-hidden="true"]')) {
+      titleIdx = 1; // a badge paragraph precedes the title
+    }
+
+    const companyEl = ps[titleIdx + 1];
+    // Status text excludes title and company so a title like
+    // "Applied Scientist" is not mistaken for the "Applied" status.
+    const statusText = ps
+      .filter((_, i) => i !== titleIdx && i !== titleIdx + 1)
+      .map((p) => p.textContent)
+      .join('\n');
+
+    const dismissed =
+      !!card.querySelector(`svg${attrSelector('id', ICON_IDS.undo)}`) ||
+      Array.from(card.querySelectorAll('button[aria-label]'))
+        .some((b) => /dismissed/i.test(b.getAttribute('aria-label'))) ||
+      PATTERNS.dismissed.test(statusText);
+
+    return {
+      company: text(companyEl),
+      dismissed,
+      applied: PATTERNS.applied.test(statusText),
+      promoted: PATTERNS.promoted.test(statusText),
+      viewed: PATTERNS.viewed.test(statusText)
+    };
+  },
+
+  container(card) {
+    return outermostSoleWrapper(card);
+  },
+
+  addButton(card, company, blocker) {
+    if (card.querySelector(`.${BUTTON_CLASS}`)) return;
+
+    const dismissIcon = card.querySelector(`svg${attrSelector('id', ICON_IDS.dismiss)}`);
+    const dismissBtn = (dismissIcon && dismissIcon.closest('button')) ||
+                       card.querySelector('button[aria-label^="Dismiss"]');
+    if (!dismissBtn) return;
+
+    // Clone LinkedIn's own dismiss button so ours picks up the same size,
+    // hover and focus styles without hard-coding their hashed class names.
+    const btn = dismissBtn.cloneNode(true);
+    ['componentkey', 'aria-label', 'data-view-name', 'id'].forEach((a) => btn.removeAttribute(a));
+    btn.classList.add(BUTTON_CLASS);
+
+    const icon = createBlockIcon();
+    const oldIcon = btn.querySelector('svg');
+    if (oldIcon) {
+      icon.setAttribute('class', oldIcon.getAttribute('class') || '');
+      oldIcon.replaceWith(icon);
+    } else {
+      btn.appendChild(icon);
+    }
+
+    blocker.decorateBlockButton(btn, company);
+    dismissBtn.parentElement.setAttribute('data-ljb-slot', '');
+    dismissBtn.before(btn);
+  }
+};
+
+// Pre-2026 Ember layout (search results, collections).
+const emberAdapter = {
+  name: 'ember-legacy',
+  selector: 'li[data-occludable-job-id], li[id^="ember"], li.discovery-templates-entity-item',
+
+  key(card) {
+    return card.getAttribute('data-occludable-job-id') || legacyKey(card);
+  },
+
+  read(card) {
+    const companyEl = card.querySelector('.artdeco-entity-lockup__subtitle span');
+    if (!companyEl) return null;
+    const footerText = text(card.querySelector('.job-card-list__footer-wrapper'));
+    const noticeText = text(card.querySelector('.job-card-container__footer-item--highlighted'));
+    return {
+      company: text(companyEl),
+      dismissed: !!card.querySelector('.job-card-list--is-dismissed') ||
+                 PATTERNS.dismissed.test(noticeText),
+      applied: PATTERNS.applied.test(footerText),
+      promoted: PATTERNS.promoted.test(footerText),
+      viewed: PATTERNS.viewed.test(footerText)
+    };
+  },
+
+  container: (card) => card,
+
+  addButton(card, company, blocker) {
+    const footer = card.querySelector('.job-card-list__footer-wrapper');
+    if (!footer || footer.querySelector(`.${BUTTON_CLASS}`)) return;
+
+    const li = document.createElement('li');
+    li.className = 'job-card-container__footer-item inline-flex align-items-center';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `${BUTTON_CLASS} ljb-block-btn--plain`;
+    btn.appendChild(createBlockIcon());
+    blocker.decorateBlockButton(btn, company);
+    li.appendChild(btn);
+    footer.appendChild(li);
+  }
+};
+
+// Early-2026 /jobs/ home page: cards are <a componentkey> inside
+// <div data-display-contents="true">, company followed by a "•" paragraph.
+const homeLinkAdapter = {
+  name: 'home-links-legacy',
+  selector: 'a[componentkey]',
+
+  accept(el) {
+    const wrapper = el.parentElement;
+    return !!wrapper && wrapper.dataset.displayContents === 'true' &&
+           !el.querySelector(SDUI_CARD_SELECTOR) && !el.closest(SDUI_CARD_SELECTOR);
+  },
+
+  key(card) {
+    return card.getAttribute('componentkey');
+  },
+
+  read(card) {
+    const ps = Array.from(card.querySelectorAll('p'));
+    let company = '';
+    for (let i = 0; i < ps.length - 1; i++) {
+      if (text(ps[i + 1]) === '•') { company = text(ps[i]); break; }
+    }
+    if (!company) return null;
+    const all = card.textContent;
+    return {
+      company,
+      dismissed: !!card.querySelector('button[data-view-name="undo-dismiss-job"], button[aria-label*="dismissed, undo"]') ||
+                 !!card.querySelector(`svg${attrSelector('id', ICON_IDS.undo)}`) ||
+                 PATTERNS.dismissed.test(all),
+      applied: false,
+      promoted: PATTERNS.promoted.test(all),
+      viewed: false
+    };
+  },
+
+  container: (card) => card.parentElement,
+
+  addButton(card, company, blocker) {
+    if (card.querySelector(`.${BUTTON_CLASS}`)) return;
+    const dismissBtn = card.querySelector('button[data-view-name="dismiss-job"], button[aria-label^="Dismiss"]');
+    if (!dismissBtn) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `${BUTTON_CLASS} ljb-block-btn--plain`;
+    btn.appendChild(createBlockIcon());
+    blocker.decorateBlockButton(btn, company);
+    dismissBtn.parentElement.setAttribute('data-ljb-slot', '');
+    dismissBtn.before(btn);
+  }
+};
+
+const ADAPTERS = [sduiAdapter, emberAdapter, homeLinkAdapter];
+
+// ============================================================================
+// Blocker
+// ============================================================================
 class LinkedInJobBlocker {
   constructor() {
-    // In-memory cache of settings
-    this.cachedSettings = {};
-
-    // Debounce for mutation observer
-    this.debounceTimer = null;
-
-    // Blocker state
-    this.isUpdating = false;
-
-    // Toast batching
+    this.settings = {};
+    this.blockedSet = new Set();
+    this.toastedKeys = new Set();  // jobs already counted in a toast
     this.toastHiddenCount = 0;
     this.toastBatchTimer = null;
-
-    // Refresh notice state
-    this.refreshNoticeShown = false;
-
-    // SPA navigation tracking
-    this.navigationTimer = null;
-    this.currentUrl = location.href;
-
-    // Pre-compiled regex patterns for performance
-    this.patterns = {
-      dismissed: /We['']t show you this job again\.|won['']t recommend this job anymore/i,
-      applied: /Applied/i,
-      promoted: /Promoted/i,
-      viewed: /Viewed/i
-    };
-
-    // Debug flag (set to false for production)
+    this.observer = null;
     this.debug = false;
 
-    // Initialize
-    this.init();
-  }
+    // Containers the user has seen on screen; only these animate when hidden.
+    // Cards that would be hidden on first render are removed instantly instead.
+    this.shownContainers = new WeakSet();
+    this.animations = new Map(); // key -> Animation
 
-  // Initialize the extension
-  init() {
+    // The job the user is looking at. "Viewed"/"Applied" filters skip it until
+    // the user moves on to another job, so it doesn't vanish on click.
+    this.activeJobId = null;
+    this.lastHref = '';
+
     this.injectStyles();
-    this.loadSettings();
+    this.syncActiveJobFromUrl();
     this.setupObserver();
+    this.setupActiveJobTracking();
     this.setupStorageListener();
-    this.setupDOMContentLoaded();
-    this.setupNavigationListener();
+    this.loadSettings();
   }
 
   // =========================================================================
-  // Settings Management
+  // Active (selected) job
+  // =========================================================================
+
+  setupActiveJobTracking() {
+    // Capture phase: runs before LinkedIn re-renders the card as "Viewed".
+    document.addEventListener('click', (e) => {
+      if (!(e.target instanceof Element) || e.target.closest(`.${BUTTON_CLASS}`)) return;
+      for (const adapter of ADAPTERS) {
+        const el = e.target.closest(adapter.selector);
+        if (!el || (adapter.accept && !adapter.accept(el))) continue;
+        const card = adapter.canonical ? adapter.canonical(el) : el;
+        const id = jobIdFromKey(adapter.key(card));
+        if (id) this.setActiveJob(id);
+        return;
+      }
+    }, true);
+  }
+
+  // LinkedIn puts the selected job in the URL (?currentJobId=…), which also
+  // covers keyboard navigation and page loads.
+  syncActiveJobFromUrl() {
+    if (location.href === this.lastHref) return;
+    this.lastHref = location.href;
+    const id = new URLSearchParams(location.search).get('currentJobId');
+    if (id) this.setActiveJob(id);
+  }
+
+  setActiveJob(id) {
+    if (id === this.activeJobId) return;
+    const hadPrevious = this.activeJobId !== null;
+    this.activeJobId = id;
+    // Re-check the job the user just left; it may now be hidden.
+    if (hadPrevious) this.scanAll();
+  }
+
+  isActiveJob(key) {
+    return this.activeJobId !== null && jobIdFromKey(key) === this.activeJobId;
+  }
+
+  // =========================================================================
+  // Settings
   // =========================================================================
 
   loadSettings() {
-    this.safeStorageGet(
-      ['applied', 'promoted', 'dismissed', 'viewed', 'show-buttons', 'companies'],
-      (data) => {
-        this.cachedSettings = data;
-        this.logSettings();
-        this.hideListedCompanies();
-      }
-    );
+    this.safeStorageGet(SETTING_KEYS, (data) => {
+      this.applySettings(data);
+      this.scanAll();
+    });
+  }
+
+  applySettings(data) {
+    this.settings = { ...this.settings, ...data };
+    this.blockedSet = new Set((this.settings.companies || []).map(normalizeCompany));
+    if (this.debug) console.info('[LJB] settings', this.settings);
+  }
+
+  isExtensionAlive() {
+    try {
+      return !!chrome.runtime && !!chrome.runtime.id;
+    } catch (e) {
+      return false;
+    }
   }
 
   safeStorageGet(keys, callback) {
@@ -104,116 +422,280 @@ class LinkedInJobBlocker {
     }
   }
 
-  // =========================================================================
-  // Logging & Notifications
-  // =========================================================================
-
-  logSettings() {
-    if (!this.debug) return;
-    console.info('=== Extension Settings ===');
-    console.info(`Applied: ${this.cachedSettings.applied === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.applied}`);
-    console.info(`Promoted: ${this.cachedSettings.promoted === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.promoted}`);
-    console.info(`Dismissed: ${this.cachedSettings.dismissed === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.dismissed}`);
-    console.info(`Viewed: ${this.cachedSettings.viewed === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings.viewed}`);
-    console.info(`Show Buttons: ${this.cachedSettings['show-buttons'] === undefined ? 'Not Set (defaulting to false)' : this.cachedSettings['show-buttons']}`);
-    const companies = this.cachedSettings.companies || [];
-    console.info(`Blocked Companies: ${companies.length}`, companies);
-    console.info('===========================');
+  getLocalizedMessage(key) {
+    try {
+      return chrome.i18n.getMessage(key) || '';
+    } catch (e) {
+      return '';
+    }
   }
 
+  // =========================================================================
+  // Scanning
+  // =========================================================================
+
+  // Full scan of the document (or a subtree).
+  scanAll(root = document) {
+    const cards = [];
+    for (const adapter of ADAPTERS) {
+      root.querySelectorAll(adapter.selector).forEach((el) => cards.push([adapter, el]));
+    }
+    this.processCards(cards);
+  }
+
+  // cards: iterable of [adapter, element]
+  processCards(cards) {
+    const seen = new Set();
+    let newlyHidden = 0;
+
+    for (const [adapter, el] of cards) {
+      if (!el.isConnected) continue;
+      if (adapter.accept && !adapter.accept(el)) continue;
+      const card = adapter.canonical ? adapter.canonical(el) : el;
+      if (seen.has(card)) continue;
+      seen.add(card);
+      if (this.processCard(adapter, card)) newlyHidden++;
+    }
+
+    if (newlyHidden > 0) this.scheduleToastNotification(newlyHidden);
+  }
+
+  // Returns true if this call hid a job that had not been reported before.
+  processCard(adapter, card) {
+    const key = adapter.key(card);
+    if (!key) return false;
+
+    const hiddenAncestor = card.closest(HIDDEN_OR_HIDING);
+    if (hiddenAncestor) {
+      const hiddenFor = hiddenAncestor.getAttribute(HIDDEN_ATTR) ||
+                        hiddenAncestor.getAttribute(HIDING_ATTR);
+      if (hiddenFor === key) return false; // already hidden
+      // A container we hid for another job now also holds this one (LinkedIn
+      // re-used or grew the wrapper). Undo it and re-check everything inside.
+      this.unhideKey(hiddenFor);
+      this.scanAll(hiddenAncestor);
+      return false;
+    }
+
+    const info = adapter.read(card);
+    if (!info) return false;
+
+    const container = adapter.container(card);
+    const reason = this.hideReason(info, key);
+    if (reason) {
+      if (this.shownContainers.has(container)) {
+        this.animateOut(container, key);
+      } else {
+        this.hide(container, key);
+      }
+      if (this.debug) console.info(`[LJB] hid ${key} (${reason}: ${info.company})`);
+      if (this.toastedKeys.has(key)) return false;
+      this.toastedKeys.add(key);
+      return true;
+    }
+
+    if (container) this.shownContainers.add(container);
+
+    if (this.settings['show-buttons'] && info.company) {
+      adapter.addButton(card, info.company, this);
+    }
+    return false;
+  }
+
+  hideReason(info, key) {
+    const s = this.settings;
+    if (info.company && this.blockedSet.has(normalizeCompany(info.company))) return 'company';
+    if (s.dismissed && info.dismissed) return 'dismissed';
+    if (s.promoted && info.promoted) return 'promoted';
+    // Viewing or applying happens while the job is open; wait until the user
+    // selects another job before hiding it.
+    const active = this.isActiveJob(key);
+    if (s.applied && info.applied && !active) return 'applied';
+    if (s.viewed && info.viewed && !active) return 'viewed';
+    return null;
+  }
+
+  hide(container, key) {
+    if (!container) return;
+    container.setAttribute(HIDDEN_ATTR, key);
+    // Hide the separator that follows the card, if any.
+    const next = container.nextElementSibling;
+    if (next && next.tagName === 'HR') next.setAttribute(HIDDEN_ATTR, key);
+  }
+
+  // Fade and slide the card out, then collapse its height so the cards below
+  // glide up. Falls back to an instant hide when animation isn't possible.
+  animateOut(container, key) {
+    if (!container || container.hasAttribute(HIDING_ATTR)) return;
+
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // display:contents wrappers have no box of their own; animate the child.
+    let target = container;
+    if (getComputedStyle(container).display === 'contents' && container.firstElementChild) {
+      target = container.firstElementChild;
+    }
+    const height = target.getBoundingClientRect().height;
+    if (reduceMotion || !height || typeof target.animate !== 'function') {
+      this.hide(container, key);
+      return;
+    }
+
+    container.setAttribute(HIDING_ATTR, key);
+    const cs = getComputedStyle(target);
+    const box = (h, m) => ({
+      height: `${h}px`,
+      marginTop: m ? cs.marginTop : '0px',
+      marginBottom: m ? cs.marginBottom : '0px',
+      paddingTop: m ? cs.paddingTop : '0px',
+      paddingBottom: m ? cs.paddingBottom : '0px'
+    });
+
+    const anim = target.animate([
+      { opacity: 1, transform: 'translateX(0)', ...box(height, true) },
+      { opacity: 0, transform: 'translateX(32px)', ...box(height, true), offset: 0.45 },
+      { opacity: 0, transform: 'translateX(32px)', ...box(0, false) }
+    ], { duration: TIMING.HIDE_ANIMATION, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' });
+
+    this.animations.set(key, anim);
+    anim.onfinish = () => {
+      this.animations.delete(key);
+      container.removeAttribute(HIDING_ATTR);
+      this.hide(container, key);
+      anim.cancel(); // drop the fill now that display:none has taken over
+    };
+  }
+
+  cancelAnimation(key) {
+    const anim = this.animations.get(key);
+    if (anim) {
+      anim.onfinish = null;
+      anim.cancel();
+      this.animations.delete(key);
+    }
+  }
+
+  unhideKey(key) {
+    this.cancelAnimation(key);
+    document.querySelectorAll(`${attrSelector(HIDDEN_ATTR, key)}, ${attrSelector(HIDING_ATTR, key)}`)
+      .forEach((el) => { el.removeAttribute(HIDDEN_ATTR); el.removeAttribute(HIDING_ATTR); });
+  }
+
+  unhideAll() {
+    for (const key of [...this.animations.keys()]) this.cancelAnimation(key);
+    document.querySelectorAll(HIDDEN_OR_HIDING)
+      .forEach((el) => { el.removeAttribute(HIDDEN_ATTR); el.removeAttribute(HIDING_ATTR); });
+  }
+
+  removeAllButtons() {
+    document.querySelectorAll(`.${BUTTON_CLASS}`).forEach((btn) => {
+      const li = btn.closest('li.job-card-container__footer-item');
+      (li && li.childElementCount === 1 ? li : btn).remove();
+    });
+  }
+
+  // =========================================================================
+  // Block button
+  // =========================================================================
+
+  decorateBlockButton(btn, company) {
+    const label = this.getLocalizedMessage('tooltipBlockButton') || 'Block this company';
+    btn.type = 'button';
+    btn.title = `${label} (${company})`;
+    btn.setAttribute('aria-label', `${label}: ${company}`);
+
+    // Stop the card underneath from opening the job.
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.handleBlockCompany(company);
+    });
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') e.stopPropagation();
+    });
+  }
+
+  handleBlockCompany(companyName) {
+    const companies = (this.settings.companies || []).slice();
+    if (companies.some((c) => normalizeCompany(c) === normalizeCompany(companyName))) return;
+    companies.push(companyName);
+
+    // Hide right away; storage.onChanged will confirm the change.
+    this.applySettings({ companies });
+    this.scanAll();
+    this.safeStorageSet({ companies });
+  }
+
+  // =========================================================================
+  // Toasts
+  // =========================================================================
+
   showToast(message) {
-    // If message is a string, show; if numeric (counts), format accordingly
     const toast = document.createElement('div');
-    toast.className = 'toast-notification';
-    toast.setAttribute('role', 'alert');
+    toast.className = 'ljb-toast';
+    toast.setAttribute('role', 'status');
     toast.setAttribute('aria-live', 'polite');
-    toast.textContent = typeof message === 'string' ? message : String(message);
+    toast.textContent = message;
     document.body.appendChild(toast);
 
-    // Trigger animation
-    setTimeout(() => {
-      toast.classList.add('show');
-    }, TIMING.TOAST_SHOW_DELAY);
-
-    // Remove after display duration
+    setTimeout(() => toast.classList.add('show'), TIMING.TOAST_SHOW_DELAY);
     setTimeout(() => {
       toast.classList.remove('show');
       setTimeout(() => toast.remove(), TIMING.TOAST_FADE_OUT);
     }, TIMING.TOAST_DISPLAY);
   }
 
-  // Batchable toast scheduler
   scheduleToastNotification(count) {
     this.toastHiddenCount += count;
     clearTimeout(this.toastBatchTimer);
     this.toastBatchTimer = setTimeout(() => {
       if (this.toastHiddenCount > 0) {
-        const msg = this.toastHiddenCount === 1
+        this.showToast(this.toastHiddenCount === 1
           ? '1 Job Hidden'
-          : `${this.toastHiddenCount} Jobs Hidden`;
-        this.showToast(msg);
+          : `${this.toastHiddenCount} Jobs Hidden`);
         this.toastHiddenCount = 0;
       }
     }, TIMING.TOAST_BATCH_WINDOW);
   }
 
-  // Helper to get localized messages
-  getLocalizedMessage(key) {
-    return chrome.i18n.getMessage(key) || key;
-  }
-
-  // Show refresh notice banner
-  showRefreshNotice() {
-    if (this.refreshNoticeShown) return;
-
-    // Remove any existing notice
-    const existing = document.querySelector('.ljb-refresh-notice');
-    if (existing) existing.remove();
-
-    const notice = document.createElement('div');
-    notice.className = 'ljb-refresh-notice';
-    const iconUrl = chrome.runtime.getURL('icons/icon-16x16.png');
-    notice.innerHTML = `
-      <div class="ljb-refresh-notice__text">
-        <img class="ljb-refresh-notice__icon" src="${iconUrl}" alt="" />
-        <span>${this.getLocalizedMessage('refreshNoticeText') || 'LinkedIn Jobs Blocker settings have changed. Please refresh for an accurate view.'}</span>
-      </div>
-      <button class="ljb-refresh-notice__btn">${this.getLocalizedMessage('refreshButton') || 'Refresh Page'}</button>
-      <button class="ljb-refresh-notice__dismiss">${this.getLocalizedMessage('dismissButton') || 'Dismiss'}</button>
-    `;
-
-    // Refresh button handler
-    notice.querySelector('.ljb-refresh-notice__btn').addEventListener('click', () => {
-      location.reload();
-    });
-
-    // Dismiss button handler
-    notice.querySelector('.ljb-refresh-notice__dismiss').addEventListener('click', () => {
-      notice.classList.remove('show');
-      setTimeout(() => notice.remove(), TIMING.NOTICE_FADE_OUT);
-      this.refreshNoticeShown = false;
-    });
-
-    document.body.appendChild(notice);
-
-    // Trigger animation
-    setTimeout(() => notice.classList.add('show'), TIMING.NOTICE_SHOW_DELAY);
-    this.refreshNoticeShown = true;
-  }
-
   // =========================================================================
-  // Styles Management
+  // Styles
   // =========================================================================
 
   injectStyles() {
+    if (document.getElementById('ljb-styles')) return;
     const style = document.createElement('style');
+    style.id = 'ljb-styles';
     style.textContent = `
-      /* Toast Notifications */
-      .toast-notification {
+      [${HIDDEN_ATTR}] { display: none !important; }
+      [${HIDING_ATTR}], [${HIDING_ATTR}] > * { overflow: hidden !important; pointer-events: none !important; }
+
+      [data-ljb-slot] {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 2px;
+      }
+
+      .${BUTTON_CLASS} svg { fill: ${BRAND_COLOR} !important; }
+      .${BUTTON_CLASS}:hover svg { fill: #095557 !important; }
+
+      .ljb-block-btn--plain {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 50%;
+      }
+      .ljb-block-btn--plain:hover { background: rgba(13, 115, 119, 0.1); }
+
+      .ljb-toast {
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #0D7377;
+        background-color: ${BRAND_COLOR};
         color: #ffffff;
         padding: 10px 20px;
         border-radius: 5px;
@@ -223,594 +705,87 @@ class LinkedInJobBlocker {
         opacity: 0;
         transform: translateY(-20px);
         transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
       }
-
-      .toast-notification.show {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Block Button Container */
-      .block-button-container {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        cursor: pointer;
-        gap: 8px;
-      }
-
-      .block-button-container svg {
-        fill: #0D7377;
-        cursor: pointer;
-        transition: fill 0.3s ease;
-      }
-
-      .block-button-container:hover svg {
-        fill: #095557;
-      }
-
-      /* Tooltip */
-      .block-button__tooltip {
-        display: none;
-        color: #ffffff;
-        padding: 6px 10px;
-        background-color: #333333;
-        border-radius: 4px;
-        position: absolute;
-        bottom: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 11px;
-        z-index: 1000;
-        white-space: nowrap;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .block-button-container:hover .block-button__tooltip {
-        display: block;
-        opacity: 1;
-      }
-
-      /* Tooltip arrow */
-      .block-button__tooltip::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 5px 5px 0;
-        border-color: #333333 transparent transparent;
-      }
-
-      /* Wrapper tweaks for LinkedIn card visuals remain minimal */
-
-      /* Refresh Notice Banner */
-      .ljb-refresh-notice {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(135deg, #0D7377 0%, #095557 100%);
-        color: #ffffff;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        z-index: 10001;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        font-size: 14px;
-        transform: translateY(-100%);
-        transition: transform 0.3s ease;
-      }
-
-      .ljb-refresh-notice.show {
-        transform: translateY(0);
-      }
-
-      .ljb-refresh-notice__text {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .ljb-refresh-notice__icon {
-        width: 18px;
-        height: 18px;
-        flex-shrink: 0;
-      }
-
-      .ljb-refresh-notice__btn {
-        background: #ffffff;
-        color: #0D7377;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 4px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s ease, transform 0.1s ease;
-      }
-
-      .ljb-refresh-notice__btn:hover {
-        background: #f0f0f0;
-        transform: scale(1.02);
-      }
-
-      .ljb-refresh-notice__dismiss {
-        background: transparent;
-        color: #ffffff;
-        border: 1px solid rgba(255,255,255,0.5);
-        padding: 6px 12px;
-        border-radius: 4px;
-        font-size: 12px;
-        cursor: pointer;
-        transition: background 0.2s ease;
-      }
-
-      .ljb-refresh-notice__dismiss:hover {
-        background: rgba(255,255,255,0.1);
-      }
+      .ljb-toast.show { opacity: 1; transform: translateY(0); }
     `;
-    document.head.appendChild(style);
+    (document.head || document.documentElement).appendChild(style);
   }
 
   // =========================================================================
-  // Block Button Management
+  // Observer & listeners
   // =========================================================================
 
-  addBlockButton(listing, companyName) {
-    // Check if 'show-buttons' is enabled
-    if (!this.cachedSettings['show-buttons']) return;
-
-    // Early exit if button already added (tracked by data attribute)
-    if (listing.hasAttribute('data-block-btn-added')) return;
-
-    const footer = listing.querySelector('.job-card-list__footer-wrapper');
-    if (!footer || footer.querySelector('.job-card-container__footer-item.block-company')) {
-      return;
-    }
-
-    // Create button element
-    const blockButton = document.createElement('li');
-    blockButton.className = 'job-card-container__footer-item inline-flex align-items-center block-company';
-
-    blockButton.innerHTML = `
-      <div class="block-button-container" title="Block this company">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0D7377" viewBox="0 0 16 16" aria-hidden="true" role="none">
-          <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"></path>
-          <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"></path>
-        </svg>
-        <span class="block-button__tooltip">${this.getLocalizedMessage('tooltipBlockButton') || 'Block this company'}</span>
-      </div>
-    `;
-
-    // Add click handler
-    blockButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      this.handleBlockCompany(companyName);
-    });
-
-    footer.appendChild(blockButton);
-
-    // Mark listing as processed
-    listing.setAttribute('data-block-btn-added', 'true');
-  }
-
-  handleBlockCompany(companyName) {
-    if (this.isUpdating) return; // Prevent race condition
-    this.isUpdating = true;
-
-    const companies = this.cachedSettings.companies || [];
-    if (!companies.includes(companyName)) {
-      companies.push(companyName);
-      this.safeStorageSet({ companies }, () => {
-        this.cachedSettings.companies = companies;
-        this.hideListedCompanies();
-        this.isUpdating = false;
-      });
-    } else {
-      this.isUpdating = false;
-    }
-  }
-
-  // =========================================================================
-  // Job Hiding Logic
-  // =========================================================================
-
-  hideListedCompanies() {
-    const companiesToBlock = this.cachedSettings.companies || [];
-
-    // Query DOM once
-    const jobListings = document.querySelectorAll(
-      'li[id^="ember"]:not(.hidden-job), li.discovery-templates-entity-item:not(.hidden-job)'
-    );
-
-    // Use Set for O(1) lookups instead of O(n) Array.includes()
-    const blockedSet = new Set(companiesToBlock);
-
-    let hiddenByCompanyCount = 0;
-
-    jobListings.forEach((listing) => {
-      const companyNameElement = listing.querySelector('.artdeco-entity-lockup__subtitle span');
-      if (!companyNameElement) return;
-
-      const companyName = companyNameElement.textContent.trim();
-
-      // Block by company - O(1) lookup with Set
-      if (blockedSet.has(companyName)) {
-        listing.style.display = 'none';
-        listing.classList.add('hidden-job');
-        hiddenByCompanyCount++;
-        if (this.debug) {
-          console.info(`Job hidden for company: ${companyName}`);
-        }
-      } else {
-        // Add block button for visible jobs
-        this.addBlockButton(listing, companyName);
-      }
-    });
-
-    // Hide by footer text settings and collect count - reuse jobListings
-    const hiddenBySettingsCount = this.hideJobsByFooterText(jobListings);
-
-    // Root /jobs/ page uses a different card structure (not <li> elements)
-    const hiddenByRootCards = this.hideRootJobsPageCards();
-
-    // Show one batched toast for all hidden items
-    const totalHidden = hiddenByCompanyCount + hiddenBySettingsCount + hiddenByRootCards;
-    if (totalHidden > 0) {
-      this.scheduleToastNotification(totalHidden);
-    }
-  }
-
-  // Enhanced footer text logic with dismiss via class and text fallback
-  hideJobsByFooterText(jobListings) {
-    const { applied, promoted, viewed, dismissed } = this.cachedSettings;
-
-    let hiddenCount = 0;
-
-    jobListings.forEach((listing) => {
-      // 1) Dismissed via class on inner container (best-effort)
-      if (dismissed) {
-        const dismissedContainer = listing.querySelector('.job-card-container.job-card-list--is-dismissed');
-        if (dismissedContainer) {
-          listing.style.display = 'none';
-          listing.classList.add('hidden-job');
-          hiddenCount++;
-          return;
-        }
-      }
-
-      // 2) Footer-based checks for applied / promoted / viewed / dismissed text
-      const footer = listing.querySelector('.job-card-list__footer-wrapper');
-      const dismissNotice = listing.querySelector('.job-card-container__footer-item--highlighted');
-
-      if (!footer && !dismissNotice) {
+  // Mutations are mapped to the cards they touch and processed right away, in
+  // the observer callback, so cards are hidden before the browser paints them
+  // (no flash) and only changed cards are re-checked.
+  setupObserver() {
+    this.observer = new MutationObserver((mutations) => {
+      if (!this.isExtensionAlive()) {
+        // Extension was reloaded or updated; this copy of the script is orphaned.
+        this.observer.disconnect();
         return;
       }
-
-      const footerText = footer ? (footer.textContent || '') : '';
-      const dismissTextRaw = dismissNotice ? (dismissNotice.textContent || '') : '';
-
-      // Normalize dismiss text
-      const dismissText = dismissTextRaw.trim().replace(/\s+/g, ' ');
-
-      // Use pre-compiled regex patterns for performance
-      const dismissedMatches = !!(dismissed && this.patterns.dismissed.test(dismissText));
-      const appliedMatches = !!(applied && this.patterns.applied.test(footerText));
-      const promotedMatches = !!(promoted && this.patterns.promoted.test(footerText));
-      const viewedMatches = !!(viewed && this.patterns.viewed.test(footerText));
-
-      if (appliedMatches || promotedMatches || viewedMatches || dismissedMatches) {
-        listing.style.display = 'none';
-        listing.classList.add('hidden-job');
-        hiddenCount++;
-      }
-    });
-
-    return hiddenCount;
-  }
-
-  // =========================================================================
-  // Root /jobs/ page card handling
-  // =========================================================================
-  // The root LinkedIn jobs page renders picks as <a componentkey> elements
-  // inside <div data-display-contents="true"> wrappers — not <li> elements.
-  // Company name, dismissed text, and promoted text all require different
-  // selectors from the search/collections pages.
-
-  hideRootJobsPageCards() {
-    const companiesToBlock = this.cachedSettings.companies || [];
-    const blockedSet = new Set(companiesToBlock);
-    const { dismissed, promoted } = this.cachedSettings;
-    let hiddenCount = 0;
-
-    const cardLinks = document.querySelectorAll('a[componentkey]');
-
-    cardLinks.forEach((link) => {
-      const wrapper = link.parentElement;
-      if (!wrapper || wrapper.dataset.displayContents !== 'true') return;
-      if (wrapper.classList.contains('hidden-job')) return; // already hidden
-
-      // Company name: first <p> immediately before a " • " separator <p>
-      let companyName = null;
-      const paragraphs = Array.from(link.querySelectorAll('p'));
-      for (let i = 0; i < paragraphs.length - 1; i++) {
-        if (paragraphs[i + 1].textContent.trim() === '•') {
-          companyName = paragraphs[i].textContent.trim();
-          break;
+      this.syncActiveJobFromUrl();
+      const cards = [];
+      for (const m of mutations) {
+        const target = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+        for (const adapter of ADAPTERS) {
+          const owner = target && target.closest(adapter.selector);
+          if (owner) cards.push([adapter, owner]);
+          for (const node of m.addedNodes) {
+            if (node.nodeType !== 1) continue;
+            if (node.matches(adapter.selector)) cards.push([adapter, node]);
+            node.querySelectorAll(adapter.selector).forEach((c) => cards.push([adapter, c]));
+          }
         }
       }
-
-      let shouldHide = false;
-
-      if (companyName && blockedSet.has(companyName)) {
-        shouldHide = true;
-      }
-
-      // Detect dismissed state. LinkedIn marks the undo button with
-      // data-view-name="undo-dismiss-job" (most reliable) or an aria-label
-      // containing "dismissed, undo" (fallback), or the text pattern.
-      if (!shouldHide && dismissed) {
-        const isDismissed = !!link.querySelector('button[data-view-name="undo-dismiss-job"]') ||
-                            !!link.querySelector('button[aria-label*="dismissed, undo"]') ||
-                            this.patterns.dismissed.test(link.textContent);
-        if (isDismissed) shouldHide = true;
-      }
-
-      if (!shouldHide && promoted && this.patterns.promoted.test(link.textContent)) {
-        shouldHide = true;
-      }
-
-      if (shouldHide) {
-        wrapper.style.display = 'none';
-        wrapper.classList.add('hidden-job');
-        // Also hide the adjacent <hr> separator
-        const next = wrapper.nextElementSibling;
-        if (next && next.tagName === 'HR') next.style.display = 'none';
-        hiddenCount++;
-      } else if (companyName) {
-        this.addBlockButtonToRootCard(link, companyName);
-      }
+      if (cards.length) this.processCards(cards);
     });
 
-    return hiddenCount;
-  }
-
-  addBlockButtonToRootCard(link, companyName) {
-    if (!this.cachedSettings['show-buttons']) return;
-    if (link.hasAttribute('data-ljb-btn-added')) return;
-
-    // Find the active dismiss button. Prefer data-view-name (stable internal attribute)
-    // over aria-label (localised text that may change).
-    const dismissBtn = link.querySelector('button[data-view-name="dismiss-job"]') ||
-                       link.querySelector('button[aria-label^="Dismiss"]');
-    if (!dismissBtn) return;
-
-    // Walk up from the dismiss button until we find an ancestor whose nextElementSibling
-    // is a <div> — that sibling is the footer/extra-info area (contains "1 day ago",
-    // "Promoted", alumni info, etc.).  This traversal is depth-agnostic so it survives
-    // LinkedIn adding or removing intermediate wrapper divs around the dismiss button.
-    let footerArea = null;
-    let node = dismissBtn;
-    while (node && node !== link) {
-      node = node.parentElement;
-      const sib = node?.nextElementSibling;
-      if (sib && sib.tagName === 'DIV') {
-        footerArea = sib;
-        break;
-      }
-    }
-
-    if (!footerArea) {
-      // Card has no footer area — create a minimal one
-      footerArea = document.createElement('div');
-      footerArea.style.cssText = 'display:flex;align-items:center;padding:4px 0;';
-      dismissBtn.parentElement?.parentElement?.appendChild(footerArea);
-    }
-
-    const blockBtn = document.createElement('button');
-    blockBtn.type = 'button';
-    blockBtn.title = this.getLocalizedMessage('tooltipBlockButton') || 'Block this company';
-    blockBtn.setAttribute('aria-label', `Block ${companyName}`);
-    blockBtn.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0D7377" viewBox="0 0 16 16" aria-hidden="true" role="none">
-        <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
-        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
-      </svg>
-    `;
-    blockBtn.style.cssText = 'background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;';
-
-    blockBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      this.handleBlockCompany(companyName);
-    });
-
-    // The date/status row ("1 day ago · Easy Apply", etc.) is always the LAST
-    // <div> child of the footer.  Earlier children may be a connections row,
-    // alumni row, or "Actively reviewing" row — we want to skip those.
-    const footerDivs = Array.from(footerArea.children).filter(el => el.tagName === 'DIV');
-    const statusRow = footerDivs[footerDivs.length - 1] || footerArea;
-
-    const sep = document.createElement('p');
-    sep.setAttribute('aria-hidden', 'true');
-    sep.textContent = ' · ';
-    sep.style.marginLeft = '4px';
-
-    statusRow.appendChild(sep);
-    statusRow.appendChild(blockBtn);
-    link.setAttribute('data-ljb-btn-added', 'true');
-  }
-
-  // =========================================================================
-  // Observer & Event Listeners
-  // =========================================================================
-
-  setupDOMContentLoaded() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.hideListedCompanies());
-    } else {
-      this.hideListedCompanies();
-    }
-  }
-
-  setupObserver() {
-    // Target specific job container instead of entire document.body
-    const jobContainer =
-      document.querySelector('[data-test-id="jobs-search-results"]') ||
-      document.querySelector('.jobs-search-results__list-wrapper') ||
-      document.body;
-
-    const observer = new MutationObserver(() => {
-      this.debounceHideJobs();
-    });
-
-    observer.observe(jobContainer, {
+    this.observer.observe(document.body || document.documentElement, {
       childList: true,
       subtree: true,
-      attributes: false,
-      characterData: false,
+      // Catch a card element being re-used for a different job.
+      attributes: true,
+      attributeFilter: ['componentkey', 'data-occludable-job-id']
     });
-  }
-
-  debounceHideJobs() {
-    clearTimeout(this.debounceTimer);
-    this.debounceTimer = setTimeout(() => {
-      this.hideListedCompanies();
-    }, TIMING.DEBOUNCE_DELAY);
   }
 
   setupStorageListener() {
-    // Listen for changes from other tabs/popups
     chrome.storage.onChanged.addListener((changes, areaName) => {
-      if (areaName === 'sync') {
-        let needsRefreshNotice = false;
+      if (areaName !== 'sync') return;
 
-        Object.keys(changes).forEach((key) => {
-          const oldValue = changes[key].oldValue;
-          const newValue = changes[key].newValue;
-          this.cachedSettings[key] = newValue;
-
-          // Check if a filter was turned OFF (true -> false)
-          // This means previously hidden jobs should now be visible, but they can't unhide without refresh
-          if (['applied', 'promoted', 'dismissed', 'viewed'].includes(key)) {
-            if (oldValue === true && newValue === false) {
-              needsRefreshNotice = true;
-            }
-          }
-
-          // Check if a company was removed from the block list
-          if (key === 'companies') {
-            const oldCompanies = oldValue || [];
-            const newCompanies = newValue || [];
-            // If any company was removed, jobs from that company should now be visible
-            if (oldCompanies.some(company => !newCompanies.includes(company))) {
-              needsRefreshNotice = true;
-            }
-          }
-        });
-
-        // Always run hide logic for newly hidden items
-        this.hideListedCompanies();
-
-        // Show refresh notice if settings changed in a way that requires refresh
-        if (needsRefreshNotice) {
-          this.showRefreshNotice();
+      const update = {};
+      let loosened = false;
+      for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
+        update[key] = newValue;
+        if (FILTER_KEYS.includes(key) && oldValue === true && newValue !== true) loosened = true;
+        if (key === 'companies') {
+          const next = new Set((newValue || []).map(normalizeCompany));
+          if ((oldValue || []).some((c) => !next.has(normalizeCompany(c)))) loosened = true;
         }
       }
+      this.applySettings(update);
+
+      if ('show-buttons' in changes && !this.settings['show-buttons']) this.removeAllButtons();
+
+      // A filter was turned off or a company unblocked: un-hide everything and
+      // re-apply, so the page updates without a refresh.
+      if (loosened) this.unhideAll();
+      this.scanAll();
     });
   }
-
-  // =========================================================================
-  // SPA Navigation Listener
-  // =========================================================================
-
-  setupNavigationListener() {
-    // LinkedIn is a SPA that uses history.pushState / replaceState for routing.
-    // The content script only runs once on the initial page load, so we intercept
-    // these calls to detect in-app navigation and re-apply job hiding.
-    const originalPushState = history.pushState.bind(history);
-    history.pushState = (...args) => {
-      originalPushState(...args);
-      this.onUrlChange();
-    };
-
-    const originalReplaceState = history.replaceState.bind(history);
-    history.replaceState = (...args) => {
-      originalReplaceState(...args);
-      this.onUrlChange();
-    };
-
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', () => this.onUrlChange());
-  }
-
-  onUrlChange() {
-    const newUrl = location.href;
-    if (newUrl === this.currentUrl) return;
-    this.currentUrl = newUrl;
-
-    // Wait for LinkedIn's SPA to finish rendering the new page content
-    // before scanning for jobs to hide.
-    clearTimeout(this.navigationTimer);
-    this.navigationTimer = setTimeout(() => {
-      this.hideListedCompanies();
-    }, 500);
-  }
-
-  // =========================================================================
-  // Utilities
-  // =========================================================================
-
-  // Muted: no-op placeholder if you want future extension hooks
 }
 
 // ============================================================================
-// One-shot reload guard for LinkedIn jobs pages
+// Initialization
 // ============================================================================
-// If job listings don't appear within ~2.5 s of the content script first
-// running on a /jobs page, reload once to recover from stale SPA state.
-// sessionStorage prevents infinite reload loops: the flag is set before the
-// reload and consumed (removed) on the next load so subsequent navigations
-// can trigger a reload again if genuinely needed.
-function maybeReloadJobsPage() {
-  if (!location.pathname.startsWith('/jobs')) return;
-
-  const RELOAD_KEY = 'ljb_jobs_reloaded';
-  if (sessionStorage.getItem(RELOAD_KEY)) {
-    sessionStorage.removeItem(RELOAD_KEY); // consume flag; next visit can retry
-    return;
-  }
-
-  setTimeout(() => {
-    const hasContent = document.querySelector(
-      '.jobs-search-results__list-wrapper, li[id^="ember"], li.discovery-templates-entity-item, a[componentkey][href*="/jobs/collections/"]'
-    );
-    if (!hasContent) {
-      sessionStorage.setItem(RELOAD_KEY, '1');
-      location.reload();
-    }
-  }, 2500);
-}
-
-// ============================================================================
-// Initialization with prerender guard
-// ============================================================================
-// LinkedIn uses Chrome's Speculation Rules API to pre-render pages in a hidden
-// document context before the user navigates there.  When the content script
-// runs during prerendering, document.prerendering === true and the DOM is
-// incomplete / not yet visible.  Deferring until the 'prerenderingchange'
-// event (fired when the page is activated) ensures we initialize against the
-// real, live document.
+// LinkedIn pre-renders pages via the Speculation Rules API. Wait until the page
+// is activated so we work against the live document.
 function initExtension() {
-  maybeReloadJobsPage();
+  if (window.__ljbInitialized) return;
+  window.__ljbInitialized = true;
   new LinkedInJobBlocker();
 }
 
